@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="nav_watchlist">Ulubione</string>
+    <string name="nav_portfolio">Portfolio</string>
+    <string name="nav_settings">Ustawienia</string>
+    <string name="nav_about">O programie</string>
+    <string name="action_settings">Ustawienia</string>
+    <string name="nav_all_coins">Wszystkie</string>
+    <string name="header_name">Nazwa</string>
+    <string name="header_price">Cena</string>
+    <string name="header_change">Zmiana</string>
+</resources>

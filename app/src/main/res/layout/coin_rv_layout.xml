@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coinRvRankNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="52" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/coinRvLogo"
+            android:layout_width="24dp"
+            android:layout_height="24dp" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coinRvName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="Ethereum" />
+
+        <TextView
+            android:id="@+id/coinRvSymbol"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="(ETH)" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="10dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coinRvPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="$1321,37" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
+        android:layout_marginStart="15dp"
+        android:gravity="end"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/coinRv1hChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="-0,15%"
+            tools:textColor="#ff0000" />
+
+        <TextView
+            android:id="@+id/coinRv24hChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="-0,04%"
+            tools:textColor="#ff0000" />
+
+        <TextView
+            android:id="@+id/coinRv7dChange"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="10%"
+            tools:textColor="#ff0000" />
+    </LinearLayout>
+
+</LinearLayout>
