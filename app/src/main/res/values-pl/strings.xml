@@ -9,4 +9,8 @@
     <string name="header_name">Nazwa</string>
     <string name="header_price">Cena</string>
     <string name="header_change">Zmiana</string>
+    <string name="header_total_market_cap">Pełna kapitalizacja rynku</string>
+    <string name="header_bitcoin_dominance">Udział Bitcoin</string>
+    <string name="header_coins">Kryptowaluty</string>
+    <string name="header_tokens">Tokeny</string>
 </resources>
