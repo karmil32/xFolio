@@ -37,7 +37,11 @@ class CoinRvAdapter(private val coins: ArrayList<CoinData>) : RecyclerView.Adapt
         @SuppressLint("SetTextI18n")
         fun bind(coinData: CoinData) = with(itemView) {
 
-            val decimalFormat = DecimalFormat("##.##")
+            val pricePattern = if (coinData.price > BigDecimal(1)) "###,###.00" else "#.####"
+            val priceFormat = DecimalFormat(pricePattern)
+
+            val percentagePattern = "#0.00"
+            val percentageFormat = DecimalFormat(percentagePattern)
 
             GlideApp.with(this)
                     .load("https://files.coinmarketcap.com/static/img/coins/32x32/${coinData.id}.png")
@@ -47,8 +51,8 @@ class CoinRvAdapter(private val coins: ArrayList<CoinData>) : RecyclerView.Adapt
             coinRvRankNumber.text = coinData.rank.toString()
             coinRvName.text = coinData.name
             coinRvSymbol.text = "(${coinData.symbol})"
-            coinRvPrice.text = "$${decimalFormat.format(coinData.price)}"
-            coinRv1hChange.text = "1H: ${coinData.change1h}%"
+            coinRvPrice.text = "$${priceFormat.format(coinData.price)}"
+            coinRv1hChange.text = "1H: ${percentageFormat.format(coinData.change1h)}%"
             coinRv24hChange.text = "24H: ${coinData.change24h}%"
             coinRv7dChange.text = "7D: ${coinData.change7d}%"
 
