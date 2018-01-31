@@ -9,6 +9,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import pl.karass32.xfolio.MainActivity
 import pl.karass32.xfolio.R
@@ -38,6 +39,7 @@ class CoinListFragment : Fragment(), CoinListContract.View {
         setPresenter(CoinListPresenter(this))
         initSwipeRefreshLayout()
 
+        mPresenter.getGlobalCoinData()
         mPresenter.getCoinList()
 
         return mView
@@ -60,6 +62,17 @@ class CoinListFragment : Fragment(), CoinListContract.View {
 
     override fun hideRefreshSpinner() {
         mView.coinListSwipeRefresh.isRefreshing = false
+    }
+
+    override fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
+        Log.d("showGlobalData", "start")
+
+        mView.headerTotalMarketCapValue.text = globalCoinData.totalMarketCap.toString()
+        mView.headerTotal24hVolumeValue.text = globalCoinData.total24hVolume.toString()
+        mView.headerBitcoinDominanceValue.text = globalCoinData.bitcoinDominance.toString()
+        mView.headerActiveCurrenciesValue.text = globalCoinData.activeCurrencies.toString()
+        mView.headerActiveAssetsValue.text = globalCoinData.activeAssets.toString()
+        mView.headerActiveMarketsValue.text = globalCoinData.activeMarkets.toString()
     }
 
     override fun showList(list: ArrayList<CoinData>) {
