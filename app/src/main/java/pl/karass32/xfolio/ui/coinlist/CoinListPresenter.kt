@@ -15,17 +15,34 @@ class CoinListPresenter(private val view: CoinListContract.View) : CoinListContr
         CoinMarketCapService.create()
     }
 
-    private var disposable: Disposable? = null
+    private var globalDataDisposable: Disposable? = null
+    private var coinListDisposable: Disposable? = null
 
     override fun start() {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun getGlobalCoinData() {
+        Log.d("getGlobalCoinData", "start")
+
+        globalDataDisposable = coinMarketCapService.getGlobalCoinData()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        {result ->
+                            view.showGlobalCoinData(result)
+                        },
+                        {error ->
+                            view.showError(error.toString())
+                        }
+                )
     }
 
     override fun getCoinList() {
         Log.d("getCoinList", "start")
         view.showRefreshSpinner()
 
-        disposable = coinMarketCapService.getCoinList()
+        coinListDisposable = coinMarketCapService.getCoinList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
@@ -41,6 +58,6 @@ class CoinListPresenter(private val view: CoinListContract.View) : CoinListContr
     }
 
     override fun onDetach() {
-        disposable?.dispose()
+        coinListDisposable?.dispose()
     }
 }
