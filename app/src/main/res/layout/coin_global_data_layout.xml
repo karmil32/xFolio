@@ -6,49 +6,105 @@
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
 
         <TextView
             android:id="@+id/headerTotalMarketCap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccent"
+            android:text="@string/header_total_market_cap"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/headerTotal24hVolume"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:text="@string/header_total_24h_volume"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
         <TextView
             android:id="@+id/headerBitcoinDominance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorAccent"/>
+            android:background="@color/colorAccent"
+            android:text="@string/header_bitcoin_dominance"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
 
+        <TextView
+            android:id="@+id/headerActiveCurrencies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_coins"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/headerActiveAssets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:text="@string/header_tokens"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+        <TextView
+            android:id="@+id/headerActiveMarkets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_markets"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="0dp"
-        android:layout_weight="1"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:orientation="vertical">
+        <TextView
+            android:id="@+id/headerTotalMarketCapValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerActiveCurrencies"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/headerTotal24hVolumeValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerActiveAssets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/headerBitcoinDominanceValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerActiveMarkets"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:id="@+id/headerActiveCurrenciesValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/headerActiveAssetsValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/headerActiveMarketsValue"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAlignment="textEnd"/>
 
     </LinearLayout>
 
