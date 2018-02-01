@@ -13,7 +13,7 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:layout_width="match_parent"
-            android:layout_height="210dp"
+            android:layout_height="180dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed"
             app:titleEnabled="false"
             android:fitsSystemWindows="true">
