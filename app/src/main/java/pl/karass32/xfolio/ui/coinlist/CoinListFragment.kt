@@ -1,5 +1,6 @@
 package pl.karass32.xfolio.ui.coinlist
 
+import android.annotation.SuppressLint
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -17,6 +18,7 @@ import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
 import java.math.BigDecimal
+import java.text.DecimalFormat
 
 /**
  * Created by karas on 14.01.2018.
@@ -64,12 +66,19 @@ class CoinListFragment : Fragment(), CoinListContract.View {
         mView.coinListSwipeRefresh.isRefreshing = false
     }
 
+    @SuppressLint("SetTextI18n")
     override fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
         Log.d("showGlobalData", "start")
 
-        mView.headerTotalMarketCapValue.text = globalCoinData.totalMarketCap.toString()
-        mView.headerTotal24hVolumeValue.text = globalCoinData.total24hVolume.toString()
-        mView.headerBitcoinDominanceValue.text = globalCoinData.bitcoinDominance.toString()
+        val bigValuePattern = "###,###.##"
+        val bigValueFormat = DecimalFormat(bigValuePattern)
+
+        val percentagePattern = "#0.00"
+        val percentageFormat = DecimalFormat(percentagePattern)
+
+        mView.headerTotalMarketCapValue.text = "$${bigValueFormat.format(globalCoinData.totalMarketCap)}"
+        mView.headerTotal24hVolumeValue.text = "$${bigValueFormat.format(globalCoinData.total24hVolume)}"
+        mView.headerBitcoinDominanceValue.text = "${percentageFormat.format(globalCoinData.bitcoinDominance)}%"
         mView.headerActiveCurrenciesValue.text = globalCoinData.activeCurrencies.toString()
         mView.headerActiveAssetsValue.text = globalCoinData.activeAssets.toString()
         mView.headerActiveMarketsValue.text = globalCoinData.activeMarkets.toString()
