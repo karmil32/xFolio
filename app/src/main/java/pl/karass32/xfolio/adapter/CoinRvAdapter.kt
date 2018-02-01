@@ -20,10 +20,7 @@ import java.text.DecimalFormat
  */
 class CoinRvAdapter(private val coins: ArrayList<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>() {
 
-    private lateinit var mContext: Context
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        mContext = parent.context
         return ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_layout, parent, false))
     }
 
