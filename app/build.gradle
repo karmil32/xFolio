@@ -34,6 +34,11 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
 
+    //ViewMode and LiveData
+    implementation "android.arch.lifecycle:extensions:1.1.0"
+
+    //Timber
+    implementation 'com.jakewharton.timber:timber:4.6.0'
 
     //Retrofit
     compile "com.squareup.retrofit2:retrofit:2.3.0"
