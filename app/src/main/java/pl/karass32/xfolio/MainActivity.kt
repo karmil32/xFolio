@@ -7,13 +7,12 @@ import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
 import pl.karass32.xfolio.ui.WatchlistFragment
-import pl.karass32.xfolio.extensions.replace
+import pl.karass32.xfolio.extension.replace
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
