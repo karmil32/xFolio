@@ -1,11 +1,12 @@
 package pl.karass32.xfolio.ui.coinlist
 
 import android.annotation.SuppressLint
+import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,17 +18,21 @@ import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
-import java.math.BigDecimal
+import pl.karass32.xfolio.error.CoinListErrorEvent
+import pl.karass32.xfolio.error.ErrorUtils
 import java.text.DecimalFormat
 
 /**
  * Created by karas on 14.01.2018.
  */
-class CoinListFragment : Fragment(), CoinListContract.View {
+class CoinListFragment : Fragment() {
 
     private lateinit var mainActivity: MainActivity
-    private lateinit var mPresenter : CoinListContract.Presenter
-    private lateinit var mView : View
+    private lateinit var mView: View
+
+    private val mViewModel: CoinListViewModel by lazy {
+        ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.coin_list_fragment, container, false)
@@ -38,38 +43,42 @@ class CoinListFragment : Fragment(), CoinListContract.View {
         mainActivity.supportActionBar?.title = getString(R.string.nav_all_coins)
         mainActivity.setToggle(mView.toolbar)
 
-        setPresenter(CoinListPresenter(this))
         initSwipeRefreshLayout()
-
-        mPresenter.getGlobalCoinData()
-        mPresenter.getCoinList()
+        initViewModel()
 
         return mView
     }
 
-    override fun setPresenter(presenter: CoinListContract.Presenter) {
-        mPresenter = presenter
-    }
-
-    override fun initSwipeRefreshLayout() {
+    private fun initSwipeRefreshLayout() {
         mView.coinListSwipeRefresh.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE)
         mView.coinListSwipeRefresh.setOnRefreshListener {
-            mPresenter.getCoinList()
+            mViewModel.loadCoinList()
+            mViewModel.loadGlobalCoinData()
         }
     }
 
-    override fun showRefreshSpinner() {
-        mView.coinListSwipeRefresh.isRefreshing = true
+    private fun initViewModel() {
+        mViewModel.getCoinList()?.observe(this, Observer { coinList ->
+            coinList?.let { showList(it) }
+        })
+        mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
+            globalCoinData?.let {
+                setCoinListSpinnerVisible(false)
+                showGlobalCoinData(it) }
+        })
+        mViewModel.coinListError.observe(this, Observer { error ->
+            error?.let {
+                setCoinListSpinnerVisible(false)
+                onCoinListError(it) }
+        })
     }
 
-    override fun hideRefreshSpinner() {
-        mView.coinListSwipeRefresh.isRefreshing = false
+    private fun setCoinListSpinnerVisible(enable: Boolean) {
+        mView.coinListSwipeRefresh.isRefreshing = enable
     }
 
     @SuppressLint("SetTextI18n")
-    override fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
-        Log.d("showGlobalData", "start")
-
+    private fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
         val bigValuePattern = "###,###.##"
         val bigValueFormat = DecimalFormat(bigValuePattern)
 
@@ -84,15 +93,13 @@ class CoinListFragment : Fragment(), CoinListContract.View {
         mView.headerActiveMarketsValue.text = globalCoinData.activeMarkets.toString()
     }
 
-    override fun showList(list: ArrayList<CoinData>) {
-        Log.d("showList", "start")
+    private fun showList(list: ArrayList<CoinData>) {
         mView.coinListRv?.setHasFixedSize(true)
         mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
         mView.coinListRv?.adapter = CoinRvAdapter(list)
     }
 
-    override fun showError(error: String) {
-        Log.d("showError", error)
-        Toast.makeText(context, "Error!", Toast.LENGTH_LONG).show()
+    private fun onCoinListError(error: CoinListErrorEvent) {
+        Toast.makeText(context, ErrorUtils.getErrorString(context, error), Toast.LENGTH_LONG).show()
     }
 }
