@@ -13,4 +13,5 @@
     <string name="header_bitcoin_dominance">Udział BTC</string>
     <string name="header_coins">Kryptowaluty</string>
     <string name="header_tokens">Tokeny</string>
+    <string name="error_no_server_connection">Brak połączenia z serwerem</string>
 </resources>
