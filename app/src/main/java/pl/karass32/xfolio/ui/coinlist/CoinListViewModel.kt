@@ -9,6 +9,7 @@ import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
+import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 
 /**
@@ -26,7 +27,7 @@ class CoinListViewModel : ViewModel() {
     private var coinListDisposable: Disposable? = null
     private var coinList: MutableLiveData<ArrayList<CoinData>>? = null
 
-    var coinListError = MutableLiveData<CoinListErrorEvent>()
+    var coinListError = SingleLiveEvent<CoinListErrorEvent>()
 
     fun getGlobalCoinData() : LiveData<GlobalCoinData>? {
         if (globalCoinData == null) {
