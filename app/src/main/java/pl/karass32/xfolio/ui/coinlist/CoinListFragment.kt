@@ -59,11 +59,11 @@ class CoinListFragment : Fragment() {
 
     private fun initViewModel() {
         mViewModel.getCoinList()?.observe(this, Observer { coinList ->
+            setCoinListSpinnerVisible(false)
             coinList?.let { showList(it) }
         })
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
             globalCoinData?.let {
-                setCoinListSpinnerVisible(false)
                 showGlobalCoinData(it) }
         })
         mViewModel.coinListError.observe(this, Observer { error ->
