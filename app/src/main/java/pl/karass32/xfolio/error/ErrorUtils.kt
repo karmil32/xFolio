@@ -9,6 +9,10 @@ import android.content.Context
 class ErrorUtils {
 
     companion object {
-        fun getErrorString(context: Context?, errorEvent: ErrorEvent) = context?.getString(errorEvent.getErrorResource())
+        fun getErrorString(context: Context?, errorEvent: ErrorEvent) = if (errorEvent.getErrorResource() == 0) {
+            null
+        } else {
+            context?.getString(errorEvent.getErrorResource())
+        }
     }
 }
