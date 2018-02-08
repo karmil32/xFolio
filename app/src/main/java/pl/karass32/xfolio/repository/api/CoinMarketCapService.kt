@@ -20,11 +20,14 @@ interface CoinMarketCapService {
     fun getCoinList() : Observable<ArrayList<CoinData>>
 
     companion object {
+        const val API_BASE_URL = "https://api.coinmarketcap.com/v1/"
+        const val API_IMAGES_URL = "https://files.coinmarketcap.com/static/img/coins/32x32/"
+
         fun create(): CoinMarketCapService {
             val retrofit = Retrofit.Builder()
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("https://api.coinmarketcap.com/v1/")
+                    .baseUrl(API_BASE_URL)
                     .build()
             return retrofit.create(CoinMarketCapService::class.java)
         }
