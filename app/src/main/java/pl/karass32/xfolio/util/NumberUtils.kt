@@ -10,6 +10,7 @@ import java.text.DecimalFormat
 class NumberUtils {
     companion object {
         val percentageFormat = DecimalFormat("#0.00")
+        val bigValueFormat = DecimalFormat("###,###.##")
         fun getPriceFormat(price: BigDecimal) = DecimalFormat(if (price > BigDecimal(1)) "###,###.00" else "#.####")
     }
 }
