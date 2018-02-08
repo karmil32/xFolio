@@ -1,7 +1,6 @@
 package pl.karass32.xfolio.adapter
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -9,7 +8,8 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.coin_rv_layout.view.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.data.CoinData
-import pl.karass32.xfolio.extensions.getColor
+import pl.karass32.xfolio.extension.getColor
+import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
 import java.math.BigDecimal
 import java.text.DecimalFormat
@@ -41,7 +41,7 @@ class CoinRvAdapter(private val coins: ArrayList<CoinData>) : RecyclerView.Adapt
             val percentageFormat = DecimalFormat(percentagePattern)
 
             GlideApp.with(this)
-                    .load("https://files.coinmarketcap.com/static/img/coins/32x32/${coinData.id}.png")
+                    .load("${CoinMarketCapService.API_IMAGES_URL}${coinData.id}.png")
                     .placeholder(null)
                     .into(coinRvLogo)
 
@@ -49,13 +49,9 @@ class CoinRvAdapter(private val coins: ArrayList<CoinData>) : RecyclerView.Adapt
             coinRvName.text = coinData.name
             coinRvSymbol.text = "(${coinData.symbol})"
             coinRvPrice.text = "$${priceFormat.format(coinData.price)}"
-            coinRv1hChange.text = "1H: ${percentageFormat.format(coinData.change1h)}%"
-            coinRv24hChange.text = "24H: ${coinData.change24h}%"
-            coinRv7dChange.text = "7D: ${coinData.change7d}%"
+            coinRvChange.text = "${percentageFormat.format(coinData.change24h)}%"
 
-            coinRv1hChange.setTextColor(if (coinData.change1h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
-            coinRv24hChange.setTextColor(if (coinData.change24h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
-            coinRv7dChange.setTextColor(if (coinData.change7d >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            coinRvChange.setTextColor(if (coinData.change24h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
         }
     }
 }
