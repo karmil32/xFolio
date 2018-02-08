@@ -81,25 +81,12 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/coinRv1hChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="-0,15%"
-            tools:textColor="#ff0000" />
-
-        <TextView
-            android:id="@+id/coinRv24hChange"
+            android:id="@+id/coinRvChange"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             tools:text="-0,04%"
             tools:textColor="#ff0000" />
 
-        <TextView
-            android:id="@+id/coinRv7dChange"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            tools:text="10%"
-            tools:textColor="#ff0000" />
     </LinearLayout>
 
 </LinearLayout>
