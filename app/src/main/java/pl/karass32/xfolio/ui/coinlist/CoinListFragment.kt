@@ -20,7 +20,7 @@ import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
-import java.text.DecimalFormat
+import pl.karass32.xfolio.util.NumberUtils
 
 /**
  * Created by karas on 14.01.2018.
@@ -79,15 +79,9 @@ class CoinListFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
-        val bigValuePattern = "###,###.##"
-        val bigValueFormat = DecimalFormat(bigValuePattern)
-
-        val percentagePattern = "#0.00"
-        val percentageFormat = DecimalFormat(percentagePattern)
-
-        mView.headerTotalMarketCapValue.text = "$${bigValueFormat.format(globalCoinData.totalMarketCap)}"
-        mView.headerTotal24hVolumeValue.text = "$${bigValueFormat.format(globalCoinData.total24hVolume)}"
-        mView.headerBitcoinDominanceValue.text = "${percentageFormat.format(globalCoinData.bitcoinDominance)}%"
+        mView.headerTotalMarketCapValue.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.totalMarketCap)}"
+        mView.headerTotal24hVolumeValue.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.total24hVolume)}"
+        mView.headerBitcoinDominanceValue.text = "${NumberUtils.percentageFormat.format(globalCoinData.bitcoinDominance)}%"
         mView.headerActiveCurrenciesValue.text = globalCoinData.activeCurrencies.toString()
         mView.headerActiveAssetsValue.text = globalCoinData.activeAssets.toString()
         mView.headerActiveMarketsValue.text = globalCoinData.activeMarkets.toString()
