@@ -14,4 +14,7 @@
     <string name="header_coins">Kryptowaluty</string>
     <string name="header_tokens">Tokeny</string>
     <string name="error_no_server_connection">Brak połączenia z serwerem</string>
+    <string name="header_markets">Giełdy</string>
+    <string name="toolbar_menu_search">Szukaj</string>
+    <string name="toolbar_menu_search_hint">Nazwa lub symbol</string>
 </resources>
