@@ -60,7 +60,7 @@ class CoinRvAdapter(private var coinList: ArrayList<CoinData>) : RecyclerView.Ad
                 } else {
                     val filteredList = ArrayList<CoinData>()
                     for (coinData in mCoinListCopy) {
-                        if (coinData.name.toLowerCase().contains(charString.toLowerCase())) {
+                        if (coinData.name.toLowerCase().contains(charString.toLowerCase()) or coinData.symbol.toLowerCase().contains(charString.toLowerCase())) {
                             filteredList.add(coinData)
                         }
                     }
