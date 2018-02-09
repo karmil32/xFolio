@@ -23,4 +23,7 @@
     <string name="header_markets">Markets</string>
 
     <string name="error_no_server_connection">No server connection</string>
+
+    <string name="toolbar_menu_search">Search</string>
+    <string name="toolbar_menu_search_hint">Name of symbol</string>
 </resources>
