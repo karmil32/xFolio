@@ -73,6 +73,7 @@ class CoinRvAdapter(private var coinList: ArrayList<CoinData>) : RecyclerView.Ad
                 return filterResults
             }
 
+            @Suppress("UNCHECKED_CAST")
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
                 coinList = p1?.values as ArrayList<CoinData>
                 notifyDataSetChanged()
