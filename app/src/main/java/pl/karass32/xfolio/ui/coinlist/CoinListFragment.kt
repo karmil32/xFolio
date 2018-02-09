@@ -6,6 +6,7 @@ import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.SearchView
 import android.view.*
@@ -17,6 +18,7 @@ import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
+import pl.karass32.xfolio.decoration.MyDividerItemDecoration
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
@@ -115,6 +117,7 @@ class CoinListFragment : Fragment() {
         mCoinRvAdapter = CoinRvAdapter(list)
         mView.coinListRv?.setHasFixedSize(true)
         mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
+        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(context, DividerItemDecoration.VERTICAL, 10))
         mView.coinListRv?.adapter = mCoinRvAdapter
     }
 
