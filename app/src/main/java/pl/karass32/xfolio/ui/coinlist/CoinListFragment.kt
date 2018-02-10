@@ -49,11 +49,14 @@ class CoinListFragment : Fragment() {
         mainActivity.supportActionBar?.title = getString(R.string.nav_all_coins)
         mainActivity.setToggle(mView.toolbar)
 
-        initSwipeRefreshLayout()
         initViewModel()
+        initRv()
+        initSwipeRefreshLayout()
 
         mView.topScrollFab.setOnClickListener {
             mView.appbarLayout.setExpanded(true)
+            val layoutManager = coinListRv?.layoutManager as LinearLayoutManager
+            if (layoutManager.findFirstCompletelyVisibleItemPosition() > 35) coinListRv.scrollToPosition(30)
             coinListRv.smoothScrollToPosition(0)
         }
 
@@ -109,6 +112,20 @@ class CoinListFragment : Fragment() {
         })
     }
 
+    private fun initRv() {
+        mView.coinListRv?.setHasFixedSize(true)
+        mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
+        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(context, DividerItemDecoration.VERTICAL, 10))
+        mView.coinListRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
+                if (layoutManager.findFirstCompletelyVisibleItemPosition() > 5)
+                    topScrollFab.show() else
+                    topScrollFab.hide()
+            }
+        })
+    }
+
     private fun setCoinListSpinnerVisible(enable: Boolean) {
         mView.coinListSwipeRefresh.isRefreshing = enable
     }
@@ -125,17 +142,6 @@ class CoinListFragment : Fragment() {
 
     private fun showList(list: ArrayList<CoinData>) {
         mCoinRvAdapter = CoinRvAdapter(list)
-        mView.coinListRv?.setHasFixedSize(true)
-        mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
-        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(context, DividerItemDecoration.VERTICAL, 10))
-        mView.coinListRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
-                if (layoutManager.findFirstCompletelyVisibleItemPosition() > 5)
-                    topScrollFab.show() else
-                    topScrollFab.hide()
-            }
-        })
         mView.coinListRv?.adapter = mCoinRvAdapter
     }
 
