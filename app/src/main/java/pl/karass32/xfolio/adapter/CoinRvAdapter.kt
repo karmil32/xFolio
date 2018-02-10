@@ -41,13 +41,16 @@ class CoinRvAdapter(private var coinList: ArrayList<CoinData>) : RecyclerView.Ad
                     .placeholder(null)
                     .into(coinRvLogo)
 
+            coinData.price?.let {
+                coinRvPrice.text = "$${NumberUtils.getPriceFormat(coinData.price).format(coinData.price)}"
+            }
+            coinData.change24h?.let {
+                coinRvChange.text = "${NumberUtils.percentageFormat.format(coinData.change24h)}%"
+                coinRvChange.setTextColor(if (coinData.change24h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            }
             coinRvRankNumber.text = coinData.rank.toString()
             coinRvName.text = coinData.name
             coinRvSymbol.text = "(${coinData.symbol})"
-            coinRvPrice.text = "$${NumberUtils.getPriceFormat(coinData.price).format(coinData.price)}"
-            coinRvChange.text = "${NumberUtils.percentageFormat.format(coinData.change24h)}%"
-
-            coinRvChange.setTextColor(if (coinData.change24h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
         }
     }
 
