@@ -42,12 +42,18 @@ class CoinRvAdapter(private var coinList: ArrayList<CoinData>) : RecyclerView.Ad
                     .into(coinRvLogo)
 
             coinData.price?.let {
-                coinRvPrice.text = "$${NumberUtils.getPriceFormat(coinData.price).format(coinData.price)}"
-            }
+                coinRvPrice.text = "$${NumberUtils.getPriceFormat(it).format(it)}"
+            } ?: kotlin.run { coinRvPrice.text = "-" }
+
             coinData.change24h?.let {
-                coinRvChange.text = "${NumberUtils.percentageFormat.format(coinData.change24h)}%"
-                coinRvChange.setTextColor(if (coinData.change24h >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+                coinRvChange.text = "${NumberUtils.percentageFormat.format(it)}%"
+                coinRvChange.setTextColor(if (it >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            } ?: kotlin.run {
+                coinRvChange.text = "-"
+                coinRvChange.setTextColor(getColor(R.color.negativeColor))
             }
+
+            if (coinData.rank.toString().length > 2) { rankLayout.rotation = -45f } else { rankLayout.rotation = 0f }
             coinRvRankNumber.text = coinData.rank.toString()
             coinRvName.text = coinData.name
             coinRvSymbol.text = "(${coinData.symbol})"
