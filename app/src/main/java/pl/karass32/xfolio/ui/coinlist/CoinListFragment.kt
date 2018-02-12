@@ -95,9 +95,13 @@ class CoinListFragment : Fragment() {
 
 
     private fun initViewModel() {
+        setCoinListSpinnerVisible(true)
         mViewModel.getCoinList()?.observe(this, Observer { coinList ->
             setCoinListSpinnerVisible(false)
-            coinList?.let { showList(it) }
+            coinList?.let {
+                showList(it)
+                mView.rvError.visibility = View.GONE
+            }
         })
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
             globalCoinData?.let {
@@ -146,6 +150,9 @@ class CoinListFragment : Fragment() {
     }
 
     private fun onCoinListError(error: CoinListErrorEvent) {
-        Toast.makeText(context, ErrorUtils.getErrorString(context, error), Toast.LENGTH_LONG).show()
+        val errorString = ErrorUtils.getErrorString(context, error)
+        Toast.makeText(context, errorString, Toast.LENGTH_LONG).show()
+        mView.rvError.visibility = View.VISIBLE
+        mView.rvError.text = errorString
     }
 }
