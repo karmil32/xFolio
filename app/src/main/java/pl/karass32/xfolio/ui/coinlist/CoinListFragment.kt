@@ -15,6 +15,8 @@ import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
 import kotlinx.android.synthetic.main.coin_list_fragment.view.*
+import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import pl.karass32.xfolio.MainActivity
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
@@ -24,6 +26,7 @@ import pl.karass32.xfolio.decoration.MyDividerItemDecoration
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
+import java.util.*
 
 /**
  * Created by karas on 14.01.2018.
@@ -136,12 +139,14 @@ class CoinListFragment : Fragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
-        mView.headerTotalMarketCapValue.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.totalMarketCap)}"
-        mView.headerTotal24hVolumeValue.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.total24hVolume)}"
-        mView.headerBitcoinDominanceValue.text = "${NumberUtils.percentageFormat.format(globalCoinData.bitcoinDominance)}%"
-        mView.headerActiveCurrenciesValue.text = globalCoinData.activeCurrencies.toString()
-        mView.headerActiveAssetsValue.text = globalCoinData.activeAssets.toString()
-        mView.headerActiveMarketsValue.text = globalCoinData.activeMarkets.toString()
+        mView.headerTotalMarketCap.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.totalMarketCap)}"
+        mView.headerTotal24hVolume.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.total24hVolume)}"
+        mView.headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalCoinData.bitcoinDominance)}%"
+        mView.headerActiveCurrencies.text = globalCoinData.activeCurrencies.toString()
+        mView.headerActiveAssets.text = globalCoinData.activeAssets.toString()
+        mView.headerActiveMarkets.text = globalCoinData.activeMarkets.toString()
+        val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
+        mView.headerLastUpdated.text = dateTimeFormat.print(DateTime(globalCoinData.lastUpdated * 1000)).toString()
     }
 
     private fun showList(list: ArrayList<CoinData>) {
