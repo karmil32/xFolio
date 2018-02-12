@@ -22,7 +22,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         nav_view.setNavigationItemSelectedListener(this)
 
-        navigate(R.id.nav_all_coins)
+        if (savedInstanceState == null) {
+            navigate(R.id.nav_all_coins)
+        }
     }
 
     fun setToggle(toolbar: Toolbar) {
