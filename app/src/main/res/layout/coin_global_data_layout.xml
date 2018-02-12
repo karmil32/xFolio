@@ -11,43 +11,42 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/headerTotalMarketCap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="@string/header_total_market_cap" />
 
         <TextView
-            android:id="@+id/headerTotal24hVolume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/header_total_24h_volume" />
 
         <TextView
-            android:id="@+id/headerBitcoinDominance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="@string/header_bitcoin_dominance" />
 
         <TextView
-            android:id="@+id/headerActiveCurrencies"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/header_coins" />
 
         <TextView
-            android:id="@+id/headerActiveAssets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:text="@string/header_tokens" />
 
         <TextView
-            android:id="@+id/headerActiveMarkets"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/header_markets" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/header_last_updated"/>
     </LinearLayout>
 
     <LinearLayout
@@ -56,40 +55,46 @@
         android:layout_weight="1"
         android:orientation="vertical">
         <TextView
-            android:id="@+id/headerTotalMarketCapValue"
+            android:id="@+id/headerTotalMarketCap"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerTotal24hVolumeValue"
+            android:id="@+id/headerTotal24hVolume"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerBitcoinDominanceValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorAccent"
-            android:textAlignment="textEnd"/>
-
-        <TextView
-            android:id="@+id/headerActiveCurrenciesValue"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAlignment="textEnd"/>
-
-        <TextView
-            android:id="@+id/headerActiveAssetsValue"
+            android:id="@+id/headerBitcoinDominance"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorAccent"
             android:textAlignment="textEnd"/>
 
         <TextView
-            android:id="@+id/headerActiveMarketsValue"
+            android:id="@+id/headerActiveCurrencies"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/headerActiveAssets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorAccent"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/headerActiveMarkets"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/headerLastUpdated"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="textEnd"/>
