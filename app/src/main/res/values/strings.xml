@@ -21,6 +21,7 @@
     <string name="header_coins">Coins</string>
     <string name="header_tokens">Tokens</string>
     <string name="header_markets">Markets</string>
+    <string name="header_last_updated">Last updated</string>
 
     <string name="error_no_server_connection">No server connection</string>
 
