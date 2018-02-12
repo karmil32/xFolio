@@ -17,4 +17,5 @@
     <string name="header_markets">Giełdy</string>
     <string name="toolbar_menu_search">Szukaj</string>
     <string name="toolbar_menu_search_hint">Nazwa lub symbol</string>
+    <string name="header_last_updated">Ostatnia aktualizacja</string>
 </resources>
