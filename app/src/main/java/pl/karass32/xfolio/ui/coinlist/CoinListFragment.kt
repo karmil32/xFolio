@@ -145,8 +145,7 @@ class CoinListFragment : Fragment() {
         mView.headerActiveCurrencies.text = globalCoinData.activeCurrencies.toString()
         mView.headerActiveAssets.text = globalCoinData.activeAssets.toString()
         mView.headerActiveMarkets.text = globalCoinData.activeMarkets.toString()
-        val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
-        mView.headerLastUpdated.text = dateTimeFormat.print(DateTime(globalCoinData.lastUpdated * 1000)).toString()
+        mView.headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalCoinData.lastUpdated * 1000)).toString()
     }
 
     private fun showList(list: ArrayList<CoinData>) {
