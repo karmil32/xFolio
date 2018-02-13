@@ -1,5 +1,6 @@
 package pl.karass32.xfolio.util
 
+import org.joda.time.format.DateTimeFormat
 import java.math.BigDecimal
 import java.text.DecimalFormat
 
@@ -12,5 +13,7 @@ class NumberUtils {
         val percentageFormat = DecimalFormat("#0.00")
         val bigValueFormat = DecimalFormat("###,###.##")
         fun getPriceFormat(price: BigDecimal) = DecimalFormat(if (price > BigDecimal(1)) "###,###.00" else "#.####")
+
+        val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
     }
 }
