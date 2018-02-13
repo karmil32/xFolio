@@ -26,5 +26,14 @@
     <string name="error_no_server_connection">No server connection</string>
 
     <string name="toolbar_menu_search">Search</string>
-    <string name="toolbar_menu_search_hint">Name of symbol</string>
+    <string name="toolbar_menu_search_hint">Name or symbol</string>
+    <string name="toolbar_menu_sort">Sorting</string>
+    <string name="toolbar_menu_sort_by_market_cap_dsc">Market Cap (High to Low)</string>
+    <string name="toolbar_menu_sort_by_market_cap_asc">Market Cap (Low to High)</string>
+    <string name="toolbar_menu_sort_by_price_dsc">Price (High to Low)</string>
+    <string name="toolbar_menu_sort_by_price_asc">Price (Low to High)</string>
+    <string name="toolbar_menu_sort_by_change_1h_dsc">Change 1h (High to Low)</string>
+    <string name="toolbar_menu_sort_by_change_1h_asc">Change 1h (Low to High)</string>
+    <string name="toolbar_menu_sort_by_change_24h_dsc">Change 24h (High to Low)</string>
+    <string name="toolbar_menu_sort_by_change_24h_asc">Change 24h (Low to High)</string>
 </resources>

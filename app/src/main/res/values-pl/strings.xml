@@ -18,4 +18,14 @@
     <string name="toolbar_menu_search">Szukaj</string>
     <string name="toolbar_menu_search_hint">Nazwa lub symbol</string>
     <string name="header_last_updated">Ostatnia aktualizacja</string>
+    <string name="toolbar_menu_sort">Sortowanie</string>
+    <string name="toolbar_menu_sort_by_market_cap_dsc">Kapitalizacja (malejąco)</string>
+    <string name="toolbar_menu_sort_by_market_cap_asc">Kapitalizacja (rosnąco)</string>
+    <string name="toolbar_menu_sort_by_price_dsc">Cena (malejąco)</string>
+    <string name="toolbar_menu_sort_by_price_asc">Cena (rosnąco)</string>
+    <string name="toolbar_menu_sort_by_change_1h_dsc">Zmiana 1h (malejąco)</string>
+    <string name="toolbar_menu_sort_by_change_1h_asc">Zmiana 1h (rosnąco)</string>
+    <string name="toolbar_menu_sort_by_change_24h_dsc">Zmiana 24h (malejąco)</string>
+    <string name="toolbar_menu_sort_by_change_24h_asc">Zmiana 24 (rosnąco)</string>
+    <string name="header_total_24h_volume">Obrót 24h</string>
 </resources>
