@@ -4,9 +4,45 @@
 
     <item
         android:id="@+id/search_item"
-        android:title="@string/toolbar_menu_search"
         android:icon="@drawable/ic_search_white_24dp"
-        app:showAsAction="always"
-        app:actionViewClass="android.support.v7.widget.SearchView" />
+        android:title="@string/toolbar_menu_search"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always" />
+
+    <item
+        android:id="@+id/sort_item"
+        android:icon="@drawable/ic_sort_white_24dp"
+        android:title="@string/toolbar_menu_sort"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item
+                    android:id="@+id/sort_by_market_cap_dsc"
+                    android:title="@string/toolbar_menu_sort_by_market_cap_dsc"
+                    android:checked="true"/>
+                <item
+                    android:id="@+id/sort_by_market_cap_asc"
+                    android:title="@string/toolbar_menu_sort_by_market_cap_asc" />
+                <item
+                    android:id="@+id/sort_by_price_dsc"
+                    android:title="@string/toolbar_menu_sort_by_price_dsc" />
+                <item
+                    android:id="@+id/sort_by_price_asc"
+                    android:title="@string/toolbar_menu_sort_by_price_asc" />
+                <item
+                    android:id="@+id/sort_by_change_1h_dsc"
+                    android:title="@string/toolbar_menu_sort_by_change_1h_dsc" />
+                <item
+                    android:id="@+id/sort_by_change_1h_asc"
+                    android:title="@string/toolbar_menu_sort_by_change_1h_asc" />
+                <item
+                    android:id="@+id/sort_by_change_24h_dsc"
+                    android:title="@string/toolbar_menu_sort_by_change_24h_dsc" />
+                <item
+                    android:id="@+id/sort_by_change_24h_asc"
+                    android:title="@string/toolbar_menu_sort_by_change_24h_asc" />
+            </group>
+        </menu>
+    </item>
 
 </menu>
