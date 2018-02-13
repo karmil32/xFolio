@@ -11,6 +11,8 @@ import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
+import pl.karass32.xfolio.util.CoinOrder
+import kotlin.collections.ArrayList
 
 /**
  * Created by karas on 01.02.2018.
@@ -71,5 +73,20 @@ class CoinListViewModel : ViewModel() {
                             coinListError.value = CoinListErrorEvent.NO_SERVER_CONNECTION
                         }
                 )
+    }
+
+    fun sortCoinList(sortMethod: CoinOrder) {
+        val sortedList = when (sortMethod) {
+            CoinOrder.BY_MARKET_CAP_DSC -> coinList?.value?.sortedBy { it.rank }
+            CoinOrder.BY_MARKET_CAP_ASC -> coinList?.value?.sortedByDescending { it.rank }
+            CoinOrder.BY_PRICE_DSC -> coinList?.value?.sortedByDescending { it.price }
+            CoinOrder.BY_PRICE_ASC -> coinList?.value?.sortedBy { it.price }
+            CoinOrder.BY_CHANGE_1H_DSC -> coinList?.value?.sortedByDescending { it.change1h }
+            CoinOrder.BY_CHANGE_1H_ASC -> coinList?.value?.sortedBy { it.change1h }
+            CoinOrder.BY_CHANGE_24H_DSC -> coinList?.value?.sortedByDescending { it.change24h }
+            CoinOrder.BY_CHANGE_24H_ASC -> coinList?.value?.sortedBy { it.change24h }
+        }
+
+        coinList?.value = ArrayList(sortedList)
     }
 }

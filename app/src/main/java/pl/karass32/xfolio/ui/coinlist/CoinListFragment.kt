@@ -16,7 +16,6 @@ import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
 import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import org.joda.time.DateTime
-import org.joda.time.format.DateTimeFormat
 import pl.karass32.xfolio.MainActivity
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
@@ -26,6 +25,7 @@ import pl.karass32.xfolio.decoration.MyDividerItemDecoration
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
+import pl.karass32.xfolio.util.CoinOrder
 import java.util.*
 
 /**
@@ -86,6 +86,21 @@ class CoinListFragment : Fragment() {
         })
 
         super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.sort_by_market_cap_dsc -> mViewModel.sortCoinList(CoinOrder.BY_MARKET_CAP_DSC)
+            R.id.sort_by_market_cap_asc -> mViewModel.sortCoinList(CoinOrder.BY_MARKET_CAP_ASC)
+            R.id.sort_by_price_dsc -> mViewModel.sortCoinList(CoinOrder.BY_PRICE_DSC)
+            R.id.sort_by_price_asc -> mViewModel.sortCoinList(CoinOrder.BY_PRICE_ASC)
+            R.id.sort_by_change_1h_dsc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_1H_DSC)
+            R.id.sort_by_change_1h_asc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_1H_ASC)
+            R.id.sort_by_change_24h_dsc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_24H_DSC)
+            R.id.sort_by_change_24h_asc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_24H_ASC)
+        }
+        item?.isChecked = true
+        return super.onOptionsItemSelected(item)
     }
 
     private fun initSwipeRefreshLayout() {
