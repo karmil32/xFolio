@@ -70,6 +70,19 @@ class CoinListFragment : Fragment() {
         inflater.inflate(R.menu.coin_list_menu, menu)
 
         val searchItem = menu.findItem(R.id.search_item)
+        searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
+            override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
+                menu.removeItem(R.id.sort_item)
+                return true
+            }
+
+            override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                menu.clear()
+                onCreateOptionsMenu(menu, inflater)
+                return true
+            }
+        })
+
         val searchView = searchItem.actionView as SearchView
         searchView.queryHint = getString(R.string.toolbar_menu_search_hint)
 
