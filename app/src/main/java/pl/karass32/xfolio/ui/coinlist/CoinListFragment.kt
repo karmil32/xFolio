@@ -26,7 +26,6 @@ import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
-import java.util.*
 
 /**
  * Created by karas on 14.01.2018.
@@ -176,7 +175,7 @@ class CoinListFragment : Fragment() {
         mView.headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalCoinData.lastUpdated * 1000)).toString()
     }
 
-    private fun showList(list: ArrayList<CoinData>) {
+    private fun showList(list: List<CoinData>) {
         mCoinRvAdapter = CoinRvAdapter(list)
         mView.coinListRv?.adapter = mCoinRvAdapter
     }
