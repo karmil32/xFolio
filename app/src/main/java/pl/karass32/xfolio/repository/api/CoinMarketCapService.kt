@@ -17,7 +17,7 @@ interface CoinMarketCapService {
     fun getGlobalCoinData() : Observable<GlobalCoinData>
 
     @GET("ticker/?limit=200")
-    fun getCoinList() : Observable<ArrayList<CoinData>>
+    fun getCoinList() : Observable<List<CoinData>>
 
     companion object {
         const val API_BASE_URL = "https://api.coinmarketcap.com/v1/"
