@@ -20,7 +20,7 @@ import java.math.BigDecimal
 /**
  * Created by karas on 15.01.2018.
  */
-class CoinRvAdapter(private var coinList: ArrayList<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
+class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
 
     private val mCoinListCopy by lazy {
         ArrayList<CoinData>(coinList)
