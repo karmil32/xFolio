@@ -14,10 +14,15 @@ import javax.inject.Singleton
 class DatabaseModule {
     @Provides
     @Singleton
-    fun provideDatabase(application: Application) : AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, "database")
+    fun provideDatabase(application: Application): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, "database")
             .allowMainThreadQueries()
             .build()
+
     @Provides
     @Singleton
     fun provideCoinListDao(database: AppDatabase) = database.coinDataDao()
+
+    @Provides
+    @Singleton
+    fun provideGlobalCoinData(database: AppDatabase) = database.globalCoinDataDao()
 }
