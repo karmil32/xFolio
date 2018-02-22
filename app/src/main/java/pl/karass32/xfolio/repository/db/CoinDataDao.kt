@@ -12,7 +12,7 @@ import pl.karass32.xfolio.data.CoinData
 @Dao
 interface CoinDataDao {
 
-    @Query ("SELECT * FROM coin_data_list")
+    @Query ("SELECT * FROM coin_data_list ORDER BY rank")
     fun getAllCoinData() : List<CoinData>
 
     @Insert (onConflict = REPLACE)
