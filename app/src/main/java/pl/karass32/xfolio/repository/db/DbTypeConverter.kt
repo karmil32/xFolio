@@ -9,11 +9,11 @@ import java.math.BigDecimal
 class DbTypeConverter {
 
     @TypeConverter
-    fun toBigDecimal(value: String?) : BigDecimal? {
-        return if (value == null) null else BigDecimal(value)
+    fun toBigDecimal(value: Long?) : BigDecimal? {
+        return if (value == null) null else BigDecimal(value).scaleByPowerOfTen(-7)
     }
     @TypeConverter
-    fun fromBigDecimal(value: BigDecimal?) : String? {
-        return if (value == null) null else value.toString()
+    fun fromBigDecimal(value: BigDecimal?) : Long? {
+        return if (value == null) null else value.scaleByPowerOfTen(7).toLong()
     }
 }
