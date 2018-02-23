@@ -16,7 +16,7 @@ interface CoinMarketCapService {
     @GET("global/")
     fun getGlobalCoinData() : Observable<GlobalCoinData>
 
-    @GET("ticker/?limit=200")
+    @GET("ticker/?limit=1500")
     fun getCoinList() : Observable<List<CoinData>>
 
     companion object {
