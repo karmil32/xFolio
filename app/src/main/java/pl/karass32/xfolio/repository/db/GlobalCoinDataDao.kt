@@ -1,5 +1,6 @@
 package pl.karass32.xfolio.repository.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
@@ -13,7 +14,7 @@ import pl.karass32.xfolio.data.GlobalCoinData
 interface GlobalCoinDataDao {
 
     @Query("SELECT * FROM global_coin_data WHERE id = 0")
-    fun getGlobalCoinData(): GlobalCoinData
+    fun getGlobalCoinData(): LiveData<GlobalCoinData>
 
     @Insert(onConflict = REPLACE)
     fun insertGlobalCoinData(globalCoinData: GlobalCoinData)
