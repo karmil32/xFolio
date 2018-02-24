@@ -5,6 +5,7 @@ import net.danlew.android.joda.JodaTimeAndroid
 import pl.karass32.xfolio.di.component.AppComponent
 import pl.karass32.xfolio.di.component.DaggerAppComponent
 import pl.karass32.xfolio.di.module.AppModule
+import timber.log.Timber
 
 /**
  * Created by karas on 12.02.2018.
@@ -17,6 +18,8 @@ class MyApplication : Application() {
 
     override fun onCreate() {
         super.onCreate()
+
+        Timber.plant(Timber.DebugTree())
         JodaTimeAndroid.init(this)
 
         initDagger()
