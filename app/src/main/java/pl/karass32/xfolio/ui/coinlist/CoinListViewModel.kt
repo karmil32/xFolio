@@ -1,10 +1,11 @@
 package pl.karass32.xfolio.ui.coinlist
 
 import android.arch.lifecycle.LiveData
+import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
+import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.data.CoinData
@@ -17,17 +18,18 @@ import pl.karass32.xfolio.repository.db.GlobalCoinDataDao
 import pl.karass32.xfolio.util.CoinOrder
 import javax.inject.Inject
 import kotlin.collections.ArrayList
+import kotlin.concurrent.thread
 
 /**
  * Created by karas on 01.02.2018.
  */
 class CoinListViewModel : ViewModel() {
-    private var globalDataDisposable: Disposable? = null
-    private var globalCoinData: MutableLiveData<GlobalCoinData>? = null
+    private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
-    private var coinListDisposable: Disposable? = null
-    private var coinList: MutableLiveData<List<CoinData>>? = null
+    private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
+    private var coinListMediator: MediatorLiveData<List<CoinData>>? = null
 
+    var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
@@ -39,64 +41,66 @@ class CoinListViewModel : ViewModel() {
     }
 
     fun getGlobalCoinData() : LiveData<GlobalCoinData>? {
-        if (globalCoinData == null) {
-            globalCoinData = MutableLiveData()
+        if (globalCoinDataMediator == null) {
+            globalCoinDataMediator = MediatorLiveData()
+            globalCoinDataMediator?.addSource(globalCoinDataDao.getGlobalCoinData(), {globalData ->
+                globalCoinDataMediator?.value = globalData
+            })
             loadGlobalCoinData()
         }
-        return globalCoinData
+        return globalCoinDataMediator
     }
 
     fun loadGlobalCoinData() {
-        globalDataDisposable = coinMarketCapService.getGlobalCoinData()
+        compositeDisposable.add(coinMarketCapService.getGlobalCoinData()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        {result ->
-                            globalCoinData?.value = result
-                            globalCoinDataDao.insertGlobalCoinData(result)
-                        },
-                        {_ ->
-                            globalCoinData?.value = globalCoinDataDao.getGlobalCoinData()
-                        }
-                )
+                        { result -> thread { globalCoinDataDao.insertGlobalCoinData(result) } },
+                        {_ -> }
+                ))
     }
 
     fun getCoinList() : LiveData<List<CoinData>>? {
-        if (coinList == null) {
-            coinList = MutableLiveData()
+        if (coinListMediator == null) {
+            coinListMediator = MediatorLiveData()
+            coinListMediator?.addSource(coinDataDao.getAllCoinData(), { list ->
+                coinListMediator?.value = list
+            })
             loadCoinList()
         }
-        return coinList
+        return coinListMediator
     }
 
     fun loadCoinList() {
-        coinListDisposable = coinMarketCapService.getCoinList()
+        isLoading.value = true
+        compositeDisposable.add(coinMarketCapService.getCoinList()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            coinList?.value = result
-                            coinDataDao.insertCoinData(result)
+                            thread { coinDataDao.insertCoinData(result) }
+                            isLoading.value = false
                         },
                         { _ ->
                             coinListError.value = CoinListErrorEvent.NO_SERVER_CONNECTION
-                            coinList?.value = coinDataDao.getAllCoinData()
+                            isLoading.value = false
                         }
-                )
+                ))
     }
 
     fun sortCoinList(sortMethod: CoinOrder) {
         val sortedList = when (sortMethod) {
-            CoinOrder.BY_MARKET_CAP_DSC -> coinList?.value?.sortedBy { it.rank }
-            CoinOrder.BY_MARKET_CAP_ASC -> coinList?.value?.sortedByDescending { it.rank }
-            CoinOrder.BY_PRICE_DSC -> coinList?.value?.sortedByDescending { it.price }
-            CoinOrder.BY_PRICE_ASC -> coinList?.value?.sortedBy { it.price }
-            CoinOrder.BY_CHANGE_1H_DSC -> coinList?.value?.sortedByDescending { it.change1h }
-            CoinOrder.BY_CHANGE_1H_ASC -> coinList?.value?.sortedBy { it.change1h }
-            CoinOrder.BY_CHANGE_24H_DSC -> coinList?.value?.sortedByDescending { it.change24h }
-            CoinOrder.BY_CHANGE_24H_ASC -> coinList?.value?.sortedBy { it.change24h }
+            CoinOrder.BY_MARKET_CAP_DSC -> coinListMediator?.value?.sortedBy { it.rank }
+            CoinOrder.BY_MARKET_CAP_ASC -> coinListMediator?.value?.sortedByDescending { it.rank }
+            CoinOrder.BY_PRICE_DSC -> coinListMediator?.value?.sortedByDescending { it.price }
+            CoinOrder.BY_PRICE_ASC -> coinListMediator?.value?.sortedBy { it.price }
+            CoinOrder.BY_CHANGE_1H_DSC -> coinListMediator?.value?.sortedByDescending { it.change1h }
+            CoinOrder.BY_CHANGE_1H_ASC -> coinListMediator?.value?.sortedBy { it.change1h }
+            CoinOrder.BY_CHANGE_24H_DSC -> coinListMediator?.value?.sortedByDescending { it.change24h }
+            CoinOrder.BY_CHANGE_24H_ASC -> coinListMediator?.value?.sortedBy { it.change24h }
         }
 
-        coinList?.value = ArrayList(sortedList)
+        coinListMediator?.value = ArrayList(sortedList)
     }
 }
