@@ -1,5 +1,6 @@
 package pl.karass32.xfolio.repository.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.REPLACE
@@ -13,7 +14,7 @@ import pl.karass32.xfolio.data.CoinData
 interface CoinDataDao {
 
     @Query ("SELECT * FROM coin_data_list ORDER BY rank")
-    fun getAllCoinData() : List<CoinData>
+    fun getAllCoinData() : LiveData<List<CoinData>>
 
     @Insert (onConflict = REPLACE)
     fun insertCoinData(list: List<CoinData>)
