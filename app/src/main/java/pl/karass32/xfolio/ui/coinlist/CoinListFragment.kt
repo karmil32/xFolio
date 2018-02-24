@@ -125,24 +125,20 @@ class CoinListFragment : Fragment() {
 
 
     private fun initViewModel() {
-        setCoinListSpinnerVisible(true)
         mViewModel.getCoinList()?.observe(this, Observer { coinList ->
-            setCoinListSpinnerVisible(false)
             coinList?.let {
                 showList(it)
                 mView.rvError.visibility = View.GONE
             }
         })
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
-            globalCoinData?.let {
-                showGlobalCoinData(it)
-            }
+            globalCoinData?.let { showGlobalCoinData(it) }
         })
         mViewModel.coinListError.observe(this, Observer { error ->
-            error?.let {
-                setCoinListSpinnerVisible(false)
-                onCoinListError(it)
-            }
+            error?.let { onCoinListError(it) }
+        })
+        mViewModel.isLoading.observe(this, Observer { isLoading ->
+            isLoading?.let { setCoinListSpinnerVisible(isLoading) }
         })
     }
 
