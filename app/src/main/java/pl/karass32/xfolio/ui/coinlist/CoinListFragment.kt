@@ -11,10 +11,12 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
+import android.widget.AdapterView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
 import kotlinx.android.synthetic.main.coin_list_fragment.view.*
+import kotlinx.android.synthetic.main.coin_rv_header_layout.view.*
 import org.joda.time.DateTime
 import pl.karass32.xfolio.MainActivity
 import pl.karass32.xfolio.R
@@ -26,6 +28,7 @@ import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
+import pl.karass32.xfolio.util.enum.ChangeOption
 
 /**
  * Created by karas on 14.01.2018.
@@ -54,6 +57,7 @@ class CoinListFragment : Fragment() {
         initViewModel()
         initRv()
         initSwipeRefreshLayout()
+        initHeaderChangeSpinner()
 
         mView.topScrollFab.setOnClickListener {
             mView.appbarLayout.setExpanded(true)
@@ -154,6 +158,18 @@ class CoinListFragment : Fragment() {
                     topScrollFab.hide()
             }
         })
+    }
+
+    private fun initHeaderChangeSpinner() {
+        mView.headerChangeSpinner.setSelection(1, false)
+        mView.headerChangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                CoinRvAdapter.changeType = ChangeOption.values().first {it.value == p2}
+                mCoinRvAdapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
     }
 
     private fun setCoinListSpinnerVisible(enable: Boolean) {
