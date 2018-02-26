@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="change_options">
+        <item>@string/spinner_change_1h</item>
+        <item>@string/spinner_change_24h</item>
+        <item>@string/spinner_change_7d</item>
+    </string-array>
+
+    <string-array name="currency_options">
+        <item>USD</item>
+        <item>PLN</item>
+    </string-array>
+</resources>
