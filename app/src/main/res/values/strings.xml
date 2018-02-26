@@ -36,4 +36,8 @@
     <string name="toolbar_menu_sort_by_change_1h_asc">Change 1h (Low to High)</string>
     <string name="toolbar_menu_sort_by_change_24h_dsc">Change 24h (High to Low)</string>
     <string name="toolbar_menu_sort_by_change_24h_asc">Change 24h (Low to High)</string>
+
+    <string name="spinner_change_1h">1H</string>
+    <string name="spinner_change_24h">24H</string>
+    <string name="spinner_change_7d">7D</string>
 </resources>
