@@ -14,6 +14,7 @@ import pl.karass32.xfolio.extension.getColor
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
 import pl.karass32.xfolio.util.NumberUtils
+import pl.karass32.xfolio.util.enum.ChangeOption
 import java.math.BigDecimal
 
 
@@ -21,6 +22,10 @@ import java.math.BigDecimal
  * Created by karas on 15.01.2018.
  */
 class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
+
+    companion object {
+        var changeType = ChangeOption.CHANGE_24H
+    }
 
     private val mCoinListCopy by lazy {
         ArrayList<CoinData>(coinList)
@@ -33,6 +38,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
     override fun getItemCount() = coinList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+
         @SuppressLint("SetTextI18n")
         fun bind(coinData: CoinData) = with(itemView) {
 
@@ -45,7 +51,13 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
                 coinRvPrice.text = "$${NumberUtils.getPriceFormat(it).format(it)}"
             } ?: kotlin.run { coinRvPrice.text = "-" }
 
-            coinData.change24h?.let {
+            val change = when (CoinRvAdapter.changeType) {
+                ChangeOption.CHANGE_1H -> coinData.change1h
+                ChangeOption.CHANGE_24H -> coinData.change24h
+                ChangeOption.CHANGE_7D -> coinData.change7d
+            }
+
+            change?.let {
                 coinRvChange.text = "${NumberUtils.percentageFormat.format(it)}%"
                 coinRvChange.setTextColor(if (it >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
             } ?: kotlin.run {
@@ -68,11 +80,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
                     coinList = mCoinListCopy
                 } else {
                     val filteredList = ArrayList<CoinData>()
-                    for (coinData in mCoinListCopy) {
-                        if (coinData.name.toLowerCase().contains(charString.toLowerCase()) or coinData.symbol.toLowerCase().contains(charString.toLowerCase())) {
-                            filteredList.add(coinData)
-                        }
-                    }
+                    mCoinListCopy.filterTo(filteredList) { it.name.toLowerCase().contains(charString.toLowerCase()) or it.symbol.toLowerCase().contains(charString.toLowerCase()) }
 
                     coinList = filteredList
                 }
