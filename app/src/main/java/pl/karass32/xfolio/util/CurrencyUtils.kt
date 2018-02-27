@@ -7,7 +7,9 @@ import java.util.*
  */
 class CurrencyUtils {
     companion object {
-        fun getCurrencySymbol(currencyCode: String) : String {
+        fun getFormattedValue(currencyCode: String, value: Int) =  getCurrencySymbol(currencyCode)+value.toString()
+
+        private fun getCurrencySymbol(currencyCode: String) : String {
             val currency = Currency.getInstance(currencyCode)
             return currency.getSymbol(currencyLocaleMap[currency])
         }
@@ -23,7 +25,7 @@ class CurrencyUtils {
             for (locale in Locale.getAvailableLocales()) {
                 try {
                     val currency = Currency.getInstance(locale)
-                    currencyLocaleMap[currency] = locale
+                    map[currency] = locale
                 } catch (e: Exception) {}
             }
             return map
