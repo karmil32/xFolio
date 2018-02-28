@@ -24,4 +24,8 @@ class DatabaseModule {
     @Provides
     @Singleton
     fun provideGlobalCoinData(database: AppDatabase) = database.globalCoinDataDao()
+
+    @Provides
+    @Singleton
+    fun provideFiatRates(database: AppDatabase) = database.fiatRatesDao()
 }
