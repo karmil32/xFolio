@@ -5,6 +5,7 @@ import dagger.Component
 import pl.karass32.xfolio.di.module.AppModule
 import pl.karass32.xfolio.di.module.DatabaseModule
 import pl.karass32.xfolio.di.module.NetworkModule
+import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.coinlist.CoinListViewModel
 import javax.inject.Singleton
 
@@ -15,5 +16,6 @@ import javax.inject.Singleton
 @Component (modules = [AppModule::class, DatabaseModule::class, NetworkModule::class])
 interface AppComponent {
     fun inject(app: Application)
+    fun inject(coinListFragment: CoinListFragment)
     fun inject(coinListViewModel: CoinListViewModel)
 }
