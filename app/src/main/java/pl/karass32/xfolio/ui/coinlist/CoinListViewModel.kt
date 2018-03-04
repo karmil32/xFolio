@@ -9,16 +9,20 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.data.CoinData
+import pl.karass32.xfolio.data.FiatRate
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
+import pl.karass32.xfolio.repository.api.FiatRatesService
 import pl.karass32.xfolio.repository.db.CoinDataDao
+import pl.karass32.xfolio.repository.db.FiatRatesDao
 import pl.karass32.xfolio.repository.db.GlobalCoinDataDao
 import pl.karass32.xfolio.util.CoinOrder
 import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
+
 
 /**
  * Created by karas on 01.02.2018.
@@ -28,13 +32,17 @@ class CoinListViewModel : ViewModel() {
 
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
     private var coinListMediator: MediatorLiveData<List<CoinData>>? = null
+    private var fiatCodesMediator: MediatorLiveData<Array<String>>? = null
+    var currency: MutableLiveData<FiatRate> = MutableLiveData()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
 
     @Inject lateinit var coinMarketCapService: CoinMarketCapService
+    @Inject lateinit var fiatRatesService: FiatRatesService
     @Inject lateinit var coinDataDao: CoinDataDao
     @Inject lateinit var globalCoinDataDao: GlobalCoinDataDao
+    @Inject lateinit var fiatRatesDao: FiatRatesDao
 
     init {
         MyApplication.component.inject(this)
@@ -87,6 +95,32 @@ class CoinListViewModel : ViewModel() {
                             isLoading.value = false
                         }
                 ))
+    }
+
+    fun getFiatStringCodes(): LiveData<Array<String>>? {
+        if (fiatCodesMediator == null) {
+            fiatCodesMediator = MediatorLiveData()
+            fiatCodesMediator?.addSource(fiatRatesDao.getAllFiatCodes(), { codes ->
+                fiatCodesMediator?.value = codes
+            })
+            loadFiatRates()
+        }
+        return fiatCodesMediator
+    }
+
+    fun loadFiatRates() {
+        compositeDisposable.add(fiatRatesService.getLatestRates()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            thread { fiatRatesDao.updateRates(result) } },
+                        { _ -> }
+                ))
+    }
+
+    fun setCurrency(fiatCode: String) {
+        thread { currency.postValue(fiatRatesDao.getFiatRate(fiatCode)) }
     }
 
     fun sortCoinList(sortMethod: CoinOrder) {
