@@ -1,6 +1,7 @@
 package pl.karass32.xfolio.ui.coinlist
 
 import android.annotation.SuppressLint
+import android.app.Application
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
@@ -12,6 +13,8 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
+import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
@@ -19,6 +22,7 @@ import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import kotlinx.android.synthetic.main.coin_rv_header_layout.view.*
 import org.joda.time.DateTime
 import pl.karass32.xfolio.MainActivity
+import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.data.CoinData
@@ -29,6 +33,8 @@ import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
 import pl.karass32.xfolio.util.enum.ChangeOption
+import timber.log.Timber
+import javax.inject.Inject
 
 /**
  * Created by karas on 14.01.2018.
@@ -39,13 +45,16 @@ class CoinListFragment : Fragment() {
     private lateinit var mView: View
     private lateinit var mCoinRvAdapter: CoinRvAdapter
 
+    @Inject
+    lateinit var appContext: Application
+
     private val mViewModel: CoinListViewModel by lazy {
         ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.coin_list_fragment, container, false)
-
+        MyApplication.component.inject(this)
         setHasOptionsMenu(true)
 
         mainActivity = activity as MainActivity
@@ -57,7 +66,7 @@ class CoinListFragment : Fragment() {
         initViewModel()
         initRv()
         initSwipeRefreshLayout()
-        initHeaderChangeSpinner()
+        initHeaderSpinners()
 
         mView.topScrollFab.setOnClickListener {
             mView.appbarLayout.setExpanded(true)
@@ -138,11 +147,20 @@ class CoinListFragment : Fragment() {
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
             globalCoinData?.let { showGlobalCoinData(it) }
         })
+        mViewModel.getFiatStringCodes()?.observe(this, Observer { fiatCodes ->
+            val fiatArray = fiatCodes?.plusElement("USD")
+            val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatArray)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            mView.headerCurrencySpinner.adapter = adapter
+        })
         mViewModel.coinListError.observe(this, Observer { error ->
             error?.let { onCoinListError(it) }
         })
         mViewModel.isLoading.observe(this, Observer { isLoading ->
             isLoading?.let { setCoinListSpinnerVisible(isLoading) }
+        })
+        mViewModel.currency.observe(this, Observer { rate ->
+            Timber.d("Rate: " + rate)
         })
     }
 
@@ -160,12 +178,23 @@ class CoinListFragment : Fragment() {
         })
     }
 
-    private fun initHeaderChangeSpinner() {
+    private fun initHeaderSpinners() {
         mView.headerChangeSpinner.setSelection(1, false)
         mView.headerChangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 CoinRvAdapter.changeType = ChangeOption.values().first {it.value == p2}
                 mCoinRvAdapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {}
+        }
+
+        mView.headerCurrencySpinner.setSelection(0, false)
+        mView.headerCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+//                (p0?.getChildAt(0) as TextView).setTextColor(Color.WHITE)
+                val currencyCode = p0?.getItemAtPosition(p2).toString()
+                mViewModel.setCurrency(currencyCode)
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
