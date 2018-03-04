@@ -19,6 +19,9 @@ interface FiatRatesDao {
     @Query ("SELECT code FROM fiat_rates")
     fun getAllFiatCodes() : LiveData<Array<String>>
 
+    @Query ("SELECT * FROM fiat_rates WHERE code LIKE :fiatCode LIMIT 1")
+    fun getFiatRate(fiatCode: String) : FiatRate
+
     @Insert (onConflict = REPLACE)
     fun updateRates(rates: List<FiatRate>)
 }
