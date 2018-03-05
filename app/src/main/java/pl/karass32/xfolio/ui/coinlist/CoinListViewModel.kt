@@ -3,23 +3,16 @@ package pl.karass32.xfolio.ui.coinlist
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
-import pl.karass32.xfolio.MyApplication
+import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.FiatRate
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
-import pl.karass32.xfolio.repository.api.CoinMarketCapService
-import pl.karass32.xfolio.repository.api.FiatRatesService
-import pl.karass32.xfolio.repository.db.CoinDataDao
-import pl.karass32.xfolio.repository.db.FiatRatesDao
-import pl.karass32.xfolio.repository.db.GlobalCoinDataDao
 import pl.karass32.xfolio.util.CoinOrder
-import javax.inject.Inject
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -27,7 +20,7 @@ import kotlin.concurrent.thread
 /**
  * Created by karas on 01.02.2018.
  */
-class CoinListViewModel : ViewModel() {
+class CoinListViewModel : BaseViewModel() {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
@@ -38,20 +31,10 @@ class CoinListViewModel : ViewModel() {
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
 
-    @Inject lateinit var coinMarketCapService: CoinMarketCapService
-    @Inject lateinit var fiatRatesService: FiatRatesService
-    @Inject lateinit var coinDataDao: CoinDataDao
-    @Inject lateinit var globalCoinDataDao: GlobalCoinDataDao
-    @Inject lateinit var fiatRatesDao: FiatRatesDao
-
-    init {
-        MyApplication.component.inject(this)
-    }
-
-    fun getGlobalCoinData() : LiveData<GlobalCoinData>? {
+    fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
         if (globalCoinDataMediator == null) {
             globalCoinDataMediator = MediatorLiveData()
-            globalCoinDataMediator?.addSource(globalCoinDataDao.getGlobalCoinData(), {globalData ->
+            globalCoinDataMediator?.addSource(globalCoinDataDao.getGlobalCoinData(), { globalData ->
                 globalCoinDataMediator?.value = globalData
             })
             loadGlobalCoinData()
@@ -65,11 +48,11 @@ class CoinListViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result -> thread { globalCoinDataDao.insertGlobalCoinData(result) } },
-                        {_ -> }
+                        { _ -> }
                 ))
     }
 
-    fun getCoinList() : LiveData<List<CoinData>>? {
+    fun getCoinList(): LiveData<List<CoinData>>? {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
             coinListMediator?.addSource(coinDataDao.getAllCoinData(), { list ->
@@ -114,7 +97,8 @@ class CoinListViewModel : ViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            thread { fiatRatesDao.updateRates(result) } },
+                            thread { fiatRatesDao.updateRates(result) }
+                        },
                         { _ -> }
                 ))
     }
