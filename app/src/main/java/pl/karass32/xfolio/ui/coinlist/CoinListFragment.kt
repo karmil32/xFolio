@@ -1,12 +1,10 @@
 package pl.karass32.xfolio.ui.coinlist
 
 import android.annotation.SuppressLint
-import android.app.Application
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v4.app.Fragment
 import android.support.v7.widget.DividerItemDecoration
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -14,7 +12,6 @@ import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.TextView
 import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
@@ -22,9 +19,9 @@ import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import kotlinx.android.synthetic.main.coin_rv_header_layout.view.*
 import org.joda.time.DateTime
 import pl.karass32.xfolio.MainActivity
-import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
+import pl.karass32.xfolio.base.BaseFragment
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.decoration.MyDividerItemDecoration
@@ -34,19 +31,15 @@ import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
 import pl.karass32.xfolio.util.enum.ChangeOption
 import timber.log.Timber
-import javax.inject.Inject
 
 /**
  * Created by karas on 14.01.2018.
  */
-class CoinListFragment : Fragment() {
+class CoinListFragment : BaseFragment() {
 
     private lateinit var mainActivity: MainActivity
     private lateinit var mView: View
     private lateinit var mCoinRvAdapter: CoinRvAdapter
-
-    @Inject
-    lateinit var appContext: Application
 
     private val mViewModel: CoinListViewModel by lazy {
         ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
@@ -54,7 +47,6 @@ class CoinListFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.coin_list_fragment, container, false)
-        MyApplication.component.inject(this)
         setHasOptionsMenu(true)
 
         mainActivity = activity as MainActivity
@@ -167,7 +159,7 @@ class CoinListFragment : Fragment() {
     private fun initRv() {
         mView.coinListRv?.setHasFixedSize(true)
         mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
-        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(context, DividerItemDecoration.VERTICAL, 10))
+        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(appContext, DividerItemDecoration.VERTICAL, 10))
         mView.coinListRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
@@ -222,8 +214,8 @@ class CoinListFragment : Fragment() {
     }
 
     private fun onCoinListError(error: CoinListErrorEvent) {
-        val errorString = ErrorUtils.getErrorString(context, error)
-        Toast.makeText(context, errorString, Toast.LENGTH_LONG).show()
+        val errorString = ErrorUtils.getErrorString(appContext, error)
+        Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
         mView.rvError.visibility = View.VISIBLE
         mView.rvError.text = errorString
     }
