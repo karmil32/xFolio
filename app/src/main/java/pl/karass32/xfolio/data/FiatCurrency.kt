@@ -11,6 +11,6 @@ import java.math.BigDecimal
  */
 
 @Entity(tableName = "fiat_rates")
-data class FiatRate(@PrimaryKey(autoGenerate = false) @ColumnInfo(name = "code") @SerializedName("code") val currencyCode: String,
-                    @ColumnInfo(name = "rate") @SerializedName("rate") val currencyRate: BigDecimal,
-                    val lastUpdate: Long)
+data class FiatCurrency(@PrimaryKey(autoGenerate = false) @ColumnInfo(name = "code") @SerializedName("code") val currencyCode: String,
+                        @ColumnInfo(name = "rate") @SerializedName("rate") val currencyRate: BigDecimal,
+                        val lastUpdate: Long)
