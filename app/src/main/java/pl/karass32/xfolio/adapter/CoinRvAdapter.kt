@@ -10,9 +10,11 @@ import android.widget.Filterable
 import kotlinx.android.synthetic.main.coin_rv_layout.view.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.data.CoinData
+import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.extension.getColor
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
+import pl.karass32.xfolio.util.CurrencyUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.enum.ChangeOption
 import java.math.BigDecimal
@@ -25,6 +27,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
 
     companion object {
         var changeType = ChangeOption.CHANGE_24H
+        var fiatCurrency = FiatCurrency("USD", BigDecimal(1), 0)
     }
 
     private val mCoinListCopy by lazy {
@@ -48,7 +51,8 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
                     .into(coinRvLogo)
 
             coinData.price?.let {
-                coinRvPrice.text = "$${NumberUtils.getPriceFormat(it).format(it)}"
+                val price = CurrencyUtils.getConvertedValue(it, fiatCurrency, true)
+                coinRvPrice.text = price
             } ?: kotlin.run { coinRvPrice.text = "-" }
 
             val change = when (CoinRvAdapter.changeType) {
