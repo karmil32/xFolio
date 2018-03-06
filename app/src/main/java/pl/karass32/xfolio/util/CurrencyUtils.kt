@@ -16,6 +16,13 @@ class CurrencyUtils {
             return if (withSymbol) getValueWithSymbol(fiatRate.currencyCode, formattedStringValue) else formattedStringValue
         }
 
+        fun getConvertedBigValue(usdPrice: BigDecimal, fiatRate: FiatCurrency, withSymbol: Boolean) : String {
+            val convertedValue = usdPrice * fiatRate.currencyRate
+            val formattedStringValue = NumberUtils.bigValueFormat.format(convertedValue)
+
+            return if (withSymbol) getValueWithSymbol(fiatRate.currencyCode, formattedStringValue) else formattedStringValue
+        }
+
         private fun getValueWithSymbol(currencyCode: String, value: String) =  getCurrencySymbol(currencyCode)+value
 
         private fun getCurrencySymbol(currencyCode: String) : String {
