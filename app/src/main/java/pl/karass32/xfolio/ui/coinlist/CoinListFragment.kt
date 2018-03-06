@@ -140,8 +140,7 @@ class CoinListFragment : BaseFragment() {
             globalCoinData?.let { showGlobalCoinData(it) }
         })
         mViewModel.getFiatStringCodes()?.observe(this, Observer { fiatCodes ->
-            val fiatArray = fiatCodes?.plusElement("USD")
-            val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatArray)
+            val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatCodes)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mView.headerCurrencySpinner.adapter = adapter
         })

@@ -83,7 +83,7 @@ class CoinListViewModel : BaseViewModel() {
     fun getFiatStringCodes(): LiveData<Array<String>>? {
         if (fiatCodesMediator == null) {
             fiatCodesMediator = MediatorLiveData()
-            fiatCodesMediator?.addSource(fiatRatesDao.getAllFiatCodes(), { codes ->
+            fiatCodesMediator?.addSource(fiatCurrencyDao.getAllFiatCodes(), { codes ->
                 fiatCodesMediator?.value = codes
             })
             loadFiatRates()
@@ -97,14 +97,14 @@ class CoinListViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            thread { fiatRatesDao.updateRates(result) }
+                            thread { fiatCurrencyDao.updateRates(result) }
                         },
                         { _ -> }
                 ))
     }
 
     fun setCurrency(fiatCode: String) {
-        thread { currency.postValue(fiatRatesDao.getFiatRate(fiatCode)) }
+        thread { currency.postValue(fiatCurrencyDao.getFiatRate(fiatCode)) }
     }
 
     fun sortCoinList(sortMethod: CoinOrder) {
