@@ -8,7 +8,7 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.data.CoinData
-import pl.karass32.xfolio.data.FiatRate
+import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
@@ -26,7 +26,7 @@ class CoinListViewModel : BaseViewModel() {
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
     private var coinListMediator: MediatorLiveData<List<CoinData>>? = null
     private var fiatCodesMediator: MediatorLiveData<Array<String>>? = null
-    var currency: MutableLiveData<FiatRate> = MutableLiveData()
+    var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
