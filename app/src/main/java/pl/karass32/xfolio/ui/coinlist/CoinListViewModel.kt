@@ -34,7 +34,7 @@ class CoinListViewModel : BaseViewModel() {
     fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
         if (globalCoinDataMediator == null) {
             globalCoinDataMediator = MediatorLiveData()
-            globalCoinDataMediator?.addSource(globalCoinDataDao.getGlobalCoinData(), { globalData ->
+            globalCoinDataMediator?.addSource(appDb.globalCoinDataDao().getGlobalCoinData(), { globalData ->
                 globalCoinDataMediator?.value = globalData
             })
             loadGlobalCoinData()
@@ -47,7 +47,7 @@ class CoinListViewModel : BaseViewModel() {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { result -> thread { globalCoinDataDao.insertGlobalCoinData(result) } },
+                        { result -> thread { appDb.globalCoinDataDao().insertGlobalCoinData(result) } },
                         { _ -> }
                 ))
     }
@@ -55,7 +55,7 @@ class CoinListViewModel : BaseViewModel() {
     fun getCoinList(): LiveData<List<CoinData>>? {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
-            coinListMediator?.addSource(coinDataDao.getAllCoinData(), { list ->
+            coinListMediator?.addSource(appDb.coinDataDao().getAllCoinData(), { list ->
                 coinListMediator?.value = list
             })
             loadCoinList()
@@ -70,7 +70,7 @@ class CoinListViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            thread { coinDataDao.insertCoinData(result) }
+                            thread { appDb.coinDataDao().insertCoinData(result) }
                             isLoading.value = false
                         },
                         { _ ->
@@ -83,7 +83,7 @@ class CoinListViewModel : BaseViewModel() {
     fun getFiatStringCodes(): LiveData<Array<String>>? {
         if (fiatCodesMediator == null) {
             fiatCodesMediator = MediatorLiveData()
-            fiatCodesMediator?.addSource(fiatCurrencyDao.getAllFiatCodes(), { codes ->
+            fiatCodesMediator?.addSource(appDb.fiatCurrencyDao().getAllFiatCodes(), { codes ->
                 fiatCodesMediator?.value = codes
             })
             loadFiatRates()
@@ -97,14 +97,14 @@ class CoinListViewModel : BaseViewModel() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            thread { fiatCurrencyDao.updateRates(result) }
+                            thread { appDb.fiatCurrencyDao().updateRates(result) }
                         },
                         { _ -> }
                 ))
     }
 
     fun setCurrency(fiatCode: String) {
-        thread { currency.postValue(fiatCurrencyDao.getFiatRate(fiatCode)) }
+        thread { currency.postValue(appDb.fiatCurrencyDao().getCurrency(fiatCode)) }
     }
 
     fun sortCoinList(sortMethod: CoinOrder) {
