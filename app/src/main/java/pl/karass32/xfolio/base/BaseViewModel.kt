@@ -4,9 +4,7 @@ import android.arch.lifecycle.ViewModel
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.FiatCurrencyService
-import pl.karass32.xfolio.repository.db.CoinDataDao
-import pl.karass32.xfolio.repository.db.FiatCurrencyDao
-import pl.karass32.xfolio.repository.db.GlobalCoinDataDao
+import pl.karass32.xfolio.repository.db.AppDatabase
 import javax.inject.Inject
 
 /**
@@ -19,11 +17,7 @@ abstract class BaseViewModel : ViewModel() {
     @Inject
     lateinit var fiatRatesService: FiatCurrencyService
     @Inject
-    lateinit var coinDataDao: CoinDataDao
-    @Inject
-    lateinit var globalCoinDataDao: GlobalCoinDataDao
-    @Inject
-    lateinit var fiatCurrencyDao: FiatCurrencyDao
+    lateinit var appDb: AppDatabase
 
     init {
         MyApplication.component.inject(this)
