@@ -20,7 +20,7 @@ interface FiatCurrencyDao {
     fun getAllFiatCodes() : LiveData<Array<String>>
 
     @Query ("SELECT * FROM fiat_rates WHERE code LIKE :fiatCode LIMIT 1")
-    fun getFiatRate(fiatCode: String) : FiatCurrency
+    fun getCurrency(fiatCode: String) : FiatCurrency
 
     @Insert (onConflict = REPLACE)
     fun updateRates(rates: List<FiatCurrency>)
