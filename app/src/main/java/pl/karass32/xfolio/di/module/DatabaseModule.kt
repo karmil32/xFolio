@@ -16,16 +16,4 @@ class DatabaseModule {
     @Singleton
     fun provideDatabase(application: Application): AppDatabase = Room.databaseBuilder(application, AppDatabase::class.java, "database")
             .build()
-
-    @Provides
-    @Singleton
-    fun provideCoinListDao(database: AppDatabase) = database.coinDataDao()
-
-    @Provides
-    @Singleton
-    fun provideGlobalCoinData(database: AppDatabase) = database.globalCoinDataDao()
-
-    @Provides
-    @Singleton
-    fun provideFiatRates(database: AppDatabase) = database.fiatRatesDao()
 }
