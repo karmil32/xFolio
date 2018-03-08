@@ -14,5 +14,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     abstract fun coinDataDao(): CoinDataDao
     abstract fun globalCoinDataDao(): GlobalCoinDataDao
-    abstract fun fiatRatesDao(): FiatCurrencyDao
+    abstract fun fiatCurrencyDao(): FiatCurrencyDao
 }
