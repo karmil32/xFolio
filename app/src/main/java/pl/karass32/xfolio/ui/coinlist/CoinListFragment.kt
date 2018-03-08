@@ -30,7 +30,6 @@ import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
 import pl.karass32.xfolio.util.enum.ChangeOption
-import timber.log.Timber
 
 /**
  * Created by karas on 14.01.2018.
@@ -150,8 +149,9 @@ class CoinListFragment : BaseFragment() {
         mViewModel.isLoading.observe(this, Observer { isLoading ->
             isLoading?.let { setCoinListSpinnerVisible(isLoading) }
         })
-        mViewModel.currency.observe(this, Observer { rate ->
-            Timber.d("Rate: " + rate)
+        mViewModel.currency.observe(this, Observer { fiatCurrency ->
+            fiatCurrency?.let { CoinRvAdapter.fiatCurrency = fiatCurrency }
+            mCoinRvAdapter.notifyDataSetChanged()
         })
     }
 
