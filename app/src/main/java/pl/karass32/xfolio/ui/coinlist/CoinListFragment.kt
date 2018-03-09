@@ -57,7 +57,7 @@ class CoinListFragment : BaseFragment() {
         initViewModel()
         initRv()
         initSwipeRefreshLayout()
-        initHeaderSpinners()
+        initChangeSpinner()
 
         mView.topScrollFab.setOnClickListener {
             mView.appbarLayout.setExpanded(true)
@@ -142,6 +142,8 @@ class CoinListFragment : BaseFragment() {
             val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatCodes)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             mView.headerCurrencySpinner.adapter = adapter
+            val position = adapter.getPosition(preferences.getDefaultCurrency())
+            initCurrencySpinner(position)
         })
         mViewModel.coinListError.observe(this, Observer { error ->
             error?.let { onCoinListError(it) }
@@ -169,7 +171,7 @@ class CoinListFragment : BaseFragment() {
         })
     }
 
-    private fun initHeaderSpinners() {
+    private fun initChangeSpinner() {
         mView.headerChangeSpinner.setSelection(1, false)
         mView.headerChangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
@@ -179,11 +181,12 @@ class CoinListFragment : BaseFragment() {
 
             override fun onNothingSelected(p0: AdapterView<*>?) {}
         }
+    }
 
-        mView.headerCurrencySpinner.setSelection(0, false)
+    private fun initCurrencySpinner(position: Int) {
+        mView.headerCurrencySpinner.setSelection(position)
         mView.headerCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-//                (p0?.getChildAt(0) as TextView).setTextColor(Color.WHITE)
                 val currencyCode = p0?.getItemAtPosition(p2).toString()
                 mViewModel.setCurrency(currencyCode)
             }
