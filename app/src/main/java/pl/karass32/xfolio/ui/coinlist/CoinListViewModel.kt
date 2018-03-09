@@ -104,6 +104,7 @@ class CoinListViewModel : BaseViewModel() {
     }
 
     fun setCurrency(fiatCode: String) {
+        preferences.setDefaultCurrency(fiatCode)
         thread { currency.postValue(appDb.fiatCurrencyDao().getCurrency(fiatCode)) }
     }
 
