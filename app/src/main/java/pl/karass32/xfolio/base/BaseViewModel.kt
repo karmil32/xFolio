@@ -5,6 +5,7 @@ import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.FiatCurrencyService
 import pl.karass32.xfolio.repository.db.AppDatabase
+import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import javax.inject.Inject
 
 /**
@@ -18,6 +19,8 @@ abstract class BaseViewModel : ViewModel() {
     lateinit var fiatRatesService: FiatCurrencyService
     @Inject
     lateinit var appDb: AppDatabase
+    @Inject
+    lateinit var preferences: SharedPreferencesRepository
 
     init {
         MyApplication.component.inject(this)
