@@ -49,22 +49,13 @@ class CoinListFragment : BaseFragment() {
         setHasOptionsMenu(true)
 
         mainActivity = activity as MainActivity
-        mainActivity.setSupportActionBar(mView.toolbar)
-        mainActivity.supportActionBar?.setDisplayShowHomeEnabled(true)
-        mainActivity.supportActionBar?.title = getString(R.string.nav_all_coins)
-        mainActivity.setToggle(mView.toolbar)
 
+        initToolbar()
         initViewModel()
         initRv()
         initSwipeRefreshLayout()
         initChangeSpinner()
-
-        mView.topScrollFab.setOnClickListener {
-            mView.appbarLayout.setExpanded(true)
-            val layoutManager = coinListRv?.layoutManager as LinearLayoutManager
-            if (layoutManager.findFirstCompletelyVisibleItemPosition() > 35) coinListRv.scrollToPosition(30)
-            coinListRv.smoothScrollToPosition(0)
-        }
+        initScrollUpButton()
 
         return mView
     }
@@ -119,6 +110,13 @@ class CoinListFragment : BaseFragment() {
         return super.onOptionsItemSelected(item)
     }
 
+    private fun initToolbar() {
+        mainActivity.setSupportActionBar(mView.toolbar)
+        mainActivity.supportActionBar?.setDisplayShowHomeEnabled(true)
+        mainActivity.supportActionBar?.title = getString(R.string.nav_all_coins)
+        mainActivity.setToggle(mView.toolbar)
+    }
+
     private fun initSwipeRefreshLayout() {
         mView.coinListSwipeRefresh.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE)
         mView.coinListSwipeRefresh.setOnRefreshListener {
@@ -126,7 +124,6 @@ class CoinListFragment : BaseFragment() {
             mViewModel.loadGlobalCoinData()
         }
     }
-
 
     private fun initViewModel() {
         mViewModel.getCoinList()?.observe(this, Observer { coinList ->
@@ -149,7 +146,7 @@ class CoinListFragment : BaseFragment() {
             error?.let { onCoinListError(it) }
         })
         mViewModel.isLoading.observe(this, Observer { isLoading ->
-            isLoading?.let { setCoinListSpinnerVisible(isLoading) }
+            isLoading?.let { setLoadingSpinnerVisible(isLoading) }
         })
         mViewModel.currency.observe(this, Observer { fiatCurrency ->
             fiatCurrency?.let { CoinRvAdapter.fiatCurrency = fiatCurrency }
@@ -195,7 +192,16 @@ class CoinListFragment : BaseFragment() {
         }
     }
 
-    private fun setCoinListSpinnerVisible(enable: Boolean) {
+    private fun initScrollUpButton() {
+        mView.topScrollFab.setOnClickListener {
+            mView.appbarLayout.setExpanded(true)
+            val layoutManager = coinListRv?.layoutManager as LinearLayoutManager
+            if (layoutManager.findFirstCompletelyVisibleItemPosition() > 35) coinListRv.scrollToPosition(30)
+            coinListRv.smoothScrollToPosition(0)
+        }
+    }
+
+    private fun setLoadingSpinnerVisible(enable: Boolean) {
         mView.coinListSwipeRefresh.isRefreshing = enable
     }
 
