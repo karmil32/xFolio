@@ -14,7 +14,6 @@ import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.util.CoinOrder
-import pl.karass32.xfolio.util.CurrencyUtils
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -60,11 +59,14 @@ class CoinListViewModel : BaseViewModel() {
             coinListMediator?.addSource(Transformations.switchMap(currency, { _ ->
                 return@switchMap appDb.coinDataDao().getAllCoinData()
             }), { list ->
-                list?.forEach { coin ->
-                    coin.price = CurrencyUtils.getConvertedValue2(coin.price!!, currency.value!!)
+                if (preferences.getDefaultCurrency() != "USD") {
+                    list?.forEach { coin ->
+                        coin.price = coin.price?.multiply(currency.value?.currencyRate)
+                        coin.volume24h = coin.volume24h?.multiply(currency.value?.currencyRate)
+                        coin.marketCap = coin.marketCap?.multiply(currency.value?.currencyRate)
+                    }
                 }
                 coinListMediator?.value = list
-
             })
             loadCoinList()
         }
