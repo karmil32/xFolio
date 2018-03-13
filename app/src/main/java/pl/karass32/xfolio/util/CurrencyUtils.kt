@@ -9,11 +9,10 @@ import java.util.*
  */
 class CurrencyUtils {
     companion object {
-        fun getConvertedValue(usdPrice: BigDecimal, fiatRate: FiatCurrency, withSymbol: Boolean) : String {
-            val convertedValue = usdPrice * fiatRate.currencyRate
-            val formattedStringValue = NumberUtils.getPriceFormat(convertedValue).format(convertedValue)
+        fun getFormattedPrice(usdPrice: BigDecimal, currencyCode: String) : String {
+            val formattedStringValue = NumberUtils.getPriceFormat(usdPrice).format(usdPrice)
 
-            return if (withSymbol) getValueWithSymbol(fiatRate.currencyCode, formattedStringValue) else formattedStringValue
+            return getValueWithSymbol(currencyCode, formattedStringValue)
         }
 
         fun getConvertedBigValue(usdPrice: BigDecimal, fiatRate: FiatCurrency, withSymbol: Boolean) : String {
