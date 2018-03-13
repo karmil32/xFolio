@@ -3,6 +3,7 @@ package pl.karass32.xfolio.ui.coinlist
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
+import android.arch.lifecycle.Transformations
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
@@ -13,6 +14,7 @@ import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.util.CoinOrder
+import pl.karass32.xfolio.util.CurrencyUtils
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -26,7 +28,7 @@ class CoinListViewModel : BaseViewModel() {
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
     private var coinListMediator: MediatorLiveData<List<CoinData>>? = null
     private var fiatCodesMediator: MediatorLiveData<Array<String>>? = null
-    var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
+    private var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
@@ -55,8 +57,14 @@ class CoinListViewModel : BaseViewModel() {
     fun getCoinList(): LiveData<List<CoinData>>? {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
-            coinListMediator?.addSource(appDb.coinDataDao().getAllCoinData(), { list ->
+            coinListMediator?.addSource(Transformations.switchMap(currency, { _ ->
+                return@switchMap appDb.coinDataDao().getAllCoinData()
+            }), { list ->
+                list?.forEach { coin ->
+                    coin.price = CurrencyUtils.getConvertedValue2(coin.price!!, currency.value!!)
+                }
                 coinListMediator?.value = list
+
             })
             loadCoinList()
         }
