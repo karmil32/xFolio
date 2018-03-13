@@ -148,10 +148,6 @@ class CoinListFragment : BaseFragment() {
         mViewModel.isLoading.observe(this, Observer { isLoading ->
             isLoading?.let { setLoadingSpinnerVisible(isLoading) }
         })
-        mViewModel.currency.observe(this, Observer { fiatCurrency ->
-            fiatCurrency?.let { CoinRvAdapter.fiatCurrency = fiatCurrency }
-            mCoinRvAdapter.notifyDataSetChanged()
-        })
     }
 
     private fun initRv() {
@@ -217,7 +213,7 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun showList(list: List<CoinData>) {
-        mCoinRvAdapter = CoinRvAdapter(list)
+        mCoinRvAdapter = CoinRvAdapter(list, preferences.getDefaultCurrency())
         mView.coinListRv?.adapter = mCoinRvAdapter
     }
 
