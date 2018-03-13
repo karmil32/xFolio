@@ -10,7 +10,6 @@ import android.widget.Filterable
 import kotlinx.android.synthetic.main.coin_rv_layout.view.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.data.CoinData
-import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.extension.getColor
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
@@ -23,11 +22,10 @@ import java.math.BigDecimal
 /**
  * Created by karas on 15.01.2018.
  */
-class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
+class CoinRvAdapter(private var coinList: List<CoinData>, private var currencyCode: String) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
 
     companion object {
         var changeType = ChangeOption.CHANGE_24H
-        var fiatCurrency = FiatCurrency("USD", BigDecimal(1), 0)
     }
 
     private val mCoinListCopy by lazy {
@@ -36,14 +34,14 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_layout, parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(coinList[position])
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(coinList[position], currencyCode)
 
     override fun getItemCount() = coinList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(coinData: CoinData) = with(itemView) {
+        fun bind(coinData: CoinData, currencyCode: String) = with(itemView) {
 
             GlideApp.with(this)
                     .load("${CoinMarketCapService.API_IMAGES_URL}${coinData.id}.png")
@@ -51,8 +49,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter
                     .into(coinRvLogo)
 
             coinData.price?.let {
-                val price = CurrencyUtils.getConvertedValue(it, fiatCurrency, true)
-                coinRvPrice.text = price
+                coinRvPrice.text = CurrencyUtils.getFormattedPrice(it, currencyCode)
             } ?: kotlin.run { coinRvPrice.text = "-" }
 
             val change = when (CoinRvAdapter.changeType) {
