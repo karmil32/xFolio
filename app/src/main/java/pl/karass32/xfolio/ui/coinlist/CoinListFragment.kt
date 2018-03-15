@@ -36,11 +36,13 @@ import pl.karass32.xfolio.util.enum.ChangeOption
  */
 class CoinListFragment : BaseFragment() {
 
+    private val LIST_POSITION_STATE = "LIST_POSITION_STATE"
+
+    private var mListPositionState = 0
+
     private lateinit var mainActivity: MainActivity
     private lateinit var mView: View
     private lateinit var mCoinRvAdapter: CoinRvAdapter
-
-    private var mListPosition = 0
 
     private val mViewModel: CoinListViewModel by lazy {
         ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
@@ -52,7 +54,7 @@ class CoinListFragment : BaseFragment() {
 
         mainActivity = activity as MainActivity
 
-        savedInstanceState?.let { mListPosition = savedInstanceState.getInt("LIST_POSITION") }
+        savedInstanceState?.let { mListPositionState = savedInstanceState.getInt(LIST_POSITION_STATE) }
 
         initToolbar()
         initViewModel()
@@ -68,7 +70,7 @@ class CoinListFragment : BaseFragment() {
         super.onSaveInstanceState(outState)
         val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
         val listPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-        outState.putInt("LIST_POSITION", listPosition)
+        outState.putInt(LIST_POSITION_STATE, listPosition)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -227,7 +229,7 @@ class CoinListFragment : BaseFragment() {
         mCoinRvAdapter = CoinRvAdapter(list, preferences.getDefaultCurrency())
         mView.coinListRv?.adapter = mCoinRvAdapter
         val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
-        layoutManager.scrollToPositionWithOffset(mListPosition, 0)
+        layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
     }
 
     private fun onCoinListError(error: CoinListErrorEvent) {
