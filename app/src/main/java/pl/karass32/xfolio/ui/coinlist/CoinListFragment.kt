@@ -40,6 +40,8 @@ class CoinListFragment : BaseFragment() {
     private lateinit var mView: View
     private lateinit var mCoinRvAdapter: CoinRvAdapter
 
+    private var mListPosition = 0
+
     private val mViewModel: CoinListViewModel by lazy {
         ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
     }
@@ -50,6 +52,8 @@ class CoinListFragment : BaseFragment() {
 
         mainActivity = activity as MainActivity
 
+        savedInstanceState?.let { mListPosition = savedInstanceState.getInt("LIST_POSITION") }
+
         initToolbar()
         initViewModel()
         initRv()
@@ -58,6 +62,13 @@ class CoinListFragment : BaseFragment() {
         initScrollUpButton()
 
         return mView
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
+        val listPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
+        outState.putInt("LIST_POSITION", listPosition)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -215,6 +226,8 @@ class CoinListFragment : BaseFragment() {
     private fun showList(list: List<CoinData>) {
         mCoinRvAdapter = CoinRvAdapter(list, preferences.getDefaultCurrency())
         mView.coinListRv?.adapter = mCoinRvAdapter
+        val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
+        layoutManager.scrollToPositionWithOffset(mListPosition, 0)
     }
 
     private fun onCoinListError(error: CoinListErrorEvent) {
