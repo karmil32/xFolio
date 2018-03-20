@@ -14,6 +14,7 @@ import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
 import pl.karass32.xfolio.util.CoinOrder
+import java.math.BigDecimal
 import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
 
@@ -39,9 +40,18 @@ class CoinListViewModel : BaseViewModel() {
     fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
         if (globalCoinDataMediator == null) {
             globalCoinDataMediator = MediatorLiveData()
-            globalCoinDataMediator?.addSource(appDb.globalCoinDataDao().getGlobalCoinData(), { globalData ->
+            globalCoinDataMediator?.addSource(Transformations.switchMap(currency, { _ ->
+                return@switchMap appDb.globalCoinDataDao().getGlobalCoinData()
+            }), { globalData ->
+                if (preferences.getDefaultCurrency() != "USD") {
+                    globalData?.let {
+                        it.totalMarketCap = BigDecimal(it.totalMarketCap).multiply(currency.value?.currencyRate).toLong()
+                        it.total24hVolume = BigDecimal(it.total24hVolume).multiply(currency.value?.currencyRate).toLong()
+                    }
+                }
                 globalCoinDataMediator?.value = globalData
             })
+
             loadGlobalCoinData()
         }
         return globalCoinDataMediator
