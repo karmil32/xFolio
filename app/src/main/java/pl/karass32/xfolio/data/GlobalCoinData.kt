@@ -11,8 +11,8 @@ import java.math.BigDecimal
  */
 @Entity(tableName = "global_coin_data")
 data class GlobalCoinData(@PrimaryKey (autoGenerate = false) val id: Long = 0,
-                          @ColumnInfo(name = "total_market_cap_usd") @SerializedName("total_market_cap_usd") val totalMarketCap: Long,
-                          @ColumnInfo(name = "total_24h_volume_usd") @SerializedName("total_24h_volume_usd") val total24hVolume: Long,
+                          @ColumnInfo(name = "total_market_cap_usd") @SerializedName("total_market_cap_usd") var totalMarketCap: Long,
+                          @ColumnInfo(name = "total_24h_volume_usd") @SerializedName("total_24h_volume_usd") var total24hVolume: Long,
                           @ColumnInfo(name = "bitcoin_percentage_of_market_cap") @SerializedName("bitcoin_percentage_of_market_cap") val bitcoinDominance: BigDecimal,
                           @ColumnInfo(name = "active_currencies") @SerializedName("active_currencies") val activeCurrencies: Int,
                           @ColumnInfo(name = "active_assets") @SerializedName("active_assets") val activeAssets: Int,
