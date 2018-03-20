@@ -37,8 +37,10 @@ import pl.karass32.xfolio.util.enum.ChangeOption
 class CoinListFragment : BaseFragment() {
 
     private val LIST_POSITION_STATE = "LIST_POSITION_STATE"
+    private val SEARCH_QUERY_STATE = "SEARCH_QUERY_STATE"
 
     private var mListPositionState = 0
+    private var mSearchQueryState = ""
 
     private lateinit var mainActivity: MainActivity
     private lateinit var mView: View
@@ -54,7 +56,14 @@ class CoinListFragment : BaseFragment() {
 
         mainActivity = activity as MainActivity
 
-        savedInstanceState?.let { mListPositionState = savedInstanceState.getInt(LIST_POSITION_STATE) }
+        savedInstanceState?.let {
+            if (savedInstanceState.containsKey(LIST_POSITION_STATE)) {
+                mListPositionState = savedInstanceState.getInt(LIST_POSITION_STATE)
+            }
+            if (savedInstanceState.containsKey(SEARCH_QUERY_STATE)) {
+                mSearchQueryState = savedInstanceState.getString(SEARCH_QUERY_STATE)
+            }
+        }
 
         initToolbar()
         initViewModel()
@@ -71,6 +80,8 @@ class CoinListFragment : BaseFragment() {
         val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
         val listPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         outState.putInt(LIST_POSITION_STATE, listPosition)
+        if (!mSearchQueryState.isEmpty()) outState.putString(SEARCH_QUERY_STATE, mSearchQueryState)
+
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -84,6 +95,7 @@ class CoinListFragment : BaseFragment() {
             }
 
             override fun onMenuItemActionCollapse(p0: MenuItem?): Boolean {
+                mSearchQueryState = ""
                 menu.clear()
                 onCreateOptionsMenu(menu, inflater)
                 return true
@@ -101,9 +113,16 @@ class CoinListFragment : BaseFragment() {
 
             override fun onQueryTextChange(newText: String): Boolean {
                 mCoinRvAdapter.filter.filter(newText)
+                mSearchQueryState = newText
                 return true
             }
         })
+
+        val query = mSearchQueryState
+        if (!query.isEmpty()) {
+            searchItem.expandActionView()
+            searchView.setQuery(query, false)
+        }
 
         super.onCreateOptionsMenu(menu, inflater)
     }
@@ -181,7 +200,7 @@ class CoinListFragment : BaseFragment() {
         mView.headerChangeSpinner.setSelection(1, false)
         mView.headerChangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                CoinRvAdapter.changeType = ChangeOption.values().first {it.value == p2}
+                CoinRvAdapter.changeType = ChangeOption.values().first { it.value == p2 }
                 mCoinRvAdapter.notifyDataSetChanged()
             }
 
@@ -190,7 +209,7 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun initCurrencySpinner(position: Int) {
-        mView.headerCurrencySpinner.setSelection(position)
+        mView.headerCurrencySpinner.setSelection(position, false)
         mView.headerCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 val currencyCode = p0?.getItemAtPosition(p2).toString()
@@ -235,7 +254,6 @@ class CoinListFragment : BaseFragment() {
     private fun onCoinListError(error: CoinListErrorEvent) {
         val errorString = ErrorUtils.getErrorString(appContext, error)
         Toast.makeText(appContext, errorString, Toast.LENGTH_LONG).show()
-        mView.rvError.visibility = View.VISIBLE
         mView.rvError.text = errorString
     }
 }
