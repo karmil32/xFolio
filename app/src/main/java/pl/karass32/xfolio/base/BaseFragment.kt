@@ -3,6 +3,7 @@ package pl.karass32.xfolio.base
 import android.app.Application
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.view.View
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import javax.inject.Inject
@@ -17,6 +18,8 @@ abstract class BaseFragment : Fragment() {
 
     @Inject
     lateinit var preferences: SharedPreferencesRepository
+
+    lateinit var mView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
