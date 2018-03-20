@@ -43,8 +43,7 @@ class CoinListFragment : BaseFragment() {
     private var mListPositionState = 0
     private var mSearchQueryState = ""
 
-    private lateinit var mainActivity: MainActivity
-    private lateinit var mView: View
+    private val mainActivity: MainActivity by lazy { activity as MainActivity }
     private lateinit var mCoinRvAdapter: CoinRvAdapter
 
     private val mViewModel: CoinListViewModel by lazy {
@@ -54,8 +53,6 @@ class CoinListFragment : BaseFragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.coin_list_fragment, container, false)
         setHasOptionsMenu(true)
-
-        mainActivity = activity as MainActivity
 
         savedInstanceState?.let {
             if (savedInstanceState.containsKey(LIST_POSITION_STATE)) {
@@ -82,7 +79,6 @@ class CoinListFragment : BaseFragment() {
         val listPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
         outState.putInt(LIST_POSITION_STATE, listPosition)
         if (!mSearchQueryState.isEmpty()) outState.putString(SEARCH_QUERY_STATE, mSearchQueryState)
-
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -144,17 +140,21 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun initToolbar() {
-        mainActivity.setSupportActionBar(mView.toolbar)
-        mainActivity.supportActionBar?.setDisplayShowHomeEnabled(true)
-        mainActivity.supportActionBar?.title = getString(R.string.nav_all_coins)
-        mainActivity.setToggle(mView.toolbar)
+        with(mainActivity) {
+            setSupportActionBar(mView.toolbar)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            supportActionBar?.title = getString(R.string.nav_all_coins)
+            setToggle(mView.toolbar)
+        }
     }
 
     private fun initSwipeRefreshLayout() {
-        mView.coinListSwipeRefresh.setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE)
-        mView.coinListSwipeRefresh.setOnRefreshListener {
-            mViewModel.loadCoinList()
-            mViewModel.loadGlobalCoinData()
+        with(mView.coinListSwipeRefresh) {
+            setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE)
+            setOnRefreshListener {
+                mViewModel.loadCoinList()
+                mViewModel.loadGlobalCoinData()
+            }
         }
     }
 
@@ -184,40 +184,46 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun initRv() {
-        mView.coinListRv?.setHasFixedSize(true)
-        mView.coinListRv?.layoutManager = LinearLayoutManager(mainActivity)
-        mView.coinListRv.addItemDecoration(MyDividerItemDecoration(appContext, DividerItemDecoration.VERTICAL, 10))
-        mView.coinListRv.addOnScrollListener(object : RecyclerView.OnScrollListener() {
-            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
-                if (layoutManager.findFirstCompletelyVisibleItemPosition() > 5)
-                    topScrollFab.show() else
-                    topScrollFab.hide()
-            }
-        })
+        mView.coinListRv?.apply {
+            setHasFixedSize(true)
+            layoutManager = LinearLayoutManager(mainActivity)
+            addItemDecoration(MyDividerItemDecoration(appContext, DividerItemDecoration.VERTICAL, 10))
+            addOnScrollListener(object : RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                    val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
+                    if (layoutManager.findFirstCompletelyVisibleItemPosition() > 5)
+                        mView.topScrollFab.show() else
+                        mView.topScrollFab.hide()
+                }
+            })
+        }
     }
 
     private fun initChangeSpinner() {
-        mView.headerChangeSpinner.setSelection(1, false)
-        mView.headerChangeSpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                CoinRvAdapter.changeType = ChangeOption.values().first { it.value == p2 }
-                mCoinRvAdapter.notifyDataSetChanged()
-            }
+        with(mView.headerChangeSpinner) {
+            setSelection(1, false)
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    CoinRvAdapter.changeType = ChangeOption.values().first { it.value == p2 }
+                    mCoinRvAdapter.notifyDataSetChanged()
+                }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         }
     }
 
     private fun initCurrencySpinner(position: Int) {
-        mView.headerCurrencySpinner.setSelection(position, false)
-        mView.headerCurrencySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                val currencyCode = p0?.getItemAtPosition(p2).toString()
-                mViewModel.setCurrency(currencyCode)
-            }
+        mView.headerCurrencySpinner.apply {
+            setSelection(position, false)
+            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                    val currencyCode = p0?.getItemAtPosition(p2).toString()
+                    mViewModel.setCurrency(currencyCode)
+                }
 
-            override fun onNothingSelected(p0: AdapterView<*>?) {}
+                override fun onNothingSelected(p0: AdapterView<*>?) {}
+            }
         }
     }
 
@@ -236,13 +242,15 @@ class CoinListFragment : BaseFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showGlobalCoinData(globalData: GlobalCoinData, currencyCode: String) {
-        mView.headerTotalMarketCap.text = CurrencyUtils.getFormattedBigValue(globalData.totalMarketCap, currencyCode)
-        mView.headerTotal24hVolume.text = CurrencyUtils.getFormattedBigValue(globalData.total24hVolume, currencyCode)
-        mView.headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalData.bitcoinDominance)}%"
-        mView.headerActiveCurrencies.text = globalData.activeCurrencies.toString()
-        mView.headerActiveAssets.text = globalData.activeAssets.toString()
-        mView.headerActiveMarkets.text = globalData.activeMarkets.toString()
-        mView.headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalData.lastUpdated * 1000)).toString()
+        with(mView) {
+            headerTotalMarketCap.text = CurrencyUtils.getFormattedBigValue(globalData.totalMarketCap, currencyCode)
+            headerTotal24hVolume.text = CurrencyUtils.getFormattedBigValue(globalData.total24hVolume, currencyCode)
+            headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalData.bitcoinDominance)}%"
+            headerActiveCurrencies.text = globalData.activeCurrencies.toString()
+            headerActiveAssets.text = globalData.activeAssets.toString()
+            headerActiveMarkets.text = globalData.activeMarkets.toString()
+            headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalData.lastUpdated * 1000)).toString()
+        }
     }
 
     private fun showList(list: List<CoinData>) {
