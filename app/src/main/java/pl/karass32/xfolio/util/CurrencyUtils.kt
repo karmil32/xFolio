@@ -1,6 +1,5 @@
 package pl.karass32.xfolio.util
 
-import pl.karass32.xfolio.data.FiatCurrency
 import java.math.BigDecimal
 import java.util.*
 
@@ -9,17 +8,16 @@ import java.util.*
  */
 class CurrencyUtils {
     companion object {
-        fun getFormattedPrice(usdPrice: BigDecimal, currencyCode: String) : String {
-            val formattedStringValue = NumberUtils.getPriceFormat(usdPrice).format(usdPrice)
+        fun getFormattedPrice(price: BigDecimal, currencyCode: String) : String {
+            val formattedStringValue = NumberUtils.getPriceFormat(price).format(price)
 
             return getValueWithSymbol(currencyCode, formattedStringValue)
         }
 
-        fun getConvertedBigValue(usdPrice: BigDecimal, fiatRate: FiatCurrency, withSymbol: Boolean) : String {
-            val convertedValue = usdPrice * fiatRate.currencyRate
-            val formattedStringValue = NumberUtils.bigValueFormat.format(convertedValue)
+        fun getFormattedBigValue(value: Long, currencyCode: String) : String {
+            val formattedStringValue = NumberUtils.bigValueFormat.format(value)
 
-            return if (withSymbol) getValueWithSymbol(fiatRate.currencyCode, formattedStringValue) else formattedStringValue
+            return getValueWithSymbol(currencyCode, formattedStringValue)
         }
 
         private fun getValueWithSymbol(currencyCode: String, value: String) =  getCurrencySymbol(currencyCode)+value
