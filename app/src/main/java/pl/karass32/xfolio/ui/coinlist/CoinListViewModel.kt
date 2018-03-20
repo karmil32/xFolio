@@ -32,6 +32,10 @@ class CoinListViewModel : BaseViewModel() {
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
 
+    init {
+        currency.value = appDb.fiatCurrencyDao().getCurrency(preferences.getDefaultCurrency()) // TODO MainThread
+    }
+
     fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
         if (globalCoinDataMediator == null) {
             globalCoinDataMediator = MediatorLiveData()
