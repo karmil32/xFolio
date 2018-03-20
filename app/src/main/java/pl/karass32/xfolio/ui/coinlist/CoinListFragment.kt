@@ -29,6 +29,7 @@ import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CoinOrder
+import pl.karass32.xfolio.util.CurrencyUtils
 import pl.karass32.xfolio.util.enum.ChangeOption
 
 /**
@@ -165,7 +166,7 @@ class CoinListFragment : BaseFragment() {
             }
         })
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
-            globalCoinData?.let { showGlobalCoinData(it) }
+            globalCoinData?.let { showGlobalCoinData(it, preferences.getDefaultCurrency()) }
         })
         mViewModel.getFiatStringCodes()?.observe(this, Observer { fiatCodes ->
             val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatCodes)
@@ -234,14 +235,14 @@ class CoinListFragment : BaseFragment() {
     }
 
     @SuppressLint("SetTextI18n")
-    private fun showGlobalCoinData(globalCoinData: GlobalCoinData) {
-        mView.headerTotalMarketCap.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.totalMarketCap)}"
-        mView.headerTotal24hVolume.text = "$${NumberUtils.bigValueFormat.format(globalCoinData.total24hVolume)}"
-        mView.headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalCoinData.bitcoinDominance)}%"
-        mView.headerActiveCurrencies.text = globalCoinData.activeCurrencies.toString()
-        mView.headerActiveAssets.text = globalCoinData.activeAssets.toString()
-        mView.headerActiveMarkets.text = globalCoinData.activeMarkets.toString()
-        mView.headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalCoinData.lastUpdated * 1000)).toString()
+    private fun showGlobalCoinData(globalData: GlobalCoinData, currencyCode: String) {
+        mView.headerTotalMarketCap.text = CurrencyUtils.getFormattedBigValue(globalData.totalMarketCap, currencyCode)
+        mView.headerTotal24hVolume.text = CurrencyUtils.getFormattedBigValue(globalData.total24hVolume, currencyCode)
+        mView.headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalData.bitcoinDominance)}%"
+        mView.headerActiveCurrencies.text = globalData.activeCurrencies.toString()
+        mView.headerActiveAssets.text = globalData.activeAssets.toString()
+        mView.headerActiveMarkets.text = globalData.activeMarkets.toString()
+        mView.headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalData.lastUpdated * 1000)).toString()
     }
 
     private fun showList(list: List<CoinData>) {
