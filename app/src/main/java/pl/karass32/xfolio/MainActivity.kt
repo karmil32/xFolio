@@ -1,6 +1,7 @@
 package pl.karass32.xfolio
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -13,6 +14,7 @@ import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
 import pl.karass32.xfolio.ui.WatchlistFragment
 import pl.karass32.xfolio.extension.replace
+import pl.karass32.xfolio.ui.preferences.PrefActivity
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -64,7 +66,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 transaction.replace(PortfolioFragment())
             }
             R.id.nav_settings -> {
-
+                val intent = Intent(this, PrefActivity::class.java)
+                startActivity(intent)
             }
             R.id.nav_about -> {
 
