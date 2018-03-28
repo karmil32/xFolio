@@ -33,7 +33,8 @@
     <string name="spinner_change_24h">24H</string>
     <string name="spinner_change_7d">7D</string>
 
-    <string name="pref_cat_order_by">Order by…</string>
+    <string name="pref_cat_coin_list">Coin list</string>
+    <string name="pref_order_by">Order by…</string>
     <string name="pref_coin_list_order_by_market_cap_dsc">Market Cap (High to Low)</string>
     <string name="pref_coin_list_order_by_market_cap_asc">Market Cap (Low to High)</string>
     <string name="pref_coin_list_order_by_price_dsc">Price (High to Low)</string>
