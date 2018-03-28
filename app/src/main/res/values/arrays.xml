@@ -10,4 +10,26 @@
         <item>USD</item>
         <item>PLN</item>
     </string-array>
+
+    <string-array name="coin_list_order">
+        <item>@string/pref_coin_list_order_by_market_cap_dsc</item>
+        <item>@string/pref_coin_list_order_by_market_cap_asc</item>
+        <item>@string/pref_coin_list_order_by_price_dsc</item>
+        <item>@string/pref_coin_list_order_by_price_asc</item>
+        <item>@string/pref_coin_list_order_by_change_1h_dsc</item>
+        <item>@string/pref_coin_list_order_by_change_1h_asc</item>
+        <item>@string/pref_coin_list_order_by_change_24h_dsc</item>
+        <item>@string/pref_coin_list_order_by_change_24h_asc</item>
+    </string-array>
+
+    <string-array name="coin_list_order_values">
+        <item>coin_list_order_by_market_cap_DSC</item>
+        <item>coin_list_order_by_market_cap_ASC</item>
+        <item>coin_list_order_by_price_DSC</item>
+        <item>coin_list_order_by_price_ASC</item>
+        <item>coin_list_order_by_change_1h_DSC</item>
+        <item>coin_list_order_by_change_1h_ASC</item>
+        <item>coin_list_order_by_change_24h_DSC</item>
+        <item>coin_list_order_by_change_24h_ASC</item>
+    </string-array>
 </resources>
