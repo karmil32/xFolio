@@ -7,4 +7,7 @@ interface SharedPreferencesRepository {
 
     fun setDefaultCurrency(currencyCode: String)
     fun getDefaultCurrency() : String
+
+    fun setCoinListOrder(order: String)
+    fun getCoinListOrder() : String
 }
