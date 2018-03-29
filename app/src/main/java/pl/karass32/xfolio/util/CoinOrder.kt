@@ -11,5 +11,9 @@ enum class CoinOrder(val value : String) {
     BY_CHANGE_1H_DSC("coin_list_order_by_change_1h_DSC"),
     BY_CHANGE_1H_ASC("coin_list_order_by_change_1h_ASC"),
     BY_CHANGE_24H_DSC("coin_list_order_by_change_24h_DSC"),
-    BY_CHANGE_24H_ASC("coin_list_order_by_change_24h_ASC")
+    BY_CHANGE_24H_ASC("coin_list_order_by_change_24h_ASC");
+
+    companion object {
+        fun of(value: String): CoinOrder = CoinOrder.values().first { it.value == value }
+    }
 }
