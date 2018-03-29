@@ -84,6 +84,19 @@ class CoinListFragment : BaseFragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.coin_list_menu, menu)
 
+        val listOrderMethod = CoinOrder.of(preferences.getCoinListOrder())
+        val orderItem = when(listOrderMethod) {
+            CoinOrder.BY_MARKET_CAP_DSC -> menu.findItem(R.id.sort_by_market_cap_dsc)
+            CoinOrder.BY_MARKET_CAP_ASC -> menu.findItem(R.id.sort_by_market_cap_asc)
+            CoinOrder.BY_PRICE_DSC -> menu.findItem(R.id.sort_by_price_dsc)
+            CoinOrder.BY_PRICE_ASC -> menu.findItem(R.id.sort_by_price_asc)
+            CoinOrder.BY_CHANGE_1H_DSC -> menu.findItem(R.id.sort_by_change_1h_dsc)
+            CoinOrder.BY_CHANGE_1H_ASC -> menu.findItem(R.id.sort_by_change_1h_asc)
+            CoinOrder.BY_CHANGE_24H_DSC -> menu.findItem(R.id.sort_by_change_24h_dsc)
+            CoinOrder.BY_CHANGE_24H_ASC -> menu.findItem(R.id.sort_by_change_24h_asc)
+        }
+        orderItem.isChecked = true
+
         val searchItem = menu.findItem(R.id.search_item)
         searchItem.setOnActionExpandListener(object : MenuItem.OnActionExpandListener {
             override fun onMenuItemActionExpand(p0: MenuItem?): Boolean {
@@ -126,14 +139,14 @@ class CoinListFragment : BaseFragment() {
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item?.itemId) {
-            R.id.sort_by_market_cap_dsc -> mViewModel.sortCoinList(CoinOrder.BY_MARKET_CAP_DSC)
-            R.id.sort_by_market_cap_asc -> mViewModel.sortCoinList(CoinOrder.BY_MARKET_CAP_ASC)
-            R.id.sort_by_price_dsc -> mViewModel.sortCoinList(CoinOrder.BY_PRICE_DSC)
-            R.id.sort_by_price_asc -> mViewModel.sortCoinList(CoinOrder.BY_PRICE_ASC)
-            R.id.sort_by_change_1h_dsc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_1H_DSC)
-            R.id.sort_by_change_1h_asc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_1H_ASC)
-            R.id.sort_by_change_24h_dsc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_24H_DSC)
-            R.id.sort_by_change_24h_asc -> mViewModel.sortCoinList(CoinOrder.BY_CHANGE_24H_ASC)
+            R.id.sort_by_market_cap_dsc -> mViewModel.changeListOrder(CoinOrder.BY_MARKET_CAP_DSC)
+            R.id.sort_by_market_cap_asc -> mViewModel.changeListOrder(CoinOrder.BY_MARKET_CAP_ASC)
+            R.id.sort_by_price_dsc -> mViewModel.changeListOrder(CoinOrder.BY_PRICE_DSC)
+            R.id.sort_by_price_asc -> mViewModel.changeListOrder(CoinOrder.BY_PRICE_ASC)
+            R.id.sort_by_change_1h_dsc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_1H_DSC)
+            R.id.sort_by_change_1h_asc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_1H_ASC)
+            R.id.sort_by_change_24h_dsc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_24H_DSC)
+            R.id.sort_by_change_24h_asc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_24H_ASC)
         }
         item?.isChecked = true
         return super.onOptionsItemSelected(item)
