@@ -13,11 +13,10 @@ import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
+import pl.karass32.xfolio.util.CoinListUtils
 import pl.karass32.xfolio.util.CoinOrder
 import java.math.BigDecimal
-import kotlin.collections.ArrayList
 import kotlin.concurrent.thread
-
 
 /**
  * Created by karas on 01.02.2018.
@@ -80,7 +79,11 @@ class CoinListViewModel : BaseViewModel() {
                         coin.marketCap = coin.marketCap?.multiply(currency.value?.currencyRate)
                     }
                 }
-                coinListMediator?.value = list
+                if (preferences.getCoinListOrder() != CoinOrder.BY_MARKET_CAP_DSC.value) {
+                    coinListMediator?.value = CoinListUtils.sort(list, CoinOrder.of(preferences.getCoinListOrder()))
+                } else {
+                    coinListMediator?.value = list
+                }
             })
             loadCoinList()
         }
@@ -132,18 +135,9 @@ class CoinListViewModel : BaseViewModel() {
         thread { currency.postValue(appDb.fiatCurrencyDao().getCurrency(fiatCode)) }
     }
 
-    fun sortCoinList(sortMethod: CoinOrder) {
-        val sortedList = when (sortMethod) {
-            CoinOrder.BY_MARKET_CAP_DSC -> coinListMediator?.value?.sortedBy { it.rank }
-            CoinOrder.BY_MARKET_CAP_ASC -> coinListMediator?.value?.sortedByDescending { it.rank }
-            CoinOrder.BY_PRICE_DSC -> coinListMediator?.value?.sortedByDescending { it.price }
-            CoinOrder.BY_PRICE_ASC -> coinListMediator?.value?.sortedBy { it.price }
-            CoinOrder.BY_CHANGE_1H_DSC -> coinListMediator?.value?.sortedByDescending { it.change1h }
-            CoinOrder.BY_CHANGE_1H_ASC -> coinListMediator?.value?.sortedBy { it.change1h }
-            CoinOrder.BY_CHANGE_24H_DSC -> coinListMediator?.value?.sortedByDescending { it.change24h }
-            CoinOrder.BY_CHANGE_24H_ASC -> coinListMediator?.value?.sortedBy { it.change24h }
-        }
-
-        coinListMediator?.value = ArrayList(sortedList)
+    fun changeListOrder(sortMethod: CoinOrder) {
+        preferences.setCoinListOrder(sortMethod.value)
+        val sortedList = CoinListUtils.sort(coinListMediator?.value, sortMethod)
+        coinListMediator?.value = sortedList
     }
 }
