@@ -110,7 +110,8 @@ class CoinListViewModel : BaseViewModel() {
     fun getFiatStringCodes(): LiveData<Array<String>>? {
         if (fiatCodesMediator == null) {
             fiatCodesMediator = MediatorLiveData()
-            fiatCodesMediator?.addSource(appDb.fiatCurrencyDao().getAllFiatCodes(), { codes ->
+            fiatCodesMediator?.addSource(appDb.fiatCurrencyDao().getAllFiatCodes(), { result ->
+                val codes = result?.plus("USD") ?: arrayOf("USD")
                 fiatCodesMediator?.value = codes
             })
             loadFiatRates()
