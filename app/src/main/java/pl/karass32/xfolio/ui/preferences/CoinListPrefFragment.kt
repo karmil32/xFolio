@@ -8,6 +8,6 @@ class CoinListPrefFragment : PreferenceFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        addPreferencesFromResource(R.xml.preferences)
+        addPreferencesFromResource(R.xml.coin_list_prefs)
     }
 }
