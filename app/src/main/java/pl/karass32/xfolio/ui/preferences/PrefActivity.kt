@@ -21,7 +21,7 @@ class PrefActivity : PreferenceActivity() {
         root.addView(bar, 0) // insert at top
 
         val toolbar = bar.getChildAt(0) as Toolbar
-        toolbar.title = getString(R.string.action_settings)
+        toolbar.title = getString(R.string.nav_settings)
         toolbar.setNavigationOnClickListener { finish() }
     }
 
