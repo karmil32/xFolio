@@ -4,6 +4,8 @@
 
     <header
         android:fragment="pl.karass32.xfolio.ui.preferences.CoinListPrefFragment"
-        android:title="@string/pref_cat_coin_list" />
+        android:title="@string/pref_header_display"
+        android:summary="@string/pref_header_display_summary"
+        android:icon="@drawable/ic_phone_android_black_24dp"/>
 
 </preference-headers>
