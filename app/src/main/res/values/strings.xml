@@ -4,16 +4,15 @@
     <string name="navigation_drawer_open" translatable="false">Open navigation drawer</string>
     <string name="navigation_drawer_close" translatable="false">Close navigation drawer</string>
 
+    <!--APP NAVIGATION-->
+
     <string name="nav_all_coins">All Coins</string>
     <string name="nav_watchlist">Watchlist</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_about">About</string>
 
-    <string name="header_rank" translatable="false">#</string>
-    <string name="header_name">Name</string>
-    <string name="header_price">Price</string>
-    <string name="header_change">Change</string>
+    <!--GLOBAL COIN INFO-->
 
     <string name="header_total_market_cap">Total market cap</string>
     <string name="header_total_24h_volume">Total 24h volume</string>
@@ -25,18 +24,21 @@
 
     <string name="error_no_server_connection">No server connection</string>
 
+    <!--COIN LIST TOOLBAR MENU-->
+
     <string name="toolbar_menu_search">Search</string>
     <string name="toolbar_menu_search_hint">Name or symbol</string>
     <string name="toolbar_menu_sort">Sorting</string>
 
-    <string name="spinner_change_1h">1H</string>
-    <string name="spinner_change_24h">24H</string>
-    <string name="spinner_change_7d">7D</string>
+    <!--PREFERENCES - DISPLAY-->
 
-    <string name="pref_header_display">Display</string>
-    <string name="pref_header_display_summary">Visual settings</string>
-    <string name="pref_display_cat_coin_list">Coin lists</string>
-    <string name="pref_order_by">Order by…</string>
+    <!--PREFERENCES - LISTS-->
+
+    <string name="pref_header_lists">Lists</string>
+    <string name="pref_header_lists_summary">Lists settings</string>
+
+    <string name="pref_lists_cat_coin_list">Coin lists</string>
+    <string name="pref_list_order_by">Order by…</string>
     <string name="pref_coin_list_order_by_market_cap_dsc">Market Cap (High to Low)</string>
     <string name="pref_coin_list_order_by_market_cap_asc">Market Cap (Low to High)</string>
     <string name="pref_coin_list_order_by_price_dsc">Price (High to Low)</string>
@@ -45,4 +47,8 @@
     <string name="pref_coin_list_order_by_change_1h_asc">Change 1h (Low to High)</string>
     <string name="pref_coin_list_order_by_change_24h_dsc">Change 24h (High to Low)</string>
     <string name="pref_coin_list_order_by_change_24h_asc">Change 24h (Low to High)</string>
+
+    <string name="pref_change_1h">1H</string>
+    <string name="pref_change_24h">24H</string>
+    <string name="pref_change_7d">7D</string>
 </resources>
