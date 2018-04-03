@@ -3,7 +3,7 @@
 
     <PreferenceCategory android:title="@string/pref_lists_cat_coin_list" />
     <ListPreference
-        android:title="@string/pref_lists_order_by"
+        android:title="@string/pref_list_order_by"
         android:key="coin_list_order"
         android:defaultValue="coin_list_order_by_market_cap_DSC"
         android:entries="@array/coin_list_order"
