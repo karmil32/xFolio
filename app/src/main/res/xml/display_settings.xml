@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_cat_coin_list" />
+    <PreferenceCategory android:title="@string/pref_display_cat_coin_list" />
     <ListPreference
         android:title="@string/pref_order_by"
         android:key="coin_list_order"
