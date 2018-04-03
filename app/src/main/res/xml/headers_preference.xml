@@ -3,9 +3,9 @@
     xmlns:android="http://schemas.android.com/apk/res/android">
 
     <header
-        android:fragment="pl.karass32.xfolio.ui.preferences.CoinListPrefFragment"
-        android:title="@string/pref_header_display"
-        android:summary="@string/pref_header_display_summary"
-        android:icon="@drawable/ic_phone_android_black_24dp"/>
+        android:fragment="pl.karass32.xfolio.ui.preferences.CoinListsPrefFragment"
+        android:title="@string/pref_header_lists"
+        android:summary="@string/pref_header_lists_summary"
+        android:icon="@drawable/ic_list_black_24dp"/>
 
 </preference-headers>
