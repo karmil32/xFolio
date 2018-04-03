@@ -4,11 +4,7 @@
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_settings">Ustawienia</string>
     <string name="nav_about">O programie</string>
-    <string name="action_settings">Ustawienia</string>
     <string name="nav_all_coins">Wszystkie</string>
-    <string name="header_name">Nazwa</string>
-    <string name="header_price">Cena</string>
-    <string name="header_change">Zmiana</string>
     <string name="header_total_market_cap">Kapitalizacja rynku</string>
     <string name="header_bitcoin_dominance">Udział BTC</string>
     <string name="header_coins">Kryptowaluty</string>
@@ -19,13 +15,17 @@
     <string name="toolbar_menu_search_hint">Nazwa lub symbol</string>
     <string name="header_last_updated">Ostatnia aktualizacja</string>
     <string name="toolbar_menu_sort">Sortowanie</string>
-    <string name="toolbar_menu_sort_by_market_cap_dsc">Kapitalizacja (malejąco)</string>
-    <string name="toolbar_menu_sort_by_market_cap_asc">Kapitalizacja (rosnąco)</string>
-    <string name="toolbar_menu_sort_by_price_dsc">Cena (malejąco)</string>
-    <string name="toolbar_menu_sort_by_price_asc">Cena (rosnąco)</string>
-    <string name="toolbar_menu_sort_by_change_1h_dsc">Zmiana 1h (malejąco)</string>
-    <string name="toolbar_menu_sort_by_change_1h_asc">Zmiana 1h (rosnąco)</string>
-    <string name="toolbar_menu_sort_by_change_24h_dsc">Zmiana 24h (malejąco)</string>
-    <string name="toolbar_menu_sort_by_change_24h_asc">Zmiana 24 (rosnąco)</string>
+    <string name="pref_coin_list_order_by_market_cap_dsc">Kapitalizacja (malejąco)</string>
+    <string name="pref_coin_list_order_by_market_cap_asc">Kapitalizacja (rosnąco)</string>
+    <string name="pref_coin_list_order_by_price_dsc">Cena (malejąco)</string>
+    <string name="pref_coin_list_order_by_price_asc">Cena (rosnąco)</string>
+    <string name="pref_coin_list_order_by_change_1h_dsc">Zmiana 1h (malejąco)</string>
+    <string name="pref_coin_list_order_by_change_1h_asc">Zmiana 1h (rosnąco)</string>
+    <string name="pref_coin_list_order_by_change_24h_dsc">Zmiana 24h (malejąco)</string>
+    <string name="pref_coin_list_order_by_change_24h_asc">Zmiana 24 (rosnąco)</string>
     <string name="header_total_24h_volume">Obrót 24h</string>
+    <string name="pref_header_lists">Listy</string>
+    <string name="pref_header_lists_summary">Ustawienia list</string>
+    <string name="pref_lists_cat_coin_list">Lista kryptowalut</string>
+    <string name="pref_list_order_by">Sortuj wg.</string>
 </resources>
