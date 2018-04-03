@@ -30,6 +30,6 @@ class PrefActivity : PreferenceActivity() {
     }
 
     override fun isValidFragment(fragmentName: String?): Boolean {
-        return CoinListPrefFragment::class.java.name == fragmentName
+        return CoinListsPrefFragment::class.java.name == fragmentName
     }
 }
