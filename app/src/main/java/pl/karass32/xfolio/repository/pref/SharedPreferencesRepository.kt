@@ -5,9 +5,12 @@ package pl.karass32.xfolio.repository.pref
  */
 interface SharedPreferencesRepository {
 
-    fun setDefaultCurrency(currencyCode: String)
+    fun setDefaultCurrency(currencyCodeKey: String)
     fun getDefaultCurrency() : String
 
-    fun setCoinListOrder(order: String)
+    fun setCoinListOrder(orderKey: String)
     fun getCoinListOrder() : String
+
+    fun setCoinListDefaultChange(changeKey: String)
+    fun getCoinListDefaultChange() : String
 }

@@ -11,6 +11,7 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
     companion object {
         const val DEFAULT_CURRENCY = "default_currency"
         const val COIN_LIST_ORDER = "coin_list_order"
+        const val COIN_LIST_DEFAULT_CHANGE = "coin_list_default_change"
     }
 
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
@@ -20,4 +21,7 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
 
     override fun setCoinListOrder(order: String) = preferences.edit().putString(COIN_LIST_ORDER, order).apply()
     override fun getCoinListOrder(): String = preferences.getString(COIN_LIST_ORDER, "coin_list_order_by_market_cap_DSC")
+
+    override fun setCoinListDefaultChange(changeKey: String) = preferences.edit().putString(COIN_LIST_DEFAULT_CHANGE, changeKey).apply()
+    override fun getCoinListDefaultChange(): String = preferences.getString(COIN_LIST_DEFAULT_CHANGE, "coin_list_change_24h")
 }
