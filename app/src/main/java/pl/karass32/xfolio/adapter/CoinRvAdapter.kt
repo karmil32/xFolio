@@ -8,40 +8,46 @@ import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import kotlinx.android.synthetic.main.coin_rv_layout.view.*
+import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.extension.getColor
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
+import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import pl.karass32.xfolio.util.CurrencyUtils
 import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.enum.ChangeOption
 import java.math.BigDecimal
+import javax.inject.Inject
 
 
 /**
  * Created by karas on 15.01.2018.
  */
-class CoinRvAdapter(private var coinList: List<CoinData>, private var currencyCode: String) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
+class CoinRvAdapter(private var coinList: List<CoinData>) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
 
-    companion object {
-        var changeType = ChangeOption.CHANGE_24H
-    }
+    @Inject
+    lateinit var preferences: SharedPreferencesRepository
 
     private val mCoinListCopy by lazy {
         ArrayList<CoinData>(coinList)
     }
 
+    init {
+        MyApplication.component.inject(this)
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_layout, parent, false))
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(coinList[position], currencyCode)
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(coinList[position], preferences)
 
     override fun getItemCount() = coinList.size
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
         @SuppressLint("SetTextI18n")
-        fun bind(coinData: CoinData, currencyCode: String) = with(itemView) {
+        fun bind(coinData: CoinData, preferences: SharedPreferencesRepository) = with(itemView) {
 
             GlideApp.with(this)
                     .load("${CoinMarketCapService.API_IMAGES_URL}${coinData.id}.png")
@@ -49,10 +55,11 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var currencyCo
                     .into(coinRvLogo)
 
             coinData.price?.let {
-                coinRvPrice.text = CurrencyUtils.getFormattedPrice(it, currencyCode)
+                coinRvPrice.text = CurrencyUtils.getFormattedPrice(it, preferences.getDefaultCurrency())
             } ?: kotlin.run { coinRvPrice.text = "-" }
 
-            val change = when (CoinRvAdapter.changeType) {
+            val changeType = ChangeOption.of(preferences.getCoinListDefaultChange())
+            val change = when (changeType) {
                 ChangeOption.CHANGE_1H -> coinData.change1h
                 ChangeOption.CHANGE_24H -> coinData.change24h
                 ChangeOption.CHANGE_7D -> coinData.change7d
@@ -66,7 +73,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var currencyCo
                 coinRvChange.setTextColor(getColor(R.color.negativeColor))
             }
 
-            if (coinData.rank.toString().length > 2) { rankLayout.rotation = -45f } else { rankLayout.rotation = 0f }
+            if (coinData.rank.toString().length > 2) rankLayout.rotation = -45f else rankLayout.rotation = 0f
             coinRvRankNumber.text = coinData.rank.toString()
             coinRvName.text = coinData.name
             coinRvSymbol.text = "(${coinData.symbol})"
@@ -82,7 +89,6 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var currencyCo
                 } else {
                     val filteredList = ArrayList<CoinData>()
                     mCoinListCopy.filterTo(filteredList) { it.name.toLowerCase().contains(charString.toLowerCase()) or it.symbol.toLowerCase().contains(charString.toLowerCase()) }
-
                     coinList = filteredList
                 }
 
