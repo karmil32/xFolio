@@ -2,6 +2,7 @@ package pl.karass32.xfolio.di.component
 
 import android.app.Application
 import dagger.Component
+import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseFragment
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.di.module.AppModule
@@ -19,4 +20,5 @@ interface AppComponent {
     fun inject(app: Application)
     fun inject(baseFragment: BaseFragment)
     fun inject(baseViewModel: BaseViewModel)
+    fun inject(coinRvAdapter: CoinRvAdapter)
 }
