@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="change_options">
-        <item>@string/pref_change_1h</item>
-        <item>@string/pref_change_24h</item>
-        <item>@string/pref_change_7d</item>
-    </string-array>
-
     <string-array name="currency_options">
         <item>USD</item>
         <item>PLN</item>
@@ -31,5 +25,17 @@
         <item>coin_list_order_by_change_1h_ASC</item>
         <item>coin_list_order_by_change_24h_DSC</item>
         <item>coin_list_order_by_change_24h_ASC</item>
+    </string-array>
+
+    <string-array name="change_options">
+        <item>@string/pref_change_1h</item>
+        <item>@string/pref_change_24h</item>
+        <item>@string/pref_change_7d</item>
+    </string-array>
+
+    <string-array name="change_options_values">
+        <item>coin_list_change_1h</item>
+        <item>coin_list_change_24h</item>
+        <item>coin_list_change_7d</item>
     </string-array>
 </resources>
