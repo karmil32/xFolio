@@ -14,11 +14,15 @@ class CoinListsPrefFragment : PreferenceFragment(), SharedPreferences.OnSharedPr
 
         val coinListOrder = findPreference("coin_list_order") as ListPreference
         coinListOrder.summary = coinListOrder.entry
+        val coinListChange = findPreference("coin_list_change") as ListPreference
+        coinListChange.summary = getString(R.string.pref_list_change_summary, coinListChange.entry)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         val preference = findPreference(key)
-        if (preference is ListPreference) { preference.summary = preference.entry }
+        if (preference is ListPreference) {
+            preference.summary = if (preference.key != "coin_list_change") preference.entry else getString(R.string.pref_list_change_summary, preference.entry)
+        }
     }
 
     override fun onResume() {
