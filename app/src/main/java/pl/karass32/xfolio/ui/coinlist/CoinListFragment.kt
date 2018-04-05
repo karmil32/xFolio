@@ -214,10 +214,11 @@ class CoinListFragment : BaseFragment() {
 
     private fun initChangeSpinner() {
         with(mView.headerChangeSpinner) {
-            setSelection(1, false)
+            setSelection(ChangeOption.of(preferences.getCoinListDefaultChange()).ordinal, false)
             onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                 override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    CoinRvAdapter.changeType = ChangeOption.values().first { it.value == p2 }
+                    val changeType = ChangeOption.values().first { it.ordinal == p2 }
+                    preferences.setCoinListDefaultChange(changeType.value)
                     mCoinRvAdapter.notifyDataSetChanged()
                 }
 
@@ -267,7 +268,7 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun showList(list: List<CoinData>) {
-        mCoinRvAdapter = CoinRvAdapter(list, preferences.getDefaultCurrency())
+        mCoinRvAdapter = CoinRvAdapter(list)
         mView.coinListRv?.adapter = mCoinRvAdapter
         val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
         layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
