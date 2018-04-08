@@ -1,10 +1,10 @@
 package pl.karass32.xfolio
 
 import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -13,8 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
 import pl.karass32.xfolio.ui.WatchlistFragment
-import pl.karass32.xfolio.extension.replace
-import pl.karass32.xfolio.ui.preferences.PrefActivity
+import pl.karass32.xfolio.ui.preferences.PrefFragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -44,33 +43,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        // Handle navigation view item clicks here.
-        navigate(item.itemId)
+    fun lockDrawerLayout(enabled: Boolean) {
+        drawer_layout.setDrawerLockMode(if (enabled) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED)
+    }
 
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        navigate(item.itemId)
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
     @SuppressLint("CommitTransaction")
-    private fun navigate(itemId : Int) {
+    private fun navigate(itemId: Int) {
         val transaction = supportFragmentManager.beginTransaction()
         when (itemId) {
             R.id.nav_all_coins -> {
-                transaction.replace(CoinListFragment())
+                transaction.replace(R.id.contentFrame, CoinListFragment()).commit()
             }
             R.id.nav_watchlist -> {
-                transaction.replace(WatchlistFragment())
+                transaction.replace(R.id.contentFrame, WatchlistFragment()).commit()
             }
             R.id.nav_portfolio -> {
-                transaction.replace(PortfolioFragment())
+                transaction.replace(R.id.contentFrame, PortfolioFragment()).commit()
             }
             R.id.nav_settings -> {
-                val intent = Intent(this, PrefActivity::class.java)
-                startActivity(intent)
+                fragmentManager.beginTransaction().replace(R.id.contentFrame, PrefFragment()).addToBackStack(null).commit()
             }
             R.id.nav_about -> {
-
             }
         }
     }
