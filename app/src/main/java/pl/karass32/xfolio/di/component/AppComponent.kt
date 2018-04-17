@@ -1,7 +1,7 @@
 package pl.karass32.xfolio.di.component
 
-import android.app.Application
 import dagger.Component
+import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseFragment
 import pl.karass32.xfolio.base.BaseViewModel
@@ -17,7 +17,7 @@ import javax.inject.Singleton
 @Singleton
 @Component (modules = [AppModule::class, DatabaseModule::class, NetworkModule::class, PreferenceModule::class])
 interface AppComponent {
-    fun inject(app: Application)
+    fun inject(app: MyApplication)
     fun inject(baseFragment: BaseFragment)
     fun inject(baseViewModel: BaseViewModel)
     fun inject(coinRvAdapter: CoinRvAdapter)
