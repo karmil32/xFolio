@@ -38,4 +38,16 @@
         <item>coin_list_change_24h</item>
         <item>coin_list_change_7d</item>
     </string-array>
+
+    <string-array name="language">
+        <item>@string/pref_general_language_auto</item>
+        <item>@string/pref_general_language_en</item>
+        <item>@string/pref_general_language_pl</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>auto</item>
+        <item>en</item>
+        <item>pl</item>
+    </string-array>
 </resources>
