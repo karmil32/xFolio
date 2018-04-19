@@ -1,18 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <PreferenceCategory android:title="@string/pref_lists_cat_coin_list" />
+    <PreferenceCategory android:title="@string/pref_category_general" />
     <ListPreference
-        android:title="@string/pref_list_order_by"
-        android:key="coin_list_order"
+        android:defaultValue="auto"
+        android:entries="@array/language"
+        android:entryValues="@array/language_values"
+        android:key="general_app_language"
+        android:title="@string/pref_general_app_language" />
+    <ListPreference
+        android:defaultValue="nav_all_coins"
+        android:key="general_open"
+        android:title="@string/pref_general_open" />
+    <ListPreference
+        android:defaultValue="USD"
+        android:key="general_default_currency"
+        android:title="@string/pref_general_default_currency" />
+    <SwitchPreference
+        android:defaultValue="false"
+        android:key="general_night_mode"
+        android:title="@string/pref_general_night_mode" />
+
+
+    <PreferenceCategory android:title="@string/pref_category_coin_list" />
+    <ListPreference
         android:defaultValue="coin_list_order_by_market_cap_DSC"
         android:entries="@array/coin_list_order"
-        android:entryValues="@array/coin_list_order_values" />
+        android:entryValues="@array/coin_list_order_values"
+        android:key="coin_list_order"
+        android:title="@string/pref_list_order_by" />
     <ListPreference
-        android:title="@string/pref_list_change"
-        android:key="coin_list_change"
         android:defaultValue="coin_list_change_24h"
         android:entries="@array/change_options"
-        android:entryValues="@array/change_options_values" />
+        android:entryValues="@array/change_options_values"
+        android:key="coin_list_change"
+        android:title="@string/pref_list_change" />
 
 </PreferenceScreen>
