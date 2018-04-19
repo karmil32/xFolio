@@ -30,14 +30,23 @@
     <string name="toolbar_menu_search_hint">Name or symbol</string>
     <string name="toolbar_menu_sort">Sorting</string>
 
-    <!--PREFERENCES - DISPLAY-->
+    
+    <!--PREFERENCES - GENERAL-->
+    
+    <string name="pref_category_general">General</string>
+
+    <string name="pref_general_app_language">Language</string>
+    <string name="pref_general_language_auto">Auto</string>
+    <string name="pref_general_language_en">English</string>
+    <string name="pref_general_language_pl">Polish</string>
+    <string name="pref_general_open">After run open…</string>
+    <string name="pref_general_default_currency">Default currency</string>
+    <string name="pref_general_night_mode">Night mode</string>
 
     <!--PREFERENCES - LISTS-->
 
-    <string name="pref_header_lists">Lists</string>
-    <string name="pref_header_lists_summary">Lists settings</string>
 
-    <string name="pref_lists_cat_coin_list">Coin lists</string>
+    <string name="pref_category_coin_list">Coin lists</string>
     <string name="pref_list_order_by">Order by…</string>
     <string name="pref_coin_list_order_by_market_cap_dsc">Market Cap (High to Low)</string>
     <string name="pref_coin_list_order_by_market_cap_asc">Market Cap (Low to High)</string>
