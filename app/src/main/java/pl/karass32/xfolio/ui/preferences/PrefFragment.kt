@@ -12,6 +12,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
 import pl.karass32.xfolio.MainActivity
+import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.R
 
 class PrefFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceChangeListener {
@@ -22,6 +23,9 @@ class PrefFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceC
         super.onCreate(savedInstanceState)
         addPreferencesFromResource(R.xml.preference)
 
+
+        val appLanguage = findPreference("general_app_language") as ListPreference
+        appLanguage.summary = appLanguage.entry
         val coinListOrder = findPreference("coin_list_order") as ListPreference
         coinListOrder.summary = coinListOrder.entry
         val coinListChange = findPreference("coin_list_change") as ListPreference
@@ -53,6 +57,7 @@ class PrefFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceC
         if (preference is ListPreference) {
             preference.summary = if (preference.key != "coin_list_change") preference.entry else getString(R.string.pref_list_change_summary, preference.entry)
         }
+        if (preference.key == "general_app_language") view.postDelayed({MyApplication.instance.restartApp()}, 200)
     }
 
     override fun onResume() {
