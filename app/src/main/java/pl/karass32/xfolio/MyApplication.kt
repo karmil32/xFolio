@@ -2,14 +2,12 @@ package pl.karass32.xfolio
 
 import android.app.Application
 import android.content.Intent
-import android.content.res.Configuration
 import net.danlew.android.joda.JodaTimeAndroid
 import pl.karass32.xfolio.di.component.AppComponent
 import pl.karass32.xfolio.di.component.DaggerAppComponent
 import pl.karass32.xfolio.di.module.AppModule
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import timber.log.Timber
-import java.util.*
 import javax.inject.Inject
 
 /**
@@ -33,8 +31,6 @@ class MyApplication : Application() {
 
         Timber.plant(Timber.DebugTree())
         JodaTimeAndroid.init(this)
-
-        setLanguage(preferences.getLanguage())
     }
 
     private fun initDagger() {
@@ -42,16 +38,6 @@ class MyApplication : Application() {
                 .builder()
                 .appModule(AppModule(this))
                 .build()
-    }
-
-    private fun setLanguage(langString: String) {
-        if (langString != "auto") {
-            val locale = Locale(langString)
-            Locale.setDefault(locale)
-            val config =  Configuration()
-            config.setLocale(locale)
-            baseContext.resources.updateConfiguration(config, baseContext.resources.displayMetrics)
-        }
     }
 
     fun restartApp() {
