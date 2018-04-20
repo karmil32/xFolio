@@ -3,6 +3,7 @@ package pl.karass32.xfolio.di.component
 import dagger.Component
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.adapter.CoinRvAdapter
+import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.base.BaseFragment
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.di.module.AppModule
@@ -18,6 +19,7 @@ import javax.inject.Singleton
 @Component (modules = [AppModule::class, DatabaseModule::class, NetworkModule::class, PreferenceModule::class])
 interface AppComponent {
     fun inject(app: MyApplication)
+    fun inject(baseActivity: BaseActivity)
     fun inject(baseFragment: BaseFragment)
     fun inject(baseViewModel: BaseViewModel)
     fun inject(coinRvAdapter: CoinRvAdapter)
