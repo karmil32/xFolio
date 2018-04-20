@@ -9,12 +9,16 @@ import android.preference.PreferenceManager
 class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepository {
 
     companion object {
+        const val APP_LANGUAGE = "general_app_language"
         const val DEFAULT_CURRENCY = "default_currency"
         const val COIN_LIST_ORDER = "coin_list_order"
         const val COIN_LIST_DEFAULT_CHANGE = "coin_list_default_change"
     }
 
     private val preferences by lazy { PreferenceManager.getDefaultSharedPreferences(context) }
+
+    override fun setLanguage(lang: String) = preferences.edit().putString(APP_LANGUAGE, lang).apply()
+    override fun getLanguage(): String = preferences.getString(APP_LANGUAGE, "auto")
 
     override fun setDefaultCurrency(currencyCode: String) = preferences.edit().putString(DEFAULT_CURRENCY, currencyCode).apply()
     override fun getDefaultCurrency(): String = preferences.getString(DEFAULT_CURRENCY, "USD")

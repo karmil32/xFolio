@@ -5,6 +5,9 @@ package pl.karass32.xfolio.repository.pref
  */
 interface SharedPreferencesRepository {
 
+    fun setLanguage(lang: String)
+    fun getLanguage() : String
+
     fun setDefaultCurrency(currencyCodeKey: String)
     fun getDefaultCurrency() : String
 
