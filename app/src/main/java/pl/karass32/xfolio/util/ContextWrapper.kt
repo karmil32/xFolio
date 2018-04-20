@@ -14,18 +14,15 @@ class ContextWrapper(base: Context) : android.content.ContextWrapper(base) {
             val res = newContext.resources
             val configuration = res.configuration
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                configuration.setLocale(newLocale)
+            configuration.setLocale(newLocale)
 
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 val localeList = LocaleList(newLocale)
                 LocaleList.setDefault(localeList)
                 configuration.locales = localeList
-
-                newContext = newContext.createConfigurationContext(configuration)
-            } else {
-                configuration.locale = newLocale
-                res.updateConfiguration(configuration, res.displayMetrics)
             }
+
+            newContext = newContext.createConfigurationContext(configuration)
 
             return ContextWrapper(newContext)
         }
