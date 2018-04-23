@@ -8,10 +8,13 @@ interface SharedPreferencesRepository {
     fun setLanguage(lang: String)
     fun getLanguage() : String
 
-    fun setDefaultCurrency(currencyCodeKey: String)
+    fun setAutoOpen(fragmentTag: String)
+    fun getAutoOpen() : String
+
+    fun setDefaultCurrency(currencyCode: String)
     fun getDefaultCurrency() : String
 
-    fun setCoinListOrder(orderKey: String)
+    fun setCoinListOrder(order: String)
     fun getCoinListOrder() : String
 
     fun setCoinListDefaultChange(changeKey: String)

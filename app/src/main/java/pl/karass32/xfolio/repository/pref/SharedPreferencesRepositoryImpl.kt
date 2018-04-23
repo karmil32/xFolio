@@ -2,6 +2,7 @@ package pl.karass32.xfolio.repository.pref
 
 import android.content.Context
 import android.preference.PreferenceManager
+import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 
 /**
  * Created by karas on 08.03.2018.
@@ -19,6 +20,9 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
 
     override fun setLanguage(lang: String) = preferences.edit().putString(APP_LANGUAGE, lang).apply()
     override fun getLanguage(): String = preferences.getString(APP_LANGUAGE, "auto")
+
+    override fun setAutoOpen(fragmentTag: String) = preferences.edit().putString("general_auto_open", fragmentTag).apply()
+    override fun getAutoOpen(): String = preferences.getString("general_auto_open", "nav_all_coins")
 
     override fun setDefaultCurrency(currencyCode: String) = preferences.edit().putString(DEFAULT_CURRENCY, currencyCode).apply()
     override fun getDefaultCurrency(): String = preferences.getString(DEFAULT_CURRENCY, "USD")
