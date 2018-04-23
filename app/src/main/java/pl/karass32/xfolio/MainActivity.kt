@@ -25,7 +25,11 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         nav_view.setNavigationItemSelectedListener(this)
 
         if (savedInstanceState == null) {
-            navigate(R.id.nav_all_coins)
+            when(preferences.getAutoOpen()) {
+                CoinListFragment.TAG -> navigate(R.id.nav_all_coins)
+                WatchlistFragment.TAG -> navigate(R.id.nav_watchlist)
+                PortfolioFragment.TAG -> navigate(R.id.nav_portfolio)
+            }
         }
     }
 
