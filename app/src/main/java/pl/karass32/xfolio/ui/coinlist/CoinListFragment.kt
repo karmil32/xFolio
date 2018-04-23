@@ -37,6 +37,10 @@ import pl.karass32.xfolio.util.enum.ChangeOption
  */
 class CoinListFragment : BaseFragment() {
 
+    companion object {
+        const val TAG = "CoinListFragment"
+    }
+
     private val LIST_POSITION_STATE = "LIST_POSITION_STATE"
     private val SEARCH_QUERY_STATE = "SEARCH_QUERY_STATE"
 

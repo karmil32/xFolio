@@ -13,6 +13,10 @@ import pl.karass32.xfolio.R
  */
 class WatchlistFragment : Fragment() {
 
+    companion object {
+        const val TAG = "WatchlistFragment"
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.watchlist_fragment, container, false)
 
