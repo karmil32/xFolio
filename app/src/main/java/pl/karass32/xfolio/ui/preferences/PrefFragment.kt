@@ -26,6 +26,9 @@ class PrefFragment : PreferenceFragment(), SharedPreferences.OnSharedPreferenceC
 
         val appLanguage = findPreference("general_app_language") as ListPreference
         appLanguage.summary = appLanguage.entry
+        val autoOpen = findPreference("general_auto_open") as ListPreference
+        autoOpen.summary = autoOpen.entry
+        val defaultCurrency = findPreference("general_default_currency") as ListPreference
         val coinListOrder = findPreference("coin_list_order") as ListPreference
         coinListOrder.summary = coinListOrder.entry
         val coinListChange = findPreference("coin_list_change") as ListPreference

@@ -9,8 +9,10 @@
         android:key="general_app_language"
         android:title="@string/pref_general_app_language" />
     <ListPreference
-        android:defaultValue="nav_all_coins"
-        android:key="general_open"
+        android:defaultValue="CoinListFragment"
+        android:entries="@array/auto_open"
+        android:entryValues="@array/auto_open_values"
+        android:key="general_auto_open"
         android:title="@string/pref_general_open" />
     <ListPreference
         android:defaultValue="USD"
