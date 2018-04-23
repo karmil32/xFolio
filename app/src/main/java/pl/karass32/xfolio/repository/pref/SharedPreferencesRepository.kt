@@ -14,6 +14,9 @@ interface SharedPreferencesRepository {
     fun setDefaultCurrency(currencyCode: String)
     fun getDefaultCurrency() : String
 
+    fun setNightModeEnabled(enabled: Boolean)
+    fun isNightModeEnabled() : Boolean
+
     fun setCoinListOrder(order: String)
     fun getCoinListOrder() : String
 

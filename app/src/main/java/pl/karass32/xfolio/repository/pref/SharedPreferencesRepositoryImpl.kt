@@ -12,6 +12,8 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
     companion object {
         const val APP_LANGUAGE = "general_app_language"
         const val DEFAULT_CURRENCY = "default_currency"
+        const val AUTO_OPEN = "general_auto_open"
+        const val NIGHT_MODE = "general_night_mode"
         const val COIN_LIST_ORDER = "coin_list_order"
         const val COIN_LIST_DEFAULT_CHANGE = "coin_list_default_change"
     }
@@ -21,11 +23,14 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
     override fun setLanguage(lang: String) = preferences.edit().putString(APP_LANGUAGE, lang).apply()
     override fun getLanguage(): String = preferences.getString(APP_LANGUAGE, "auto")
 
-    override fun setAutoOpen(fragmentTag: String) = preferences.edit().putString("general_auto_open", fragmentTag).apply()
-    override fun getAutoOpen(): String = preferences.getString("general_auto_open", "nav_all_coins")
+    override fun setAutoOpen(fragmentTag: String) = preferences.edit().putString(AUTO_OPEN, fragmentTag).apply()
+    override fun getAutoOpen(): String = preferences.getString(AUTO_OPEN, "nav_all_coins")
 
     override fun setDefaultCurrency(currencyCode: String) = preferences.edit().putString(DEFAULT_CURRENCY, currencyCode).apply()
     override fun getDefaultCurrency(): String = preferences.getString(DEFAULT_CURRENCY, "USD")
+
+    override fun setNightModeEnabled(enabled: Boolean) = preferences.edit().putBoolean(NIGHT_MODE, enabled).apply()
+    override fun isNightModeEnabled(): Boolean = preferences.getBoolean(NIGHT_MODE, false)
 
     override fun setCoinListOrder(order: String) = preferences.edit().putString(COIN_LIST_ORDER, order).apply()
     override fun getCoinListOrder(): String = preferences.getString(COIN_LIST_ORDER, "coin_list_order_by_market_cap_DSC")
