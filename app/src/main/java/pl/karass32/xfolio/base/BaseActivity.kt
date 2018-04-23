@@ -18,7 +18,7 @@ abstract class BaseActivity : AppCompatActivity() {
     lateinit var preferences: SharedPreferencesRepository
 
     override fun attachBaseContext(base: Context) {
-        val systemLang = Locale.getDefault().country
+        val systemLang = Locale.getDefault().language
         val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(base)
         val langString = sharedPreferences.getString("general_app_language", "auto")
         val locale = Locale(if (langString == "auto") systemLang else langString)
