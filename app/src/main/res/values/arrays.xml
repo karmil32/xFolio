@@ -1,5 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string-array name="language">
+        <item>@string/pref_general_language_auto</item>
+        <item>@string/pref_general_language_en</item>
+        <item>@string/pref_general_language_pl</item>
+    </string-array>
+
+    <string-array name="language_values">
+        <item>auto</item>
+        <item>en</item>
+        <item>pl</item>
+    </string-array>
+
+    <string-array name="auto_open">
+        <item>@string/nav_all_coins</item>
+        <item>@string/nav_watchlist</item>
+        <item>@string/nav_portfolio</item>
+    </string-array>
+
+    <string-array name="auto_open_values">
+        <item>CoinListFragment</item>
+        <item>WatchlistFragment</item>
+        <item>PortfolioFragment</item>
+    </string-array>
+
     <string-array name="currency_options">
         <item>USD</item>
         <item>PLN</item>
@@ -37,17 +61,5 @@
         <item>coin_list_change_1h</item>
         <item>coin_list_change_24h</item>
         <item>coin_list_change_7d</item>
-    </string-array>
-
-    <string-array name="language">
-        <item>@string/pref_general_language_auto</item>
-        <item>@string/pref_general_language_en</item>
-        <item>@string/pref_general_language_pl</item>
-    </string-array>
-
-    <string-array name="language_values">
-        <item>auto</item>
-        <item>en</item>
-        <item>pl</item>
     </string-array>
 </resources>
