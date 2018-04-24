@@ -71,7 +71,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 transaction.replace(R.id.contentFrame, PortfolioFragment()).commit()
             }
             R.id.nav_settings -> {
-                fragmentManager.beginTransaction().replace(R.id.contentFrame, PrefFragment()).addToBackStack(null).commit()
+                transaction.replace(R.id.contentFrame, PrefFragment()).addToBackStack(null).commit()
             }
             R.id.nav_about -> {
             }
