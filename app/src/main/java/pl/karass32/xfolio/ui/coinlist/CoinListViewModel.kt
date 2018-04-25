@@ -44,8 +44,8 @@ class CoinListViewModel : BaseViewModel() {
             }), { globalData ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     globalData?.let {
-                        it.totalMarketCap = BigDecimal(it.totalMarketCap).multiply(currency.value?.currencyRate).toLong()
-                        it.total24hVolume = BigDecimal(it.total24hVolume).multiply(currency.value?.currencyRate).toLong()
+                        it.totalMarketCap = BigDecimal(it.totalMarketCap).multiply(currency.value?.rate).toLong()
+                        it.total24hVolume = BigDecimal(it.total24hVolume).multiply(currency.value?.rate).toLong()
                     }
                 }
                 globalCoinDataMediator?.value = globalData
@@ -74,9 +74,9 @@ class CoinListViewModel : BaseViewModel() {
             }), { list ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     list?.forEach { coin ->
-                        coin.price = coin.price?.multiply(currency.value?.currencyRate)
-                        coin.volume24h = coin.volume24h?.multiply(currency.value?.currencyRate)
-                        coin.marketCap = coin.marketCap?.multiply(currency.value?.currencyRate)
+                        coin.price = coin.price?.multiply(currency.value?.rate)
+                        coin.volume24h = coin.volume24h?.multiply(currency.value?.rate)
+                        coin.marketCap = coin.marketCap?.multiply(currency.value?.rate)
                     }
                 }
                 if (preferences.getCoinListOrder() != CoinOrder.BY_MARKET_CAP_DSC.value) {
@@ -120,12 +120,13 @@ class CoinListViewModel : BaseViewModel() {
     }
 
     fun loadFiatRates() {
-        compositeDisposable.add(fiatRatesService.getLatestRates()
+        compositeDisposable.add(currencyRatesService.getLatestRates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
-                            thread { appDb.fiatCurrencyDao().updateRates(result) }
+                            val list = result.rates.map { FiatCurrency(it.key.drop(3), it.value, result.timestamp) }.toList()
+                            thread { appDb.fiatCurrencyDao().updateRates(list) }
                         },
                         { _ -> }
                 ))
