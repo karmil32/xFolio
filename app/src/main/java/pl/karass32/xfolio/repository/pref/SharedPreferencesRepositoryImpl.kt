@@ -24,7 +24,7 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
     override fun getLanguage(): String = preferences.getString(APP_LANGUAGE, "auto")
 
     override fun setAutoOpen(fragmentTag: String) = preferences.edit().putString(AUTO_OPEN, fragmentTag).apply()
-    override fun getAutoOpen(): String = preferences.getString(AUTO_OPEN, "nav_all_coins")
+    override fun getAutoOpen(): String = preferences.getString(AUTO_OPEN, "CoinListFragment")
 
     override fun setDefaultCurrency(currencyCode: String) = preferences.edit().putString(DEFAULT_CURRENCY, currencyCode).apply()
     override fun getDefaultCurrency(): String = preferences.getString(DEFAULT_CURRENCY, "USD")
