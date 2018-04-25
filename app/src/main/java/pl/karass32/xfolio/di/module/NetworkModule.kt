@@ -3,7 +3,7 @@ package pl.karass32.xfolio.di.module
 import dagger.Module
 import dagger.Provides
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
-import pl.karass32.xfolio.repository.db.CurrencyRatesService
+import pl.karass32.xfolio.repository.api.CurrencyRatesService
 import javax.inject.Singleton
 
 /**
