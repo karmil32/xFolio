@@ -4,7 +4,7 @@ import android.arch.lifecycle.ViewModel
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.db.AppDatabase
-import pl.karass32.xfolio.repository.db.CurrencyRatesService
+import pl.karass32.xfolio.repository.api.CurrencyRatesService
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import javax.inject.Inject
 
