@@ -5,4 +5,4 @@ import java.math.BigDecimal
 
 data class CurrencyRatesResponse(
         @SerializedName("timestamp") val timestamp: Long,
-        @SerializedName("quotes") val rates: Map<String, BigDecimal>)
+        @SerializedName("rates") val rates: Map<String, BigDecimal>)
