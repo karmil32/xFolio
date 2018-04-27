@@ -9,12 +9,11 @@ import retrofit2.http.GET
 
 interface CurrencyRatesService {
 
-    @GET("live?access_key=$API_KEY")
+    @GET("api")
     fun getLatestRates() : Observable<CurrencyRatesResponse>
 
     companion object {
-        private const val API_BASE_URL = "http://www.apilayer.net/api/"
-        private const val API_KEY = "880387ce1e59e22ac5bbd299ad81b86e"
+        private const val API_BASE_URL = "http://www.cypresshill.org/"
 
         fun create(): CurrencyRatesService {
             val retrofit = Retrofit.Builder()
