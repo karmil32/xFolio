@@ -18,11 +18,12 @@
         android:layout_marginEnd="5dp"
         android:background="@drawable/rounded_background">
 
-        <Spinner
-            android:id="@+id/headerCurrencySpinner"
+        <TextView
+            android:id="@+id/headerCurrencyPicker"
+            android:textStyle="bold"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:popupBackground="@color/colorAccent" />
+            android:theme="@style/Widget.AppCompat.Spinner"/>
     </FrameLayout>
 
     <FrameLayout
