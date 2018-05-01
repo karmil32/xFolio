@@ -30,8 +30,8 @@ dependencies {
     implementation "com.android.support:design:$support_library_version"
     implementation "com.android.support:preference-v14:$support_library_version"
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
     debugImplementation 'com.amitshekhar.android:debug-db:1.0.3'
 
     //Dagger
@@ -62,4 +62,7 @@ dependencies {
 
     //Joda-Time
     implementation 'net.danlew:android.joda:2.9.9.2'
+
+    //Currency Picker
+    implementation 'com.github.midorikocak:currency-picker-android:1.2.1'
 }
