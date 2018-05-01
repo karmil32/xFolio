@@ -26,7 +26,6 @@ class CoinListViewModel : BaseViewModel() {
 
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
     private var coinListMediator: MediatorLiveData<List<CoinData>>? = null
-    private var fiatCodesMediator: MediatorLiveData<Array<String>>? = null
     private var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
@@ -34,6 +33,7 @@ class CoinListViewModel : BaseViewModel() {
 
     init {
         currency.value = appDb.fiatCurrencyDao().getCurrency(preferences.getDefaultCurrency()) // TODO MainThread
+        loadFiatRates() // TODO Temp
     }
 
     fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
@@ -105,18 +105,6 @@ class CoinListViewModel : BaseViewModel() {
                             isLoading.value = false
                         }
                 ))
-    }
-
-    fun getFiatStringCodes(): LiveData<Array<String>>? {
-        if (fiatCodesMediator == null) {
-            fiatCodesMediator = MediatorLiveData()
-            fiatCodesMediator?.addSource(appDb.fiatCurrencyDao().getAllFiatCodes(), { result ->
-                val codes = result?.plus("USD") ?: arrayOf("USD")
-                fiatCodesMediator?.value = codes
-            })
-            loadFiatRates()
-        }
-        return fiatCodesMediator
     }
 
     fun loadFiatRates() {
