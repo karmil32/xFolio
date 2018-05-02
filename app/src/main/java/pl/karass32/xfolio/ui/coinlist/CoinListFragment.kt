@@ -11,8 +11,9 @@ import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.view.*
 import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
+import com.mynameismidori.currencypicker.CurrencyPicker
+import com.mynameismidori.currencypicker.ExtendedCurrency
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import kotlinx.android.synthetic.main.coin_list_fragment.*
 import kotlinx.android.synthetic.main.coin_list_fragment.view.*
@@ -72,6 +73,7 @@ class CoinListFragment : BaseFragment() {
         initRv()
         initSwipeRefreshLayout()
         initChangeSpinner()
+        initCurrencyPicker()
         initScrollUpButton()
 
         return mView
@@ -185,13 +187,6 @@ class CoinListFragment : BaseFragment() {
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
             globalCoinData?.let { showGlobalCoinData(it, preferences.getDefaultCurrency()) }
         })
-        mViewModel.getFiatStringCodes()?.observe(this, Observer { fiatCodes ->
-            val adapter = ArrayAdapter<String>(appContext, android.R.layout.simple_spinner_item, fiatCodes)
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-            mView.headerCurrencySpinner.adapter = adapter
-            val position = adapter.getPosition(preferences.getDefaultCurrency())
-            initCurrencySpinner(position)
-        })
         mViewModel.coinListError.observe(this, Observer { error ->
             error?.let { onCoinListError(it) }
         })
@@ -231,18 +226,21 @@ class CoinListFragment : BaseFragment() {
         }
     }
 
-    private fun initCurrencySpinner(position: Int) {
-        mView.headerCurrencySpinner.apply {
-            setSelection(position, false)
-            onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                    val currencyCode = p0?.getItemAtPosition(p2).toString()
-                    mViewModel.setCurrency(currencyCode)
-                }
-
-                override fun onNothingSelected(p0: AdapterView<*>?) {}
-            }
+    private fun initCurrencyPicker() {
+        val picker = CurrencyPicker.newInstance("Select Currency")
+        picker.setListener { name, code, symbol, flag ->
+            mViewModel.setCurrency(code)
+            mView.headerCurrencyPicker.text = code
+            picker.dialog.cancel()
         }
+        val supportedCurrencies = listOf("USD", "EUR", "PLN")
+        val currencies: ArrayList<ExtendedCurrency> = ArrayList()
+
+        currencies.apply { supportedCurrencies.forEach { currencies.add(ExtendedCurrency.getCurrencyByISO(it)) } }
+        picker.setCurrenciesList(currencies)
+
+        mView.headerCurrencyPicker.text = preferences.getDefaultCurrency()
+        mView.headerCurrencyPicker.setOnClickListener { picker.show(fragmentManager, "CURRENCY_PICKER") }
     }
 
     private fun initScrollUpButton() {
