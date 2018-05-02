@@ -11,7 +11,7 @@ class SharedPreferencesRepositoryImpl(context: Context) : SharedPreferencesRepos
 
     companion object {
         const val APP_LANGUAGE = "general_app_language"
-        const val DEFAULT_CURRENCY = "default_currency"
+        const val DEFAULT_CURRENCY = "general_default_currency"
         const val AUTO_OPEN = "general_auto_open"
         const val NIGHT_MODE = "general_night_mode"
         const val COIN_LIST_ORDER = "coin_list_order"
