@@ -14,15 +14,16 @@
         android:entryValues="@array/auto_open_values"
         android:key="general_auto_open"
         android:title="@string/pref_general_open" />
-    <ListPreference
+    <com.mynameismidori.currencypicker.CurrencyPreference
+        android:entries="@array/empty_array"
+        android:entryValues="@array/empty_array"
         android:defaultValue="USD"
         android:key="general_default_currency"
-        android:title="@string/pref_general_default_currency" />
+        android:title="Select Currency" />
     <SwitchPreference
         android:defaultValue="false"
         android:key="general_night_mode"
         android:title="@string/pref_general_night_mode" />
-
 
     <PreferenceCategory android:title="@string/pref_category_coin_list" />
     <ListPreference
