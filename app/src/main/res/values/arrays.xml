@@ -24,10 +24,13 @@
         <item>PortfolioFragment</item>
     </string-array>
 
-    <string-array name="currency_options">
+    <string-array name="currencies">
         <item>USD</item>
+        <item>EUR</item>
         <item>PLN</item>
     </string-array>
+
+    <string-array name="empty_array" />
 
     <string-array name="coin_list_order">
         <item>@string/pref_coin_list_order_by_market_cap_dsc</item>
