@@ -4,8 +4,10 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.Transformations
+import io.reactivex.Observable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.data.CoinData
@@ -34,6 +36,7 @@ class CoinListViewModel : BaseViewModel() {
     init {
         currency.value = appDb.fiatCurrencyDao().getCurrency(preferences.getDefaultCurrency()) // TODO MainThread
         loadFiatRates() // TODO Temp
+        loadLatestData()
     }
 
     fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
@@ -50,20 +53,8 @@ class CoinListViewModel : BaseViewModel() {
                 }
                 globalCoinDataMediator?.value = globalData
             })
-
-            loadGlobalCoinData()
         }
         return globalCoinDataMediator
-    }
-
-    fun loadGlobalCoinData() {
-        compositeDisposable.add(coinMarketCapService.getGlobalCoinData()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        { result -> thread { appDb.globalCoinDataDao().insertGlobalCoinData(result) } },
-                        { _ -> }
-                ))
     }
 
     fun getCoinList(): LiveData<List<CoinData>>? {
@@ -85,19 +76,23 @@ class CoinListViewModel : BaseViewModel() {
                     coinListMediator?.value = list
                 }
             })
-            loadCoinList()
         }
         return coinListMediator
     }
 
-    fun loadCoinList() {
+    fun loadLatestData() {
         isLoading.value = true
-        compositeDisposable.add(coinMarketCapService.getCoinList()
+        compositeDisposable.add(Observable.zip(coinMarketCapService.getGlobalCoinData(), coinMarketCapService.getCoinList(), BiFunction { globalCoinData: GlobalCoinData, list: List<CoinData> ->
+            Pair(globalCoinData, list)
+        })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        { result ->
-                            thread { appDb.coinDataDao().insertCoinData(result) }
+                        { pair ->
+                            thread {
+                                appDb.globalCoinDataDao().insertGlobalCoinData(pair.first)
+                                appDb.coinDataDao().insertCoinData(pair.second)
+                            }
                             isLoading.value = false
                         },
                         { _ ->
@@ -107,7 +102,7 @@ class CoinListViewModel : BaseViewModel() {
                 ))
     }
 
-    fun loadFiatRates() {
+    private fun loadFiatRates() {
         compositeDisposable.add(currencyRatesService.getLatestRates()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

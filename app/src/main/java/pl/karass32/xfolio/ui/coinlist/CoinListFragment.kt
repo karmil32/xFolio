@@ -171,8 +171,7 @@ class CoinListFragment : BaseFragment() {
         with(mView.coinListSwipeRefresh) {
             setColorSchemeColors(Color.RED, Color.GREEN, Color.BLUE)
             setOnRefreshListener {
-                mViewModel.loadCoinList()
-                mViewModel.loadGlobalCoinData()
+                mViewModel.loadLatestData()
             }
         }
     }
