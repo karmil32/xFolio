@@ -64,4 +64,7 @@ dependencies {
 
     //Currency Picker
     implementation 'com.github.midorikocak:currency-picker-android:1.2.1'
+
+    //RvSwipe
+    implementation 'com.chauthai.swipereveallayout:swipe-reveal-layout:1.4.1'
 }
