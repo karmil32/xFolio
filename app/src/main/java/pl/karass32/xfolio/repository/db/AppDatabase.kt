@@ -8,11 +8,12 @@ import pl.karass32.xfolio.data.GlobalCoinData
 /**
  * Created by karas on 20.02.2018.
  */
-@Database(entities = [CoinData::class, GlobalCoinData::class, FiatCurrency::class], version = 2)
+@Database(entities = [CoinData::class, GlobalCoinData::class, FiatCurrency::class, FavoriteEntity::class], version = 3)
 @TypeConverters(DbTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun coinDataDao(): CoinDataDao
     abstract fun globalCoinDataDao(): GlobalCoinDataDao
     abstract fun fiatCurrencyDao(): FiatCurrencyDao
+    abstract fun favNameDao() : FavoritesDao
 }
