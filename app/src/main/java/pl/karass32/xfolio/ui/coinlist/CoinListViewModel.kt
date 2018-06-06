@@ -9,8 +9,10 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.functions.BiFunction
 import io.reactivex.schedulers.Schedulers
+import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.data.CoinData
+import pl.karass32.xfolio.repository.db.FavoriteEntity
 import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
@@ -23,7 +25,7 @@ import kotlin.concurrent.thread
 /**
  * Created by karas on 01.02.2018.
  */
-class CoinListViewModel : BaseViewModel() {
+class CoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMenuListener {
     private val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     private var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
@@ -125,4 +127,13 @@ class CoinListViewModel : BaseViewModel() {
         val sortedList = CoinListUtils.sort(coinListMediator?.value, sortMethod)
         coinListMediator?.value = sortedList
     }
+
+    override fun onFavToggleClicked(id: String) {
+        if (appDb.favNameDao().isAdded(id))
+            appDb.favNameDao().delete(id)
+        else
+            appDb.favNameDao().insert(FavoriteEntity(id))
+    }
+
+    override fun isFavorite(id: String): Boolean = appDb.favNameDao().isAdded(id)
 }
