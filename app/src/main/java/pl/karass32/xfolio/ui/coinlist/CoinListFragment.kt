@@ -269,7 +269,7 @@ class CoinListFragment : BaseFragment() {
     }
 
     private fun showList(list: List<CoinData>) {
-        mCoinRvAdapter = CoinRvAdapter(list)
+        mCoinRvAdapter = CoinRvAdapter(list, mViewModel)
         mView.coinListRv?.adapter = mCoinRvAdapter
         val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
         layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
