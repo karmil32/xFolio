@@ -7,7 +7,7 @@
     <!--APP NAVIGATION-->
 
     <string name="nav_all_coins">All Coins</string>
-    <string name="nav_watchlist">Watchlist</string>
+    <string name="nav_favorites">Favorites</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_settings">Settings</string>
     <string name="nav_about">About</string>

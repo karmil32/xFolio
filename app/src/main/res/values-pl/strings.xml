@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_watchlist">Ulubione</string>
+    <string name="nav_favorites">Ulubione</string>
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_settings">Ustawienia</string>
     <string name="nav_about">O programie</string>
