@@ -14,13 +14,13 @@
 
     <string-array name="auto_open">
         <item>@string/nav_all_coins</item>
-        <item>@string/nav_watchlist</item>
+        <item>@string/nav_favorites</item>
         <item>@string/nav_portfolio</item>
     </string-array>
 
     <string-array name="auto_open_values">
         <item>CoinListFragment</item>
-        <item>WatchlistFragment</item>
+        <item>FavoritesListFragment</item>
         <item>PortfolioFragment</item>
     </string-array>
 
