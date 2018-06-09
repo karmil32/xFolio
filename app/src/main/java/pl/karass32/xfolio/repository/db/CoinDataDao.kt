@@ -14,8 +14,11 @@ import pl.karass32.xfolio.data.CoinData
 interface CoinDataDao {
 
     @Query ("SELECT * FROM coin_data_list ORDER BY rank")
-    fun getAllCoinData() : LiveData<List<CoinData>>
+    fun getAll() : LiveData<List<CoinData>>
+
+    @Query ("SELECT * FROM coin_data_list WHERE id in (:favIds)")
+    fun getFavorites(favIds: List<String>) : LiveData<List<CoinData>>
 
     @Insert (onConflict = REPLACE)
-    fun insertCoinData(list: List<CoinData>)
+    fun insert(list: List<CoinData>)
 }
