@@ -33,7 +33,7 @@ import pl.karass32.xfolio.util.enum.ChangeOption
 class FavoritesListFragment : BaseFragment() {
 
     companion object {
-        const val TAG = "CoinListFragment"
+        const val TAG = "FavoritesListFragment"
     }
 
     private val LIST_POSITION_STATE = "LIST_POSITION_STATE"
