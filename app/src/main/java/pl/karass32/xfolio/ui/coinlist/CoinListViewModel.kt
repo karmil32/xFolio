@@ -63,7 +63,30 @@ class CoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMenuListener {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
             coinListMediator?.addSource(Transformations.switchMap(currency, { _ ->
-                return@switchMap appDb.coinDataDao().getAllCoinData()
+                return@switchMap appDb.coinDataDao().getAll()
+            }), { list ->
+                if (preferences.getDefaultCurrency() != "USD") {
+                    list?.forEach { coin ->
+                        coin.price = coin.price?.multiply(currency.value?.rate)
+                        coin.volume24h = coin.volume24h?.multiply(currency.value?.rate)
+                        coin.marketCap = coin.marketCap?.multiply(currency.value?.rate)
+                    }
+                }
+                if (preferences.getCoinListOrder() != CoinOrder.BY_MARKET_CAP_DSC.value) {
+                    coinListMediator?.value = CoinListUtils.sort(list, CoinOrder.of(preferences.getCoinListOrder()))
+                } else {
+                    coinListMediator?.value = list
+                }
+            })
+        }
+        return coinListMediator
+    }
+
+    fun getFavoritesList(): LiveData<List<CoinData>>? {
+        if (coinListMediator == null) {
+            coinListMediator = MediatorLiveData()
+            coinListMediator?.addSource(Transformations.switchMap(currency, { _ ->
+                return@switchMap appDb.coinDataDao().getFavorites(appDb.favNameDao().getAll())
             }), { list ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     list?.forEach { coin ->
@@ -93,7 +116,7 @@ class CoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMenuListener {
                         { pair ->
                             thread {
                                 appDb.globalCoinDataDao().insertGlobalCoinData(pair.first)
-                                appDb.coinDataDao().insertCoinData(pair.second)
+                                appDb.coinDataDao().insert(pair.second)
                             }
                             isLoading.value = false
                         },
