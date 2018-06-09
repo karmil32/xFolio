@@ -52,7 +52,7 @@ class CoinListFragment : BaseFragment() {
     private lateinit var mCoinRvAdapter: CoinRvAdapter
 
     private val mViewModel: CoinListViewModel by lazy {
-        ViewModelProviders.of(mainActivity).get(CoinListViewModel::class.java)
+        ViewModelProviders.of(this).get(CoinListViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
