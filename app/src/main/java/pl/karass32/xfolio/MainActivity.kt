@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
-import pl.karass32.xfolio.ui.WatchlistFragment
+import pl.karass32.xfolio.ui.coinlist.FavoritesListFragment
 import pl.karass32.xfolio.ui.preferences.SettingsActivity
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (savedInstanceState == null) {
             when(preferences.getAutoOpen()) {
                 CoinListFragment.TAG -> navigate(R.id.nav_all_coins)
-                WatchlistFragment.TAG -> navigate(R.id.nav_watchlist)
+                FavoritesListFragment.TAG -> navigate(R.id.nav_watchlist)
                 PortfolioFragment.TAG -> navigate(R.id.nav_portfolio)
             }
         }
@@ -66,7 +66,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
                 transaction.replace(R.id.contentFrame, CoinListFragment()).commit()
             }
             R.id.nav_watchlist -> {
-                transaction.replace(R.id.contentFrame, WatchlistFragment()).commit()
+                transaction.replace(R.id.contentFrame, FavoritesListFragment()).commit()
             }
             R.id.nav_portfolio -> {
                 transaction.replace(R.id.contentFrame, PortfolioFragment()).commit()
