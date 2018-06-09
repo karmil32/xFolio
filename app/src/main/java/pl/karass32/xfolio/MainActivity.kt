@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         if (savedInstanceState == null) {
             when(preferences.getAutoOpen()) {
                 CoinListFragment.TAG -> navigate(R.id.nav_all_coins)
-                FavoritesListFragment.TAG -> navigate(R.id.nav_watchlist)
+                FavoritesListFragment.TAG -> navigate(R.id.nav_favorites)
                 PortfolioFragment.TAG -> navigate(R.id.nav_portfolio)
             }
         }
@@ -65,7 +65,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             R.id.nav_all_coins -> {
                 transaction.replace(R.id.contentFrame, CoinListFragment()).commit()
             }
-            R.id.nav_watchlist -> {
+            R.id.nav_favorites -> {
                 transaction.replace(R.id.contentFrame, FavoritesListFragment()).commit()
             }
             R.id.nav_portfolio -> {
