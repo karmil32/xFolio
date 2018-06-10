@@ -1,4 +1,4 @@
-package pl.karass32.xfolio.ui.coinlist
+package pl.karass32.xfolio.ui.favorites
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.MediatorLiveData
