@@ -103,12 +103,7 @@ abstract class BaseCoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMen
         coinListMediator?.value = sortedList
     }
 
-    override fun onFavToggleClicked(id: String) {
-        if (appDb.favNameDao().isAdded(id))
-            appDb.favNameDao().delete(id)
-        else
-            appDb.favNameDao().insert(FavoriteEntity(id))
-    }
+    abstract override fun onFavToggleClicked(id: String)
 
     override fun isFavorite(id: String): Boolean = appDb.favNameDao().isAdded(id)
 }
