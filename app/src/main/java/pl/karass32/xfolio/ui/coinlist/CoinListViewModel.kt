@@ -5,6 +5,7 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Transformations
 import pl.karass32.xfolio.base.BaseCoinListViewModel
 import pl.karass32.xfolio.data.CoinData
+import pl.karass32.xfolio.repository.db.FavoriteEntity
 import pl.karass32.xfolio.util.CoinListUtils
 import pl.karass32.xfolio.util.CoinOrder
 
@@ -36,4 +37,10 @@ class CoinListViewModel : BaseCoinListViewModel() {
         return coinListMediator
     }
 
+    override fun onFavToggleClicked(id: String) {
+        if (appDb.favNameDao().isAdded(id))
+            appDb.favNameDao().delete(id)
+        else
+            appDb.favNameDao().insert(FavoriteEntity(id))
+    }
 }
