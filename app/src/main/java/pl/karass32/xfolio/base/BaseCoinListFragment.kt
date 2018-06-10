@@ -129,6 +129,21 @@ abstract class BaseCoinListFragment : BaseFragment() {
         super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            R.id.sort_by_market_cap_dsc -> mViewModel.changeListOrder(CoinOrder.BY_MARKET_CAP_DSC)
+            R.id.sort_by_market_cap_asc -> mViewModel.changeListOrder(CoinOrder.BY_MARKET_CAP_ASC)
+            R.id.sort_by_price_dsc -> mViewModel.changeListOrder(CoinOrder.BY_PRICE_DSC)
+            R.id.sort_by_price_asc -> mViewModel.changeListOrder(CoinOrder.BY_PRICE_ASC)
+            R.id.sort_by_change_1h_dsc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_1H_DSC)
+            R.id.sort_by_change_1h_asc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_1H_ASC)
+            R.id.sort_by_change_24h_dsc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_24H_DSC)
+            R.id.sort_by_change_24h_asc -> mViewModel.changeListOrder(CoinOrder.BY_CHANGE_24H_ASC)
+        }
+        item?.isChecked = true
+        return super.onOptionsItemSelected(item)
+    }
+
     open fun initToolbar() {
         with(mainActivity) {
             setSupportActionBar(mView.toolbar)
