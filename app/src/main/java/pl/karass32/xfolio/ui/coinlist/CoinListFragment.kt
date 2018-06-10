@@ -2,10 +2,10 @@ package pl.karass32.xfolio.ui.coinlist
 
 import android.annotation.SuppressLint
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
-import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import org.joda.time.DateTime
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseCoinListFragment
@@ -22,6 +22,11 @@ class CoinListFragment : BaseCoinListFragment() {
         const val TAG = "CoinListFragment"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel = ViewModelProviders.of(this).get(CoinListViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.coin_list_fragment, container, false)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -34,12 +39,6 @@ class CoinListFragment : BaseCoinListFragment() {
 
     override fun initViewModel() {
         super.initViewModel()
-        mViewModel.getCoinList()?.observe(this, Observer { coinList ->
-            coinList?.let {
-                showList(it)
-                mView.rvError.visibility = View.GONE
-            }
-        })
         mViewModel.getGlobalCoinData()?.observe(this, Observer { globalCoinData ->
             globalCoinData?.let { showGlobalCoinData(it, preferences.getDefaultCurrency()) }
         })
