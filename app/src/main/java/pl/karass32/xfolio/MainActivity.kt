@@ -13,7 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
-import pl.karass32.xfolio.ui.coinlist.FavoritesListFragment
+import pl.karass32.xfolio.ui.favorites.FavoritesListFragment
 import pl.karass32.xfolio.ui.preferences.SettingsActivity
 
 class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
