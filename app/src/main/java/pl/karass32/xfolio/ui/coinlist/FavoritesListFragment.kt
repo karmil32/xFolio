@@ -1,9 +1,8 @@
 package pl.karass32.xfolio.ui.coinlist
 
-import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
-import kotlinx.android.synthetic.main.coin_list_fragment.view.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseCoinListFragment
 
@@ -16,6 +15,11 @@ class FavoritesListFragment : BaseCoinListFragment() {
         const val TAG = "FavoritesListFragment"
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        mViewModel = ViewModelProviders.of(this).get(FavoritesListViewModel::class.java)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         mView = inflater.inflate(R.layout.favorites_list_fragment, container, false)
         return super.onCreateView(inflater, container, savedInstanceState)
@@ -24,15 +28,5 @@ class FavoritesListFragment : BaseCoinListFragment() {
     override fun initToolbar() {
         super.initToolbar()
         mainActivity.supportActionBar?.title = getString(R.string.nav_favorites)
-    }
-
-    override fun initViewModel() {
-        super.initViewModel()
-        mViewModel.getFavoritesList()?.observe(this, Observer { coinList ->
-            coinList?.let {
-                showList(it)
-                mView.rvError.visibility = View.GONE
-            }
-        })
     }
 }
