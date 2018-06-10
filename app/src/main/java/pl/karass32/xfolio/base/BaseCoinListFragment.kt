@@ -1,7 +1,6 @@
 package pl.karass32.xfolio.base
 
 import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.graphics.Color
 import android.os.Bundle
 import android.support.v7.widget.DividerItemDecoration
@@ -23,7 +22,6 @@ import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.decoration.MyDividerItemDecoration
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
-import pl.karass32.xfolio.ui.coinlist.CoinListViewModel
 import pl.karass32.xfolio.util.CoinOrder
 import pl.karass32.xfolio.util.enum.ChangeOption
 
@@ -38,9 +36,7 @@ abstract class BaseCoinListFragment : BaseFragment() {
     val mainActivity: MainActivity by lazy { activity as MainActivity }
     lateinit var mCoinRvAdapter: CoinRvAdapter
 
-    val mViewModel: CoinListViewModel by lazy {
-        ViewModelProviders.of(this).get(CoinListViewModel::class.java)
-    }
+    lateinit var mViewModel: BaseCoinListViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         setHasOptionsMenu(true)
@@ -162,6 +158,12 @@ abstract class BaseCoinListFragment : BaseFragment() {
     }
 
     open fun initViewModel() {
+        mViewModel.getCoinList()?.observe(this, Observer { coinList ->
+            coinList?.let {
+                showList(it)
+                mView.rvError.visibility = View.GONE
+            }
+        })
         mViewModel.coinListError.observe(this, Observer { error ->
             error?.let { onCoinListError(it) }
         })
