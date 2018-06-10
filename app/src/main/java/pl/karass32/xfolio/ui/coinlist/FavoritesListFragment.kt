@@ -156,7 +156,7 @@ class FavoritesListFragment : BaseFragment() {
         with(mainActivity) {
             setSupportActionBar(mView.toolbar)
             supportActionBar?.setDisplayShowHomeEnabled(true)
-            supportActionBar?.title = getString(R.string.nav_watchlist)
+            supportActionBar?.title = getString(R.string.nav_favorites)
             setToggle(mView.toolbar)
         }
     }
