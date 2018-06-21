@@ -14,9 +14,9 @@ class FavoritesListViewModel : BaseCoinListViewModel() {
     override fun getCoinList(): LiveData<List<CoinData>>? {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
-            coinListMediator?.addSource(Transformations.switchMap(currency, { _ ->
+            coinListMediator?.addSource(Transformations.switchMap(currency) { _ ->
                 return@switchMap appDb.coinDataDao().getFavorites(appDb.favNameDao().getAll())
-            }), { list ->
+            }) { list ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     list?.forEach { coin ->
                         coin.price = coin.price?.multiply(currency.value?.rate)
@@ -29,7 +29,7 @@ class FavoritesListViewModel : BaseCoinListViewModel() {
                 } else {
                     coinListMediator?.value = list
                 }
-            })
+            }
         }
         return coinListMediator
     }

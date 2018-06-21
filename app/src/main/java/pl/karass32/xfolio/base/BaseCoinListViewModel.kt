@@ -40,9 +40,9 @@ abstract class BaseCoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMen
     open fun getGlobalCoinData(): LiveData<GlobalCoinData>? {
         if (globalCoinDataMediator == null) {
             globalCoinDataMediator = MediatorLiveData()
-            globalCoinDataMediator?.addSource(Transformations.switchMap(currency, { _ ->
+            globalCoinDataMediator?.addSource(Transformations.switchMap(currency) { _ ->
                 return@switchMap appDb.globalCoinDataDao().getGlobalCoinData()
-            }), { globalData ->
+            }) { globalData ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     globalData?.let {
                         it.totalMarketCap = BigDecimal(it.totalMarketCap).multiply(currency.value?.rate).toLong()
@@ -50,7 +50,7 @@ abstract class BaseCoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMen
                     }
                 }
                 globalCoinDataMediator?.value = globalData
-            })
+            }
         }
         return globalCoinDataMediator
     }
