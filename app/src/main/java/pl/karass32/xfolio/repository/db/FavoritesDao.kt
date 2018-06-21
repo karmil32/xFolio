@@ -1,5 +1,6 @@
 package pl.karass32.xfolio.repository.db
 
+import android.arch.lifecycle.LiveData
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy.IGNORE
@@ -9,7 +10,7 @@ import android.arch.persistence.room.Query
 interface FavoritesDao {
 
     @Query("SELECT coin_name FROM favorites_list")
-    fun getAll(): List<String>
+    fun getAll(): LiveData<List<String>>
 
     @Insert(onConflict = IGNORE)
     fun insert(name: FavoriteEntity)
