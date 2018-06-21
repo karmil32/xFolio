@@ -5,17 +5,18 @@ import android.arch.lifecycle.MediatorLiveData
 import android.arch.lifecycle.Transformations
 import pl.karass32.xfolio.base.BaseCoinListViewModel
 import pl.karass32.xfolio.data.CoinData
-import pl.karass32.xfolio.repository.db.FavoriteEntity
 import pl.karass32.xfolio.util.CoinListUtils
 import pl.karass32.xfolio.util.CoinOrder
 
 class FavoritesListViewModel : BaseCoinListViewModel() {
 
+    private val map = Transformations.switchMap(currency) { _ -> appDb.favNameDao().getAll() }
+
     override fun getCoinList(): LiveData<List<CoinData>>? {
         if (coinListMediator == null) {
             coinListMediator = MediatorLiveData()
-            coinListMediator?.addSource(Transformations.switchMap(currency) { _ ->
-                return@switchMap appDb.coinDataDao().getFavorites(appDb.favNameDao().getAll())
+            coinListMediator?.addSource(Transformations.switchMap(map) { favIds ->
+                return@switchMap appDb.coinDataDao().getFavorites(favIds)
             }) { list ->
                 if (preferences.getDefaultCurrency() != "USD") {
                     list?.forEach { coin ->
@@ -35,9 +36,6 @@ class FavoritesListViewModel : BaseCoinListViewModel() {
     }
 
     override fun onFavToggleClicked(id: String) {
-        if (appDb.favNameDao().isAdded(id))
-            appDb.favNameDao().delete(id)
-        else
-            appDb.favNameDao().insert(FavoriteEntity(id))
+        appDb.favNameDao().delete(id)
     }
 }
