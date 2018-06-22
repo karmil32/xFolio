@@ -18,7 +18,6 @@ import kotlinx.android.synthetic.main.coin_rv_header_layout.view.*
 import pl.karass32.xfolio.MainActivity
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.adapter.CoinRvAdapter
-import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.decoration.MyDividerItemDecoration
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.error.ErrorUtils
@@ -160,7 +159,8 @@ abstract class BaseCoinListFragment : BaseFragment() {
     open fun initViewModel() {
         mViewModel.getCoinList()?.observe(this, Observer { coinList ->
             coinList?.let {
-                showList(it)
+                mCoinRvAdapter.submitList(it)
+                mView.coinListRv?.adapter = mCoinRvAdapter
                 mView.rvError.visibility = View.GONE
             }
         })
@@ -185,6 +185,9 @@ abstract class BaseCoinListFragment : BaseFragment() {
                         mView.topScrollFab.hide()
                 }
             })
+            mCoinRvAdapter = CoinRvAdapter(ArrayList(), mViewModel)
+            val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
+            layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
         }
     }
 
@@ -231,13 +234,6 @@ abstract class BaseCoinListFragment : BaseFragment() {
 
     private fun setLoadingSpinnerVisible(enable: Boolean) {
         mView.coinListSwipeRefresh.isRefreshing = enable
-    }
-
-    open fun showList(list: List<CoinData>) {
-        mCoinRvAdapter = CoinRvAdapter(list, mViewModel)
-        mView.coinListRv?.adapter = mCoinRvAdapter
-        val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
-        layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
     }
 
     open fun onCoinListError(error: CoinListErrorEvent) {
