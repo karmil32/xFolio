@@ -26,10 +26,8 @@ import pl.karass32.xfolio.util.enum.ChangeOption
 
 abstract class BaseCoinListFragment : BaseFragment() {
 
-    val LIST_POSITION_STATE = "LIST_POSITION_STATE"
     val SEARCH_QUERY_STATE = "SEARCH_QUERY_STATE"
 
-    var mListPositionState = 0
     var mSearchQueryState = ""
 
     val mainActivity: MainActivity by lazy { activity as MainActivity }
@@ -41,9 +39,6 @@ abstract class BaseCoinListFragment : BaseFragment() {
         setHasOptionsMenu(true)
 
         savedInstanceState?.let {
-            if (savedInstanceState.containsKey(LIST_POSITION_STATE)) {
-                mListPositionState = savedInstanceState.getInt(LIST_POSITION_STATE)
-            }
             if (savedInstanceState.containsKey(SEARCH_QUERY_STATE)) {
                 mSearchQueryState = savedInstanceState.getString(SEARCH_QUERY_STATE)
             }
@@ -62,9 +57,6 @@ abstract class BaseCoinListFragment : BaseFragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
-        val listPosition = layoutManager.findFirstCompletelyVisibleItemPosition()
-        outState.putInt(LIST_POSITION_STATE, listPosition)
         if (!mSearchQueryState.isEmpty()) outState.putString(SEARCH_QUERY_STATE, mSearchQueryState)
     }
 
@@ -185,9 +177,7 @@ abstract class BaseCoinListFragment : BaseFragment() {
                         mView.topScrollFab.hide()
                 }
             })
-            mCoinRvAdapter = CoinRvAdapter(ArrayList(), mViewModel)
-            val layoutManager = mView.coinListRv?.layoutManager as LinearLayoutManager
-            layoutManager.scrollToPositionWithOffset(mListPositionState, 0)
+            mCoinRvAdapter = CoinRvAdapter(mViewModel)
         }
     }
 
