@@ -1,6 +1,8 @@
 package pl.karass32.xfolio.adapter
 
 import android.annotation.SuppressLint
+import android.support.v7.recyclerview.extensions.ListAdapter
+import android.support.v7.util.DiffUtil
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -28,16 +30,14 @@ import javax.inject.Inject
 /**
  * Created by karas on 15.01.2018.
  */
-class CoinRvAdapter(private var coinList: List<CoinData>, private var onSwipeMenuListener: OnSwipeMenuListener) : RecyclerView.Adapter<CoinRvAdapter.ViewHolder>(), Filterable {
+class CoinRvAdapter(private var onSwipeMenuListener: OnSwipeMenuListener) : ListAdapter<CoinData, CoinRvAdapter.ViewHolder>(CoinDataDiffCallback()), Filterable {
 
     @Inject
     lateinit var preferences: SharedPreferencesRepository
 
     private val viewBinderHelper = ViewBinderHelper()
 
-    private val mCoinListCopy by lazy {
-        ArrayList<CoinData>(coinList)
-    }
+    private  var mCoinListCopy: List<CoinData> = ArrayList()
 
     init {
         MyApplication.component.inject(this)
@@ -46,9 +46,7 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var onSwipeMen
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_swipe_layout, parent, false), onSwipeMenuListener, viewBinderHelper)
 
-    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(coinList[position], preferences)
-
-    override fun getItemCount() = coinList.size
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), preferences)
 
     class ViewHolder(itemView: View, listener: OnSwipeMenuListener, private val viewBinderHelper: ViewBinderHelper) : RecyclerView.ViewHolder(itemView) {
 
@@ -100,9 +98,17 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var onSwipeMen
         }
     }
 
+    override fun submitList(list: List<CoinData>?) {
+        super.submitList(list)
+        if (mCoinListCopy.isEmpty()) {
+            list?.let { mCoinListCopy = list }
+        }
+    }
+
     override fun getFilter(): Filter {
         return object : Filter() {
             override fun performFiltering(p0: CharSequence?): FilterResults {
+                val coinList: List<CoinData>
                 val charString = p0.toString()
                 if (charString.isEmpty()) {
                     coinList = mCoinListCopy
@@ -119,9 +125,19 @@ class CoinRvAdapter(private var coinList: List<CoinData>, private var onSwipeMen
 
             @Suppress("UNCHECKED_CAST")
             override fun publishResults(p0: CharSequence?, p1: FilterResults?) {
-                coinList = p1?.values as ArrayList<CoinData>
-                notifyDataSetChanged()
+                val result = p1?.values as ArrayList<CoinData>
+                submitList(result) //TODO Błąd z pozycją listy po usunięciu filtrowania.
             }
+        }
+    }
+
+    class CoinDataDiffCallback : DiffUtil.ItemCallback<CoinData>() {
+        override fun areItemsTheSame(oldItem: CoinData?, newItem: CoinData?): Boolean {
+            return oldItem?.id == newItem?.id
+        }
+
+        override fun areContentsTheSame(oldItem: CoinData?, newItem: CoinData?): Boolean {
+            return oldItem == newItem
         }
     }
 
