@@ -9,6 +9,7 @@
     app:mode="same_level">
 
     <FrameLayout
+        android:id="@+id/menuLayout"
         android:layout_width="60dp"
         android:layout_height="match_parent">
 
@@ -21,6 +22,7 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/frontLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
