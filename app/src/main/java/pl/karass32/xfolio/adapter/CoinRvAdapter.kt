@@ -30,27 +30,28 @@ import javax.inject.Inject
 /**
  * Created by karas on 15.01.2018.
  */
-class CoinRvAdapter(private var onSwipeMenuListener: OnSwipeMenuListener) : ListAdapter<CoinData, CoinRvAdapter.ViewHolder>(CoinDataDiffCallback()), Filterable {
+class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, private var onSwipeMenuListener: OnSwipeMenuListener) : ListAdapter<CoinData, CoinRvAdapter.ViewHolder>(CoinDataDiffCallback()), Filterable {
 
     @Inject
     lateinit var preferences: SharedPreferencesRepository
 
     private val viewBinderHelper = ViewBinderHelper()
 
-    private  var mCoinListCopy: List<CoinData> = ArrayList()
+    private var mCoinListCopy: List<CoinData> = ArrayList()
 
     init {
         MyApplication.component.inject(this)
         viewBinderHelper.setOpenOnlyOne(true)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_swipe_layout, parent, false), onSwipeMenuListener, viewBinderHelper)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = ViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.coin_rv_swipe_layout, parent, false), onItemClickListener, onSwipeMenuListener, viewBinderHelper)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), preferences)
 
-    class ViewHolder(itemView: View, listener: OnSwipeMenuListener, private val viewBinderHelper: ViewBinderHelper) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, swipeMenuListener: OnSwipeMenuListener, private val viewBinderHelper: ViewBinderHelper) : RecyclerView.ViewHolder(itemView) {
 
-        private val menuListener: OnSwipeMenuListener = listener
+        private val itemClickListener: OnItemClickListener = onItemClickListener
+        private val menuListener: OnSwipeMenuListener = swipeMenuListener
 
         @SuppressLint("SetTextI18n")
         fun bind(coinData: CoinData, preferences: SharedPreferencesRepository) = with(itemView) {
@@ -66,6 +67,8 @@ class CoinRvAdapter(private var onSwipeMenuListener: OnSwipeMenuListener) : List
                 viewBinderHelper.closeLayout(coinData.id)
                 menuListener.onFavToggleClicked(coinData.id)
             }
+
+            frontLayout.setOnClickListener { itemClickListener.onItemClick(coinData.id) }
 
             GlideApp.with(this)
                     .load("${CoinMarketCapService.API_IMAGES_URL}${coinData.id}.png")
@@ -144,5 +147,9 @@ class CoinRvAdapter(private var onSwipeMenuListener: OnSwipeMenuListener) : List
     interface OnSwipeMenuListener {
         fun onFavToggleClicked(id: String)
         fun isFavorite(id: String) : Boolean
+    }
+
+    interface OnItemClickListener {
+        fun onItemClick(id: String)
     }
 }
