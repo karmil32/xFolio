@@ -177,7 +177,7 @@ abstract class BaseCoinListFragment : BaseFragment() {
                         mView.topScrollFab.hide()
                 }
             })
-            mCoinRvAdapter = CoinRvAdapter(mViewModel)
+            mCoinRvAdapter = CoinRvAdapter(mainActivity, mViewModel)
         }
     }
 
