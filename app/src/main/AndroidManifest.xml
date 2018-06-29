@@ -21,7 +21,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.coindetails.CoinDetailsActivity" />
+        <activity android:name=".ui.coindetails.CoinDetailsActivity"
+            android:parentActivityName=".MainActivity"/>
 
         <activity android:name=".ui.preferences.SettingsActivity" />
 
