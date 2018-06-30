@@ -36,4 +36,7 @@
     <string name="pref_general_open">Po uruchomieniu aplikacji otwórz…</string>
     <string name="pref_general_default_currency">Domyślna waluta</string>
     <string name="pref_general_night_mode">Tryb nocny</string>
+    <string name="coin_details_rank">Ranking</string>
+    <string name="coin_details_price">Cena</string>
+    <string name="coin_details_volume_24h">Obrót 24h</string>
 </resources>
