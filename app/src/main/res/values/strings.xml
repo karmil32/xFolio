@@ -30,7 +30,17 @@
     <string name="toolbar_menu_search_hint">Name or symbol</string>
     <string name="toolbar_menu_sort">Sorting</string>
 
-    
+
+    <!--COIN DETAILS-->
+
+    <string name="coin_details_rank">Rank</string>
+    <string name="coin_details_price">Price</string>
+    <string name="coin_details_market_cap">Market Cap</string>
+    <string name="coin_details_volume_24h">Volume (24h)</string>
+    <string name="coin_details_circulating_supply">Circulating Supply</string>
+    <string name="coin_details_max_supply">Max Supply</string>
+
+
     <!--PREFERENCES - GENERAL-->
     
     <string name="pref_category_general">General</string>
