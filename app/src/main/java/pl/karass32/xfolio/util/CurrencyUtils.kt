@@ -14,10 +14,10 @@ class CurrencyUtils {
             return getValueWithSymbol(currencyCode, formattedStringValue)
         }
 
-        fun getFormattedBigValue(value: Long, currencyCode: String) : String {
+        fun getFormattedBigValue(value: Long, currencyCode: String?) : String {
             val formattedStringValue = NumberUtils.bigValueFormat.format(value)
 
-            return getValueWithSymbol(currencyCode, formattedStringValue)
+            return if (currencyCode != null) getValueWithSymbol(currencyCode, formattedStringValue) else formattedStringValue
         }
 
         private fun getValueWithSymbol(currencyCode: String, value: String) =  getCurrencySymbol(currencyCode)+value
