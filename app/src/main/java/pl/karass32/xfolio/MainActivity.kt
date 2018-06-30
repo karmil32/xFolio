@@ -10,13 +10,15 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseActivity
+import pl.karass32.xfolio.ui.coindetails.CoinDetailsActivity
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
 import pl.karass32.xfolio.ui.favorites.FavoritesListFragment
 import pl.karass32.xfolio.ui.preferences.SettingsActivity
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, CoinRvAdapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,5 +79,13 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_about -> {}
         }
+    }
+
+    override fun onItemClick(id: String) {
+        val intent = Intent(this, CoinDetailsActivity::class.java)
+        val bundle = Bundle()
+        bundle.putString("id", id)
+        intent.putExtras(bundle)
+        startActivity(intent)
     }
 }
