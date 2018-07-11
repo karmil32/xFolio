@@ -3,6 +3,7 @@ package pl.karass32.xfolio.base
 import android.arch.lifecycle.ViewModel
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
+import pl.karass32.xfolio.repository.api.CryptoCompareService
 import pl.karass32.xfolio.repository.db.AppDatabase
 import pl.karass32.xfolio.repository.api.CurrencyRatesService
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
@@ -17,6 +18,8 @@ abstract class BaseViewModel : ViewModel() {
     lateinit var coinMarketCapService: CoinMarketCapService
     @Inject
     lateinit var currencyRatesService: CurrencyRatesService
+    @Inject
+    lateinit var cryptoCompareService: CryptoCompareService
     @Inject
     lateinit var appDb: AppDatabase
     @Inject
