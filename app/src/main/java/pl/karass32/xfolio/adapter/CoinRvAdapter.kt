@@ -68,7 +68,7 @@ class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, privat
                 menuListener.onFavToggleClicked(coinData.id)
             }
 
-            frontLayout.setOnClickListener { itemClickListener.onItemClick(coinData.id) }
+            frontLayout.setOnClickListener { itemClickListener.onItemClick(coinData.symbol) }
 
             GlideApp.with(this)
                     .load("${CoinMarketCapService.API_IMAGES_URL}${coinData.id}.png")
@@ -150,6 +150,6 @@ class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, privat
     }
 
     interface OnItemClickListener {
-        fun onItemClick(id: String)
+        fun onItemClick(coinSymbol: String)
     }
 }
