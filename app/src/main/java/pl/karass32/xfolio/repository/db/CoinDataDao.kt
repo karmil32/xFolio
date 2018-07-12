@@ -19,8 +19,8 @@ interface CoinDataDao {
     @Query ("SELECT * FROM coin_data_list WHERE id in (:favIds)")
     fun getFavorites(favIds: List<String>) : LiveData<List<CoinData>>
 
-    @Query("SELECT * FROM COIN_DATA_LIST WHERE id = (:id)")
-    fun getById(id: String) : LiveData<CoinData>
+    @Query("SELECT * FROM COIN_DATA_LIST WHERE symbol = (:coinSymbol)")
+    fun getBySymbol(coinSymbol: String) : LiveData<CoinData>
 
     @Insert (onConflict = REPLACE)
     fun insert(list: List<CoinData>)
