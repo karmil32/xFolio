@@ -81,10 +81,10 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
         }
     }
 
-    override fun onItemClick(id: String) {
+    override fun onItemClick(coinSymbol: String) {
         val intent = Intent(this, CoinDetailsActivity::class.java)
         val bundle = Bundle()
-        bundle.putString("id", id)
+        bundle.putString("COIN_SYMBOL", coinSymbol)
         intent.putExtras(bundle)
         startActivity(intent)
     }
