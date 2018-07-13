@@ -51,6 +51,20 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <ProgressBar
+                android:id="@+id/chartProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:indeterminate="true"
+                app:layout_constraintBottom_toBottomOf="@+id/priceChart"
+                app:layout_constraintEnd_toEndOf="@+id/priceChart"
+                app:layout_constraintStart_toStartOf="@+id/priceChart"
+                app:layout_constraintTop_toTopOf="@+id/priceChart" />
+
             <TextView
                 android:id="@+id/priceTxt"
                 android:layout_width="wrap_content"
@@ -70,7 +84,9 @@
                 android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent">
+
+            </com.github.mikephil.charting.charts.LineChart>
 
             <TextView
                 android:id="@+id/rankTxt"
@@ -138,9 +154,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="$109816677756"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/price" />
+                app:layout_constraintTop_toBottomOf="@+id/price"
+                tools:text="$109816677756" />
 
             <TextView
                 android:id="@+id/volume24h"
@@ -148,9 +164,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="$4565560000"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/marketCap" />
+                app:layout_constraintTop_toBottomOf="@+id/marketCap"
+                tools:text="$4565560000" />
 
             <TextView
                 android:id="@+id/availableSupply"
@@ -158,9 +174,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="17123325 BTC"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/volume24h" />
+                app:layout_constraintTop_toBottomOf="@+id/volume24h"
+                tools:text="17123325 BTC" />
 
             <TextView
                 android:id="@+id/maxSupply"
@@ -168,9 +184,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="21000000 BTC"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/availableSupply" />
+                app:layout_constraintTop_toBottomOf="@+id/availableSupply"
+                tools:text="21000000 BTC" />
 
             <TextView
                 android:id="@+id/price"
@@ -178,9 +194,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
-                tools:text="$6000"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/rank" />
+                app:layout_constraintTop_toBottomOf="@+id/rank"
+                tools:text="$6000" />
 
         </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
