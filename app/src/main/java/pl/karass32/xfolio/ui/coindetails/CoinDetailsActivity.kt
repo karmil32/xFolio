@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View.GONE
+import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
@@ -11,6 +12,7 @@ import kotlinx.android.synthetic.main.coin_details_activity.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.data.HistDataResponse
+import pl.karass32.xfolio.util.AxisValueFormatter
 import pl.karass32.xfolio.util.CurrencyUtils
 
 class CoinDetailsActivity : BaseActivity() {
@@ -54,8 +56,14 @@ class CoinDetailsActivity : BaseActivity() {
     }
 
     fun initPriceChart() {
-        priceChart.xAxis.isEnabled = false
+        priceChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
+        priceChart.xAxis.setDrawGridLines(false)
+        priceChart.xAxis.setLabelCount(4, true)
+        priceChart.xAxis.valueFormatter = AxisValueFormatter()
         priceChart.setNoDataText("")
+        priceChart.description.isEnabled = false
+        priceChart.legend.isEnabled = false
+        priceChart.axisLeft.isEnabled = false
     }
 
     fun showPriceChart(histData: HistDataResponse) {
@@ -64,7 +72,7 @@ class CoinDetailsActivity : BaseActivity() {
         for (histEntry in histData.data) {
             list.add(Entry(histEntry.time.toFloat(), histEntry.close.toFloat()))
         }
-        val lineDataSet = LineDataSet(list, "Guwno")
+        val lineDataSet = LineDataSet(list, null)
         lineDataSet.setDrawCircles(false)
         lineDataSet.setDrawFilled(true)
         val lineData = LineData(lineDataSet)
