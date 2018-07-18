@@ -59,7 +59,6 @@ class CoinDetailsActivity : BaseActivity() {
         priceChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
         priceChart.xAxis.setDrawGridLines(false)
         priceChart.xAxis.setLabelCount(4, true)
-        priceChart.xAxis.valueFormatter = AxisValueFormatter()
         priceChart.setNoDataText("")
         priceChart.description.isEnabled = false
         priceChart.legend.isEnabled = false
@@ -72,6 +71,10 @@ class CoinDetailsActivity : BaseActivity() {
         for (histEntry in histData.data) {
             list.add(Entry(histEntry.time.toFloat(), histEntry.close.toFloat()))
         }
+
+        val timePeriod = list.last().x.toLong() - list.first().x.toLong()
+        priceChart.xAxis.valueFormatter = AxisValueFormatter(timePeriod)
+
         val lineDataSet = LineDataSet(list, null)
         lineDataSet.setDrawCircles(false)
         lineDataSet.setDrawFilled(true)
