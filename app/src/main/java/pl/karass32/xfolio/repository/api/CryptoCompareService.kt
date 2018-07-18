@@ -13,6 +13,21 @@ interface CryptoCompareService {
     @GET("histoday?tsym=USD&allData=true&aggregate=1&e=CCCAGG")
     fun getAllHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
 
+    @GET("histoday?tsym=USD&limit=365&aggregate=1&e=CCCAGG")
+    fun getLastYearHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
+
+    @GET("histoday?tsym=USD&limit=182&aggregate=1&e=CCCAGG")
+    fun getLastSixMonthsHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
+
+    @GET("histohour?tsym=USD&limit=740&aggregate=1&e=CCCAGG")
+    fun getLastMonthHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
+
+    @GET("histohour?tsym=USD&limit=168&aggregate=1&e=CCCAGG")
+    fun getLastWeekHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
+
+    @GET("histominute?tsym=USD&limit=1440&aggregate=1&e=CCCAGG")
+    fun getLastDayHistoricalData(@Query("fsym") id: String?) : Observable<HistDataResponse>
+
     companion object {
         const val API_BASE_URL = "https://min-api.cryptocompare.com/data/"
 
