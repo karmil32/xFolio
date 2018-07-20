@@ -51,6 +51,61 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <RadioGroup
+                android:id="@+id/chartRadioGroup"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="16dp"
+                android:orientation="horizontal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/priceChart">
+
+                <RadioButton
+                    android:id="@+id/chart1dRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1D" />
+
+                <RadioButton
+                    android:id="@+id/chart7dRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="7D" />
+
+                <RadioButton
+                    android:id="@+id/chart1mRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1M" />
+
+                <RadioButton
+                    android:id="@+id/chart6mRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="6M" />
+
+                <RadioButton
+                    android:id="@+id/chart1yRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="1Y" />
+
+                <RadioButton
+                    android:id="@+id/chartAllRadioButton"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="ALL" />
+            </RadioGroup>
+
             <ProgressBar
                 android:id="@+id/chartProgressBar"
                 android:layout_width="wrap_content"
@@ -96,7 +151,7 @@
                 android:layout_marginTop="8dp"
                 android:text="@string/coin_details_rank"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceChart" />
+                app:layout_constraintTop_toBottomOf="@+id/chartRadioGroup" />
 
             <TextView
                 android:id="@+id/marketCapTxt"
@@ -143,9 +198,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="16dp"
-                android:layout_marginTop="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/priceChart"
+                app:layout_constraintTop_toBottomOf="@+id/chartRadioGroup"
                 tools:text="1" />
 
             <TextView
