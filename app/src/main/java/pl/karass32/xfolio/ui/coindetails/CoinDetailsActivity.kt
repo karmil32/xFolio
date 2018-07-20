@@ -4,6 +4,7 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.View.GONE
+import android.view.View.VISIBLE
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
@@ -53,6 +54,10 @@ class CoinDetailsActivity : BaseActivity() {
         mViewModel.getHistData(mCoinSymbol)?.observe(this, Observer { histData ->
             histData?.let { showPriceChart(it) }
         })
+
+        mViewModel.isChartLoading.observe(this, Observer { isLoading ->
+            isLoading?.let { chartProgressBar.visibility = if (isLoading) VISIBLE else GONE }
+        })
     }
 
     fun initPriceChart() {
@@ -63,10 +68,26 @@ class CoinDetailsActivity : BaseActivity() {
         priceChart.description.isEnabled = false
         priceChart.legend.isEnabled = false
         priceChart.axisLeft.isEnabled = false
+
+        initPriceChartRadioButtons()
+    }
+
+    fun initPriceChartRadioButtons() {
+        chartAllRadioButton.isChecked = true
+        chartRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
+            priceChart.clear()
+            when (id) {
+                R.id.chart1dRadioButton -> mViewModel.load1dHistData(mCoinSymbol)
+                R.id.chart7dRadioButton -> mViewModel.load7dHistData(mCoinSymbol)
+                R.id.chart1mRadioButton -> mViewModel.load1mHistData(mCoinSymbol)
+                R.id.chart6mRadioButton -> mViewModel.load6mHistData(mCoinSymbol)
+                R.id.chart1yRadioButton -> mViewModel.load1yHistData(mCoinSymbol)
+                R.id.chartAllRadioButton -> mViewModel.loadAllHistData(mCoinSymbol)
+            }
+        }
     }
 
     fun showPriceChart(histData: HistDataResponse) {
-        chartProgressBar.visibility = GONE
         val list: ArrayList<Entry> = ArrayList()
         for (histEntry in histData.data) {
             list.add(Entry(histEntry.time.toFloat(), histEntry.close.toFloat()))
