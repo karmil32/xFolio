@@ -19,6 +19,8 @@ class CoinDetailsViewModel : BaseViewModel() {
     var histData: MutableLiveData<HistDataResponse>? = null
     var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
+    var isChartLoading: MutableLiveData<Boolean> = MutableLiveData()
+
     init {
         currency.value = appDb.fiatCurrencyDao().getCurrency(preferences.getDefaultCurrency()) // TODO MainThread
     }
@@ -45,20 +47,103 @@ class CoinDetailsViewModel : BaseViewModel() {
     fun getHistData(coinSymbol: String): LiveData<HistDataResponse>? {
         if (histData == null) {
             histData = MutableLiveData()
-            loadHistData(coinSymbol)
+            loadAllHistData(coinSymbol)
         }
         return histData
     }
 
-    fun loadHistData(coinSymbol: String) {
+    fun loadAllHistData(coinSymbol: String) {
+        isChartLoading.value = true
         compositeDisposable.add(cryptoCompareService.getAllHistoricalData(coinSymbol)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                         { result ->
+                            isChartLoading.value = false
                             histData?.value = result
                         },
                         { error ->
+                            isChartLoading.value = false
+                        }
+                ))
+    }
+
+    fun load1dHistData(coinSymbol: String) {
+        isChartLoading.value = true
+        compositeDisposable.add(cryptoCompareService.getLastDayHistoricalData(coinSymbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            isChartLoading.value = false
+                            histData?.value = result
+                        },
+                        { error ->
+                            isChartLoading.value = false
+                        }
+                ))
+    }
+
+    fun load7dHistData(coinSymbol: String) {
+        isChartLoading.value = true
+        compositeDisposable.add(cryptoCompareService.getLastWeekHistoricalData(coinSymbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            isChartLoading.value = false
+                            histData?.value = result
+                        },
+                        { error ->
+                            isChartLoading.value = false
+                        }
+                ))
+    }
+
+    fun load1mHistData(coinSymbol: String) {
+        isChartLoading.value = true
+        compositeDisposable.add(cryptoCompareService.getLastMonthHistoricalData(coinSymbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            isChartLoading.value = false
+                            histData?.value = result
+                        },
+                        { error ->
+                            isChartLoading.value = false
+                        }
+                ))
+    }
+
+    fun load6mHistData(coinSymbol: String) {
+        isChartLoading.value = true
+        compositeDisposable.add(cryptoCompareService.getLastSixMonthsHistoricalData(coinSymbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            isChartLoading.value = false
+                            histData?.value = result
+                        },
+                        { error ->
+                            isChartLoading.value = false
+                        }
+                ))
+    }
+
+    fun load1yHistData(coinSymbol: String) {
+        isChartLoading.value = true
+        compositeDisposable.add(cryptoCompareService.getLastYearHistoricalData(coinSymbol)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        { result ->
+                            isChartLoading.value = false
+                            histData?.value = result
+                        },
+                        { error ->
+                            isChartLoading.value = false
                         }
                 ))
     }
