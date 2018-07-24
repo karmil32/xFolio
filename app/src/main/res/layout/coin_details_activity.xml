@@ -16,7 +16,6 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:fitsSystemWindows="false"
-            app:layout_scrollFlags="scroll|enterAlways"
             tools:title="Bitcoin" />
 
         <android.support.design.widget.TabLayout
@@ -42,14 +41,74 @@
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <android.support.v4.widget.NestedScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="android.support.design.widget.AppBarLayout$ScrollingViewBehavior">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/change7d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change24h"
+                tools:text="2.87%" />
+
+            <TextView
+                android:id="@+id/change24h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change1h"
+                tools:text="-12%" />
+
+            <TextView
+                android:id="@+id/change1h"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/maxSupply"
+                tools:text="1.23%" />
+
+            <TextView
+                android:id="@+id/change7dTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Change 7d"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change24hTxt" />
+
+            <TextView
+                android:id="@+id/change24hTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Change 24h"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/change1hTxt" />
+
+            <TextView
+                android:id="@+id/change1hTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Change 1h"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/maxSupplyTxt" />
 
             <TextView
                 android:id="@+id/chartDateTextView"
@@ -276,6 +335,6 @@
                 tools:text="$6000" />
 
         </android.support.constraint.ConstraintLayout>
-    </android.support.v4.widget.NestedScrollView>
+    </ScrollView>
 
 </android.support.design.widget.CoordinatorLayout>
