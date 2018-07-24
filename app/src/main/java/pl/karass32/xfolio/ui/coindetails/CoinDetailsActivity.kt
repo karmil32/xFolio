@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.coin_details_activity.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.data.HistDataResponse
+import pl.karass32.xfolio.extension.getCompatColor
 import pl.karass32.xfolio.util.AxisValueFormatter
 import pl.karass32.xfolio.util.CurrencyUtils
 import pl.karass32.xfolio.util.NumberUtils
@@ -55,9 +56,18 @@ class CoinDetailsActivity : BaseActivity(), OnChartValueSelectedListener {
             coinData?.volume24h?.let { volume24h.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
             coinData?.availableSupply?.let { availableSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
             coinData?.totalSupply?.let { maxSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
-            coinData?.change1h?.let { change1h.text = NumberUtils.percentageFormat.format(it) + "%" }
-            coinData?.change24h?.let { change24h.text = NumberUtils.percentageFormat.format(it) + "%" }
-            coinData?.change7d?.let { change7d.text = NumberUtils.percentageFormat.format(it) + "%" }
+            coinData?.change1h?.let {
+                change1h.text = NumberUtils.percentageFormat.format(it) + "%"
+                change1h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            }
+            coinData?.change24h?.let {
+                change24h.text = NumberUtils.percentageFormat.format(it) + "%"
+                change24h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            }
+            coinData?.change7d?.let {
+                change7d.text = NumberUtils.percentageFormat.format(it) + "%"
+                change7d.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+            }
         })
         mViewModel.getHistData(mCoinSymbol)?.observe(this, Observer { histData ->
             histData?.let { showPriceChart(it) }
