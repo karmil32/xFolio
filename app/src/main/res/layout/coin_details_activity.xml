@@ -20,24 +20,26 @@
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            app:tabIndicatorColor="@android:color/background_light"
             app:tabMode="scrollable">
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tab1" />
+                android:text="Details" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tab2" />
+                android:text="Markets" />
 
             <android.support.design.widget.TabItem
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tab3" />
+                android:text="Alarms" />
         </android.support.design.widget.TabLayout>
     </android.support.design.widget.AppBarLayout>
 
