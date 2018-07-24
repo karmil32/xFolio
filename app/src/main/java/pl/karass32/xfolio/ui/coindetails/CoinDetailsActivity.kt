@@ -17,6 +17,7 @@ import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.data.HistDataResponse
 import pl.karass32.xfolio.util.AxisValueFormatter
 import pl.karass32.xfolio.util.CurrencyUtils
+import pl.karass32.xfolio.util.NumberUtils
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
 
@@ -54,6 +55,9 @@ class CoinDetailsActivity : BaseActivity(), OnChartValueSelectedListener {
             coinData?.volume24h?.let { volume24h.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
             coinData?.availableSupply?.let { availableSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
             coinData?.totalSupply?.let { maxSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
+            coinData?.change1h?.let { change1h.text = NumberUtils.percentageFormat.format(it) + "%" }
+            coinData?.change24h?.let { change24h.text = NumberUtils.percentageFormat.format(it) + "%" }
+            coinData?.change7d?.let { change7d.text = NumberUtils.percentageFormat.format(it) + "%" }
         })
         mViewModel.getHistData(mCoinSymbol)?.observe(this, Observer { histData ->
             histData?.let { showPriceChart(it) }
