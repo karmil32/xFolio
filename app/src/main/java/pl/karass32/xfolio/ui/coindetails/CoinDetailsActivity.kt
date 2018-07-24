@@ -9,14 +9,18 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.highlight.Highlight
+import com.github.mikephil.charting.listener.OnChartValueSelectedListener
 import kotlinx.android.synthetic.main.coin_details_activity.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.data.HistDataResponse
 import pl.karass32.xfolio.util.AxisValueFormatter
 import pl.karass32.xfolio.util.CurrencyUtils
+import java.math.BigDecimal
+import java.text.SimpleDateFormat
 
-class CoinDetailsActivity : BaseActivity() {
+class CoinDetailsActivity : BaseActivity(), OnChartValueSelectedListener {
 
     lateinit var mViewModel: CoinDetailsViewModel
     lateinit var mCoinSymbol: String
@@ -68,6 +72,7 @@ class CoinDetailsActivity : BaseActivity() {
         priceChart.description.isEnabled = false
         priceChart.legend.isEnabled = false
         priceChart.axisLeft.isEnabled = false
+        priceChart.setOnChartValueSelectedListener(this)
 
         initPriceChartRadioButtons()
     }
@@ -103,6 +108,18 @@ class CoinDetailsActivity : BaseActivity() {
         lineData.setDrawValues(false)
         priceChart.data = lineData
         priceChart.animateX(1000)
+        priceChart.highlightValue(Highlight(lineData.xMax, 0 ,0), true)
         priceChart.invalidate()
+    }
+
+    override fun onNothingSelected() {}
+
+    override fun onValueSelected(e: Entry?, h: Highlight?) {
+        val currencyCode = preferences.getDefaultCurrency()
+        val format = SimpleDateFormat("dd MMM yyyy HH:mm ")
+
+        val price = CurrencyUtils.getFormattedPrice(BigDecimal(e?.y.toString()), currencyCode)
+        chartPriceTextView.text = price
+        chartDateTextView.text = e?.x?.let { format.format(it * 1000) }
     }
 }
