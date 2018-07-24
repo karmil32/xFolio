@@ -1,6 +1,7 @@
 package pl.karass32.xfolio.extension
 
 import android.support.v4.content.ContextCompat
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 
 /**
@@ -8,3 +9,4 @@ import android.view.View
  */
 
 fun View.getColor(colorRes: Int) = ContextCompat.getColor(this.context, colorRes)
+fun AppCompatActivity.getCompatColor(colorRes: Int) = ContextCompat.getColor(this, colorRes)
