@@ -33,13 +33,26 @@
 
     <!--COIN DETAILS-->
 
+    <string name="coin_details_tab_details">Details</string>
+    <string name="coin_details_tab_markets">Markets</string>
+    <string name="coin_details_tab_alarms">Alarms</string>
+
+    <string name="coin_details_chart_1d">1D</string>
+    <string name="coin_details_chart_7d">7D</string>
+    <string name="coin_details_chart_1m">1M</string>
+    <string name="coin_details_chart_6m">6M</string>
+    <string name="coin_details_chart_1y">1Y</string>
+    <string name="coin_details_chart_All">ALL</string>
+
     <string name="coin_details_rank">Rank</string>
     <string name="coin_details_price">Price</string>
     <string name="coin_details_market_cap">Market Cap</string>
     <string name="coin_details_volume_24h">Volume (24h)</string>
     <string name="coin_details_circulating_supply">Circulating Supply</string>
     <string name="coin_details_max_supply">Max Supply</string>
-
+    <string name="coin_details_change_1h">Change 1h</string>
+    <string name="coin_details_change_24h">Change 24h</string>
+    <string name="coin_details_change7d">Change 7 Days</string>
 
     <!--PREFERENCES - GENERAL-->
     
