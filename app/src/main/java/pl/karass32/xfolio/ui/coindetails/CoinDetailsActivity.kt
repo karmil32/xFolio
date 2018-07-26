@@ -1,30 +1,14 @@
 package pl.karass32.xfolio.ui.coindetails
 
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
-import android.view.View.GONE
-import android.view.View.VISIBLE
-import com.github.mikephil.charting.components.XAxis
-import com.github.mikephil.charting.data.Entry
-import com.github.mikephil.charting.data.LineData
-import com.github.mikephil.charting.data.LineDataSet
-import com.github.mikephil.charting.highlight.Highlight
-import com.github.mikephil.charting.listener.OnChartValueSelectedListener
+import android.support.design.widget.TabLayout
 import kotlinx.android.synthetic.main.coin_details_activity.*
 import pl.karass32.xfolio.R
+import pl.karass32.xfolio.adapter.CoinDetailsPagerAdapter
 import pl.karass32.xfolio.base.BaseActivity
-import pl.karass32.xfolio.data.HistDataResponse
-import pl.karass32.xfolio.extension.getCompatColor
-import pl.karass32.xfolio.util.AxisValueFormatter
-import pl.karass32.xfolio.util.CurrencyUtils
-import pl.karass32.xfolio.util.NumberUtils
-import java.math.BigDecimal
-import java.text.SimpleDateFormat
 
-class CoinDetailsActivity : BaseActivity(), OnChartValueSelectedListener {
+class CoinDetailsActivity : BaseActivity() {
 
-    lateinit var mViewModel: CoinDetailsViewModel
     lateinit var mCoinSymbol: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -33,107 +17,20 @@ class CoinDetailsActivity : BaseActivity(), OnChartValueSelectedListener {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        mViewModel = ViewModelProviders.of(this).get(CoinDetailsViewModel::class.java)
-
         val args = intent.extras
         args?.let {
             mCoinSymbol = args.getString("COIN_SYMBOL")
         }
 
-        initViewModel()
-        initPriceChart()
-    }
-
-    fun initViewModel() {
-        mViewModel.getCoinData(mCoinSymbol)?.observe(this, Observer { coinData ->
-            supportActionBar?.title = coinData?.name
-
-            val currencyCode = preferences.getDefaultCurrency()
-
-            coinData?.price?.let { price.text = CurrencyUtils.getFormattedPrice(it, currencyCode) }
-            rank.text = coinData?.rank?.toString()
-            coinData?.marketCap?.let { marketCap.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
-            coinData?.volume24h?.let { volume24h.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
-            coinData?.availableSupply?.let { availableSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
-            coinData?.totalSupply?.let { maxSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
-            coinData?.change1h?.let {
-                change1h.text = NumberUtils.percentageFormat.format(it) + "%"
-                change1h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
+        val viewPagerAdapter = CoinDetailsPagerAdapter(supportFragmentManager, detailsTabs.tabCount)
+        detailsViewPager.adapter = viewPagerAdapter
+        detailsViewPager.addOnPageChangeListener(TabLayout.TabLayoutOnPageChangeListener(detailsTabs))
+        detailsTabs.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+            override fun onTabSelected(tab: TabLayout.Tab) {
+                detailsViewPager.currentItem = tab.position
             }
-            coinData?.change24h?.let {
-                change24h.text = NumberUtils.percentageFormat.format(it) + "%"
-                change24h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
-            }
-            coinData?.change7d?.let {
-                change7d.text = NumberUtils.percentageFormat.format(it) + "%"
-                change7d.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getColor(R.color.negativeColor))
-            }
+            override fun onTabReselected(tab: TabLayout.Tab) {}
+            override fun onTabUnselected(tab: TabLayout.Tab) {}
         })
-        mViewModel.getHistData(mCoinSymbol)?.observe(this, Observer { histData ->
-            histData?.let { showPriceChart(it) }
-        })
-
-        mViewModel.isChartLoading.observe(this, Observer { isLoading ->
-            isLoading?.let { chartProgressBar.visibility = if (isLoading) VISIBLE else GONE }
-        })
-    }
-
-    fun initPriceChart() {
-        priceChart.xAxis.position = XAxis.XAxisPosition.BOTTOM
-        priceChart.xAxis.setDrawGridLines(false)
-        priceChart.xAxis.setLabelCount(4, true)
-        priceChart.setNoDataText("")
-        priceChart.description.isEnabled = false
-        priceChart.legend.isEnabled = false
-        priceChart.axisLeft.isEnabled = false
-        priceChart.setOnChartValueSelectedListener(this)
-
-        initPriceChartRadioButtons()
-    }
-
-    fun initPriceChartRadioButtons() {
-        chartAllRadioButton.isChecked = true
-        chartRadioGroup.setOnCheckedChangeListener { radioGroup, id ->
-            priceChart.clear()
-            when (id) {
-                R.id.chart1dRadioButton -> mViewModel.load1dHistData(mCoinSymbol)
-                R.id.chart7dRadioButton -> mViewModel.load7dHistData(mCoinSymbol)
-                R.id.chart1mRadioButton -> mViewModel.load1mHistData(mCoinSymbol)
-                R.id.chart6mRadioButton -> mViewModel.load6mHistData(mCoinSymbol)
-                R.id.chart1yRadioButton -> mViewModel.load1yHistData(mCoinSymbol)
-                R.id.chartAllRadioButton -> mViewModel.loadAllHistData(mCoinSymbol)
-            }
-        }
-    }
-
-    fun showPriceChart(histData: HistDataResponse) {
-        val list: ArrayList<Entry> = ArrayList()
-        for (histEntry in histData.data) {
-            list.add(Entry(histEntry.time.toFloat(), histEntry.close.toFloat()))
-        }
-
-        val timePeriod = list.last().x.toLong() - list.first().x.toLong()
-        priceChart.xAxis.valueFormatter = AxisValueFormatter(timePeriod)
-
-        val lineDataSet = LineDataSet(list, null)
-        lineDataSet.setDrawCircles(false)
-        lineDataSet.setDrawFilled(true)
-        val lineData = LineData(lineDataSet)
-        lineData.setDrawValues(false)
-        priceChart.data = lineData
-        priceChart.animateX(1000)
-        priceChart.highlightValue(Highlight(lineData.xMax, 0 ,0), true)
-        priceChart.invalidate()
-    }
-
-    override fun onNothingSelected() {}
-
-    override fun onValueSelected(e: Entry?, h: Highlight?) {
-        val currencyCode = preferences.getDefaultCurrency()
-        val format = SimpleDateFormat("dd MMM yyyy HH:mm ")
-
-        val price = CurrencyUtils.getFormattedPrice(BigDecimal(e?.y.toString()), currencyCode)
-        chartPriceTextView.text = price
-        chartDateTextView.text = e?.x?.let { format.format(it * 1000) }
     }
 }
