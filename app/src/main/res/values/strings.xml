@@ -54,6 +54,9 @@
     <string name="coin_details_change_24h">Change 24h</string>
     <string name="coin_details_change7d">Change 7 Days</string>
 
+    <string name="coin_alarm_price_above">Price Above</string>
+
+    <string name="coin_alarm_clear">Clear</string>
     <string name="coin_alarm_change_prc_val_template">%s\'%% (%s)</string>
 
     <!--PREFERENCES - GENERAL-->
@@ -87,4 +90,10 @@
     <string name="pref_change_1h">1H</string>
     <string name="pref_change_24h">24H</string>
     <string name="pref_change_7d">7D</string>
+
+    <!--OTHERS-->
+
+
+    <string name="plus">+</string>
+    <string name="minus">-</string>
 </resources>
