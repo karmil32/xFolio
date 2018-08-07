@@ -39,4 +39,15 @@
     <string name="coin_details_rank">Ranking</string>
     <string name="coin_details_price">Cena</string>
     <string name="coin_details_volume_24h">Obrót 24h</string>
+    <string name="coin_details_tab_details">Szczegóły</string>
+    <string name="coin_details_tab_markets">Giełdy</string>
+    <string name="coin_details_tab_alarms">Alarmy</string>
+    <string name="coin_details_market_cap">Kapitalizacja</string>
+    <string name="coin_details_change_1h">Zmiana 1h</string>
+    <string name="coin_details_change_24h">Zmiana 24h</string>
+    <string name="coin_details_change7d">Zmiana 7d</string>
+    <string name="coin_alarm_price_above">Cena ponad</string>
+    <string name="coin_alarm_price_above_error">Wartość nie może być mniejsza niż aktualna cena.</string>
+    <string name="coin_alarm_clear">Wyczyść</string>
+    <string name="coin_alarm_change_prc_val_template">Zmiana: %s\\\'%% (%s)</string>
 </resources>
