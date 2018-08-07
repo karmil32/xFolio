@@ -54,6 +54,8 @@
     <string name="coin_details_change_24h">Change 24h</string>
     <string name="coin_details_change7d">Change 7 Days</string>
 
+    <string name="coin_alarm_change_prc_val_template">%s\'%% (%s)</string>
+
     <!--PREFERENCES - GENERAL-->
     
     <string name="pref_category_general">General</string>
