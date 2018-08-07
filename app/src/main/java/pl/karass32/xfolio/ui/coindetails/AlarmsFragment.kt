@@ -109,6 +109,9 @@ class AlarmsFragment : BaseFragment() {
                     val valueChange = mCurrentPrice.valueDiff(BigDecimal(p0.toString()))
                     mView.priceAbovePrcValChange.text = appContext.getString(R.string.coin_alarm_change_prc_val_template, percentageChange, CurrencyUtils.getFormattedPrice(valueChange, preferences.getDefaultCurrency()))
                 }
+                if (BigDecimal(mView.priceAboveEditText.text.toString()) < mCurrentPrice) {
+                    mView.priceAboveEditText.error = appContext.getString(R.string.coin_alarm_price_above_error)
+                }
             }
         })
     }
