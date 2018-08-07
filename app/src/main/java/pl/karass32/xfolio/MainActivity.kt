@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.intentFor
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.ui.coindetails.CoinDetailsActivity
@@ -82,10 +83,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     override fun onItemClick(coinSymbol: String) {
-        val intent = Intent(this, CoinDetailsActivity::class.java)
-        val bundle = Bundle()
-        bundle.putString("COIN_SYMBOL", coinSymbol)
-        intent.putExtras(bundle)
-        startActivity(intent)
+        startActivity(intentFor<CoinDetailsActivity>("COIN_SYMBOL" to coinSymbol))
     }
 }

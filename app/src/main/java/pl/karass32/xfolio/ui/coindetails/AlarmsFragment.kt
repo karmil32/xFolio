@@ -11,9 +11,9 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_details_alarms_fragment.*
 import kotlinx.android.synthetic.main.coin_details_alarms_fragment.view.*
+import org.jetbrains.anko.support.v4.longToast
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseFragment
 import pl.karass32.xfolio.extension.clearText
@@ -93,7 +93,8 @@ class AlarmsFragment : BaseFragment() {
                 priceAboveEditText.setText(decreasedPrice.setScale(2, RoundingMode.UP).toPlainString())
             } else {
                 priceAboveEditText.setText(mCurrentPrice.toPlainString())
-                Toast.makeText(appContext, appContext.getText(R.string.coin_alarm_price_above_error), Toast.LENGTH_LONG).show()
+                longToast(appContext.getString(R.string.coin_alarm_price_above_error))
+//                Toast.makeText(appContext, appContext.getText(R.string.coin_alarm_price_above_error), Toast.LENGTH_LONG).show()
             }
         }){})
     }
