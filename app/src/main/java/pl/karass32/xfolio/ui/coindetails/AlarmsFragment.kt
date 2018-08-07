@@ -4,15 +4,21 @@ import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.support.transition.TransitionManager
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Toast
 import kotlinx.android.synthetic.main.coin_details_alarms_fragment.*
 import kotlinx.android.synthetic.main.coin_details_alarms_fragment.view.*
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseFragment
+import pl.karass32.xfolio.extension.clearText
+import pl.karass32.xfolio.extension.percentageDiff
+import pl.karass32.xfolio.extension.valueDiff
 import pl.karass32.xfolio.listener.RepeatListener
 import pl.karass32.xfolio.util.CurrencyUtils
 import java.math.BigDecimal
@@ -38,6 +44,7 @@ class AlarmsFragment : BaseFragment() {
 
         initViewModel()
         initOnClicks()
+        initListeners()
 
         return mView
     }
@@ -63,16 +70,11 @@ class AlarmsFragment : BaseFragment() {
             mView.priceAboveMinusButton.visibility = if (isChecked) VISIBLE else GONE
             mView.priceAboveEditText.visibility = if (isChecked) VISIBLE else GONE
         }
-        mView.priceAboveClearButton.setOnClickListener { mView.priceAboveEditText.setText("") }
-
-        mView.priceAbovePlusButton.setOnClickListener {
-            if (priceAboveEditText.text.isEmpty()) {
-                priceAboveEditText.setText(mCurrentPrice.toPlainString())
-            }
-            val step = mCurrentPrice.multiply(BigDecimal("0.001"))
-            val increasedPrice = BigDecimal(priceAboveEditText.text.toString()).plus(step)
-            priceAboveEditText.setText(increasedPrice.setScale(2, RoundingMode.UP).toPlainString())
+        mView.priceAboveClearButton.setOnClickListener {
+            mView.priceAboveEditText.text.clear()
+            mView.priceAbovePrcValChange.clearText()
         }
+
         mView.priceAbovePlusButton.setOnTouchListener(object : RepeatListener(400, 100, View.OnClickListener {
             if (priceAboveEditText.text.isEmpty()) {
                 priceAboveEditText.setText(mCurrentPrice.toPlainString())
@@ -81,21 +83,33 @@ class AlarmsFragment : BaseFragment() {
             val increasedPrice = BigDecimal(priceAboveEditText.text.toString()).plus(step)
             priceAboveEditText.setText(increasedPrice.setScale(2, RoundingMode.UP).toPlainString())
         }){})
-        mView.priceAboveMinusButton.setOnClickListener {
-            if (priceAboveEditText.text.isEmpty()) {
-                priceAboveEditText.setText(mCurrentPrice.toPlainString())
-            }
-            val step = mCurrentPrice.multiply(BigDecimal("0.001"))
-            val decreasedPrice = BigDecimal(priceAboveEditText.text.toString()).minus(step)
-            priceAboveEditText.setText(decreasedPrice.setScale(2, RoundingMode.UP).toPlainString())
-        }
         mView.priceAboveMinusButton.setOnTouchListener(object : RepeatListener(400, 100, View.OnClickListener {
             if (priceAboveEditText.text.isEmpty()) {
                 priceAboveEditText.setText(mCurrentPrice.toPlainString())
             }
             val step = mCurrentPrice.multiply(BigDecimal("0.01"))
             val decreasedPrice = BigDecimal(priceAboveEditText.text.toString()).minus(step)
-            priceAboveEditText.setText(decreasedPrice.setScale(2, RoundingMode.UP).toPlainString())
+            if (decreasedPrice > mCurrentPrice) {
+                priceAboveEditText.setText(decreasedPrice.setScale(2, RoundingMode.UP).toPlainString())
+            } else {
+                priceAboveEditText.setText(mCurrentPrice.toPlainString())
+                Toast.makeText(appContext, appContext.getText(R.string.coin_alarm_price_above_error), Toast.LENGTH_LONG).show()
+            }
         }){})
+    }
+
+    private fun initListeners() {
+        mView.priceAboveEditText.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(p0: Editable?) {}
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {}
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (!mView.priceAboveEditText.text.isEmpty()) {
+                    val percentageChange = mCurrentPrice.percentageDiff(BigDecimal(p0.toString()))
+                    val valueChange = mCurrentPrice.valueDiff(BigDecimal(p0.toString()))
+                    mView.priceAbovePrcValChange.text = appContext.getString(R.string.coin_alarm_change_prc_val_template, percentageChange, CurrencyUtils.getFormattedPrice(valueChange, preferences.getDefaultCurrency()))
+                }
+            }
+        })
     }
 }
