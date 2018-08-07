@@ -58,7 +58,7 @@
     <string name="coin_alarm_price_above_error">Value can not be less than the current price.</string>
 
     <string name="coin_alarm_clear">Clear</string>
-    <string name="coin_alarm_change_prc_val_template">Change: %s\'%% (%s)</string>
+    <string name="coin_alarm_change_prc_val_template">Change: %s\%% (%s)</string>
 
     <!--PREFERENCES - GENERAL-->
     
