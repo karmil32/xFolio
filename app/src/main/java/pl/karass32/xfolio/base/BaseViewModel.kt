@@ -1,7 +1,9 @@
 package pl.karass32.xfolio.base
 
+import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
 import pl.karass32.xfolio.MyApplication
+import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.CryptoCompareService
 import pl.karass32.xfolio.repository.db.AppDatabase
@@ -24,6 +26,8 @@ abstract class BaseViewModel : ViewModel() {
     lateinit var appDb: AppDatabase
     @Inject
     lateinit var preferences: SharedPreferencesRepository
+
+    var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     init {
         MyApplication.component.inject(this)

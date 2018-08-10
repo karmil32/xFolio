@@ -17,7 +17,6 @@ class CoinDetailsViewModel : BaseViewModel() {
 
     var coinDataMediator: MediatorLiveData<CoinData>? = null
     var histData: MutableLiveData<HistDataResponse>? = null
-    var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     var isChartLoading: MutableLiveData<Boolean> = MutableLiveData()
 

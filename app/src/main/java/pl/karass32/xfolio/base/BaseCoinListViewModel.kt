@@ -26,7 +26,6 @@ abstract class BaseCoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMen
 
     var globalCoinDataMediator: MediatorLiveData<GlobalCoinData>? = null
     var coinListMediator: MediatorLiveData<List<CoinData>>? = null
-    var currency: MutableLiveData<FiatCurrency> = MutableLiveData()
 
     var isLoading: MutableLiveData<Boolean> = MutableLiveData()
     var coinListError = SingleLiveEvent<CoinListErrorEvent>()
