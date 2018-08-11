@@ -9,7 +9,6 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.base.BaseViewModel
 import pl.karass32.xfolio.data.CoinData
-import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.HistDataResponse
 
 class CoinDetailsViewModel : BaseViewModel() {

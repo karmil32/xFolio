@@ -15,7 +15,6 @@ import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.GlobalCoinData
 import pl.karass32.xfolio.error.CoinListErrorEvent
 import pl.karass32.xfolio.extension.SingleLiveEvent
-import pl.karass32.xfolio.repository.db.FavoriteEntity
 import pl.karass32.xfolio.util.CoinListUtils
 import pl.karass32.xfolio.util.CoinOrder
 import java.math.BigDecimal
