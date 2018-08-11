@@ -91,11 +91,6 @@ abstract class BaseCoinListViewModel : BaseViewModel(), CoinRvAdapter.OnSwipeMen
                 ))
     }
 
-    open fun setCurrency(fiatCode: String) {
-        preferences.setDefaultCurrency(fiatCode)
-        thread { currency.postValue(appDb.fiatCurrencyDao().getCurrency(fiatCode)) }
-    }
-
     open fun changeListOrder(sortMethod: CoinOrder) {
         preferences.setCoinListOrder(sortMethod.value)
         val sortedList = CoinListUtils.sort(coinListMediator?.value, sortMethod)

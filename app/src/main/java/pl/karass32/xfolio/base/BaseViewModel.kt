@@ -10,6 +10,7 @@ import pl.karass32.xfolio.repository.db.AppDatabase
 import pl.karass32.xfolio.repository.api.CurrencyRatesService
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import javax.inject.Inject
+import kotlin.concurrent.thread
 
 /**
  * Created by karas on 05.03.2018.
@@ -31,5 +32,10 @@ abstract class BaseViewModel : ViewModel() {
 
     init {
         MyApplication.component.inject(this)
+    }
+
+    open fun setCurrency(fiatCode: String) {
+        preferences.setDefaultCurrency(fiatCode)
+        thread { currency.postValue(appDb.fiatCurrencyDao().getCurrency(fiatCode)) }
     }
 }
