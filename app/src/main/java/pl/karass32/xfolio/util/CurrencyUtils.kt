@@ -1,6 +1,7 @@
 package pl.karass32.xfolio.util
 
 import java.math.BigDecimal
+import java.text.DecimalFormat
 import java.util.*
 
 /**
@@ -9,13 +10,15 @@ import java.util.*
 class CurrencyUtils {
     companion object {
         fun getFormattedPrice(price: BigDecimal, currencyCode: String) : String {
-            val formattedStringValue = NumberUtils.getPriceFormat(price).format(price)
+            val priceFormat = DecimalFormat(if (price > BigDecimal(1)) "###,###.00" else "#.#######")
+            val formattedStringValue = priceFormat.format(price)
 
             return getValueWithSymbol(currencyCode, formattedStringValue)
         }
 
         fun getFormattedBigValue(value: Long, currencyCode: String?) : String {
-            val formattedStringValue = NumberUtils.bigValueFormat.format(value)
+            val bigValueFormat = DecimalFormat("###,###.##")
+            val formattedStringValue = bigValueFormat.format(value)
 
             return if (currencyCode != null) getValueWithSymbol(currencyCode, formattedStringValue) else formattedStringValue
         }
