@@ -21,9 +21,9 @@ import pl.karass32.xfolio.data.HistDataResponse
 import pl.karass32.xfolio.extension.getCompatColor
 import pl.karass32.xfolio.util.AxisValueFormatter
 import pl.karass32.xfolio.util.CurrencyUtils
-import pl.karass32.xfolio.util.NumberUtils
 import java.math.BigDecimal
 import java.text.SimpleDateFormat
+import java.util.*
 
 class DetailsFragment : BaseFragment(), OnChartValueSelectedListener {
 
@@ -53,22 +53,22 @@ class DetailsFragment : BaseFragment(), OnChartValueSelectedListener {
 
             val currencyCode = preferences.getDefaultCurrency()
 
-            coinData?.price?.let { mView.price.text = CurrencyUtils.getFormattedPrice(it, currencyCode) }
+            coinData?.price?.let { mView.price.text = it.toPlainString() }
             mView.rank.text = coinData?.rank?.toString()
             coinData?.marketCap?.let { mView.marketCap.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
             coinData?.volume24h?.let { mView.volume24h.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
             coinData?.availableSupply?.let { mView.availableSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
             coinData?.totalSupply?.let { mView.maxSupply.text = String.format("%s %s", CurrencyUtils.getFormattedBigValue(it, null), coinData.symbol) }
             coinData?.change1h?.let {
-                mView.change1h.text = NumberUtils.percentageFormat.format(it) + "%"
+                mView.change1h.text = appContext.getString(R.string.percent_template, it.toString())
                 mView.change1h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getCompatColor(R.color.negativeColor))
             }
             coinData?.change24h?.let {
-                mView.change24h.text = NumberUtils.percentageFormat.format(it) + "%"
+                mView.change24h.text = appContext.getString(R.string.percent_template, it.toString())
                 mView.change24h.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getCompatColor(R.color.negativeColor))
             }
             coinData?.change7d?.let {
-                mView.change7d.text = NumberUtils.percentageFormat.format(it) + "%"
+                mView.change7d.text = appContext.getString(R.string.percent_template, it.toString())
                 mView.change7d.setTextColor(if (it >= BigDecimal(0)) getCompatColor(R.color.positiveColor) else getCompatColor(R.color.negativeColor))
             }
         })
