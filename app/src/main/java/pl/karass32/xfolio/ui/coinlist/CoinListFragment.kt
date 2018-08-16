@@ -7,10 +7,10 @@ import android.os.Bundle
 import android.view.*
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*
 import org.joda.time.DateTime
+import org.joda.time.format.DateTimeFormat
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseCoinListFragment
 import pl.karass32.xfolio.data.GlobalCoinData
-import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.CurrencyUtils
 
 /**
@@ -46,14 +46,15 @@ class CoinListFragment : BaseCoinListFragment() {
 
     @SuppressLint("SetTextI18n")
     private fun showGlobalCoinData(globalData: GlobalCoinData, currencyCode: String) {
+        val dateTimeFormat = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm")
         with(mView) {
             headerTotalMarketCap.text = CurrencyUtils.getFormattedBigValue(globalData.totalMarketCap, currencyCode)
             headerTotal24hVolume.text = CurrencyUtils.getFormattedBigValue(globalData.total24hVolume, currencyCode)
-            headerBitcoinDominance.text = "${NumberUtils.percentageFormat.format(globalData.bitcoinDominance)}%"
+            headerBitcoinDominance.text = appContext.getString(R.string.percent_template, globalData.bitcoinDominance)
             headerActiveCurrencies.text = globalData.activeCurrencies.toString()
             headerActiveAssets.text = globalData.activeAssets.toString()
             headerActiveMarkets.text = globalData.activeMarkets.toString()
-            headerLastUpdated.text = NumberUtils.dateTimeFormat.print(DateTime(globalData.lastUpdated * 1000)).toString()
+            headerLastUpdated.text = dateTimeFormat.print(DateTime(globalData.lastUpdated * 1000)).toString()
         }
     }
 }
