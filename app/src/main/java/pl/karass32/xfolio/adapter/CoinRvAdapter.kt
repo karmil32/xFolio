@@ -21,7 +21,6 @@ import pl.karass32.xfolio.repository.api.CoinMarketCapService
 import pl.karass32.xfolio.repository.api.GlideApp
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import pl.karass32.xfolio.util.CurrencyUtils
-import pl.karass32.xfolio.util.NumberUtils
 import pl.karass32.xfolio.util.enum.ChangeOption
 import java.math.BigDecimal
 import javax.inject.Inject
@@ -87,7 +86,7 @@ class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, privat
             }
 
             change?.let {
-                coinRvChange.text = "${NumberUtils.percentageFormat.format(it)}%"
+                coinRvChange.text = context.getString(R.string.percent_template, it)
                 coinRvChange.setTextColor(if (it >= BigDecimal(0)) getColor(R.color.positiveColor) else getColor(R.color.negativeColor))
             } ?: kotlin.run {
                 coinRvChange.text = "-"
