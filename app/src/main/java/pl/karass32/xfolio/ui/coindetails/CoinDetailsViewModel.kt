@@ -8,14 +8,17 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import pl.karass32.xfolio.base.BaseViewModel
+import pl.karass32.xfolio.data.CoinAlarm
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.HistDataResponse
+import kotlin.concurrent.thread
 
 class CoinDetailsViewModel : BaseViewModel() {
     val compositeDisposable: CompositeDisposable = CompositeDisposable()
 
     var coinDataMediator: MediatorLiveData<CoinData>? = null
     var histData: MutableLiveData<HistDataResponse>? = null
+    var alarms: LiveData<List<CoinAlarm>>? = null
 
     var isChartLoading: MutableLiveData<Boolean> = MutableLiveData()
 
@@ -40,6 +43,17 @@ class CoinDetailsViewModel : BaseViewModel() {
             }
         }
         return coinDataMediator
+    }
+
+    fun getAlarms(coinSymbol: String): LiveData<List<CoinAlarm>>? {
+        if (alarms == null) {
+            alarms = appDb.alarmsDao().getBySymbol(coinSymbol)
+        }
+        return alarms
+    }
+
+    fun setAlarm(coinAlarm: CoinAlarm) {
+        thread { appDb.alarmsDao().insert(coinAlarm) }
     }
 
     fun getHistData(coinSymbol: String): LiveData<HistDataResponse>? {
@@ -145,4 +159,5 @@ class CoinDetailsViewModel : BaseViewModel() {
                         }
                 ))
     }
+
 }
