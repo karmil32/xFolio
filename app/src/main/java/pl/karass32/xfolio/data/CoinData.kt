@@ -25,8 +25,11 @@ data class CoinData(@PrimaryKey(autoGenerate = false) @SerializedName("id") val 
                     @ColumnInfo(name = "market_cap_usd") @SerializedName("market_cap_usd") var marketCap: BigDecimal?,
                     @ColumnInfo(name = "last_updated") @SerializedName("last_updated") val lastUpdated: Long?) {
 
-    var price: BigDecimal? = null
+    var price: BigDecimal?
         get() = _price?.let { if (it > BigDecimal("1")) it.setScale(2, RoundingMode.HALF_UP) else it.setScale(7, RoundingMode.HALF_UP) }
+        set(value) {
+            _price = value
+        }
 
     var change7d: BigDecimal? = null
         get() = _change7d?.setScale(2, RoundingMode.HALF_UP)
