@@ -53,7 +53,7 @@ class DetailsFragment : BaseFragment(), OnChartValueSelectedListener {
 
             val currencyCode = preferences.getDefaultCurrency()
 
-            coinData?.price?.let { mView.price.text = it.toPlainString() }
+            coinData?.price?.let { mView.price.text = CurrencyUtils.getFormattedPrice(it, currencyCode) }
             mView.rank.text = coinData?.rank?.toString()
             coinData?.marketCap?.let { mView.marketCap.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
             coinData?.volume24h?.let { mView.volume24h.text = CurrencyUtils.getFormattedBigValue(it.toLong(), currencyCode) }
