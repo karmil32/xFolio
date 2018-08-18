@@ -13,11 +13,13 @@ import kotlinx.android.synthetic.main.coin_details_alarms_fragment.view.*
 import org.jetbrains.anko.support.v4.longToast
 import pl.karass32.xfolio.R
 import pl.karass32.xfolio.base.BaseFragment
+import pl.karass32.xfolio.data.CoinAlarm
 import pl.karass32.xfolio.extension.clearText
 import pl.karass32.xfolio.extension.percentageDiff
 import pl.karass32.xfolio.extension.valueDiff
 import pl.karass32.xfolio.listener.RepeatListener
 import pl.karass32.xfolio.util.CurrencyUtils
+import pl.karass32.xfolio.util.AlarmType
 import java.math.BigDecimal
 import java.math.RoundingMode
 
@@ -60,16 +62,36 @@ class AlarmsFragment : BaseFragment() {
                 mView.currentPrice.text = CurrencyUtils.getFormattedPrice(it, currencyCode)
             }
         })
+        mViewModel.getAlarms(mCoinSymbol)?.observe(this, Observer { alarms ->
+            val currencyCode = preferences.getDefaultCurrency()
+
+            alarms?.let {
+                for (alarm in alarms) {
+                    when (alarm.alarmType) {
+                        AlarmType.PRICE_ABOVE ->  {
+                            mView.priceAboveEditText.setText(alarm.alarmValue?.toPlainString())
+                            mView.priceAboveSwitch.isChecked = alarm.isEnabled
+                        }
+                        AlarmType.PRICE_BELOW -> {
+                            mView.priceBelowEditText.setText(alarm.alarmValue?.toPlainString())
+                            mView.priceBelowSwitch.isChecked = alarm.isEnabled
+                        }
+                    }
+                }
+            }
+        })
     }
 
     private fun initOnClicks() {
-//        mView.priceAboveSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
-//            TransitionManager.beginDelayedTransition(priceAboveCardView)
-//            mView.priceAboveClearButton.visibility = if (isChecked) VISIBLE else GONE
-//            mView.priceAbovePlusButton.visibility = if (isChecked) VISIBLE else GONE
-//            mView.priceAboveMinusButton.visibility = if (isChecked) VISIBLE else GONE
-//            mView.priceAboveEditText.visibility = if (isChecked) VISIBLE else GONE
-//        }
+        mView.priceAboveSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
+            val coinAlarm = CoinAlarm(mCoinSymbol, AlarmType.PRICE_ABOVE, BigDecimal(mView.priceAboveEditText.text.toString()), preferences.getDefaultCurrency(), isChecked)
+            mViewModel.setAlarm(coinAlarm)
+        }
+
+        mView.priceBelowSwitch.setOnCheckedChangeListener { compoundButton, isChecked ->
+            val coinAlarm = CoinAlarm(mCoinSymbol, AlarmType.PRICE_BELOW, BigDecimal(mView.priceBelowEditText.text.toString()),preferences.getDefaultCurrency(), isChecked)
+            mViewModel.setAlarm(coinAlarm)
+        }
 
         mView.priceAboveClearButton.setOnClickListener {
             mView.priceAboveEditText.text.clear()
