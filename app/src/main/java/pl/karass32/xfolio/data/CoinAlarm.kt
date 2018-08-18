@@ -9,6 +9,7 @@ import java.math.RoundingMode
 data class CoinAlarm(@ColumnInfo(name = "coin_symbol") val coinSymbol: String,
                      @ColumnInfo(name = "alarm_type") val alarmType: Int,
                      @ColumnInfo(name = "alarm_value") private var _alarmValue: BigDecimal,
+                     @ColumnInfo(name = "alarm_currency") var alarmCurrency: String,
                      @ColumnInfo(name = "is_enabled") var isEnabled: Boolean) {
 
     var alarmValue: BigDecimal? = null
