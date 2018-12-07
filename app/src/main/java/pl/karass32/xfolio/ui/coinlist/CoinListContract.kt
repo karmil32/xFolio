@@ -12,7 +12,7 @@ interface CoinListContract {
 
     interface View : BaseView<Presenter> {
         fun showGlobalCoinData(globalCoinData: GlobalCoinData)
-        fun showList(list: ArrayList<CoinData>)
+        fun showList(list: List<CoinData>)
         fun initSwipeRefreshLayout()
         fun showRefreshSpinner()
         fun hideRefreshSpinner()
