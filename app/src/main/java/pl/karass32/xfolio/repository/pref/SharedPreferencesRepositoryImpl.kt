@@ -2,7 +2,6 @@ package pl.karass32.xfolio.repository.pref
 
 import android.content.Context
 import android.preference.PreferenceManager
-import pl.karass32.xfolio.ui.coinlist.CoinListFragment
 
 /**
  * Created by karas on 08.03.2018.
