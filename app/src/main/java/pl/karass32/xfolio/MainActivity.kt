@@ -15,7 +15,6 @@ import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseActivity
 import pl.karass32.xfolio.ui.coindetails.CoinDetailsActivity
 import pl.karass32.xfolio.ui.coinlist.CoinListFragment
-import pl.karass32.xfolio.ui.portfolio.PortfolioFragment
 import pl.karass32.xfolio.ui.favorites.FavoritesListFragment
 import pl.karass32.xfolio.ui.preferences.SettingsActivity
 
@@ -31,7 +30,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             when(preferences.getAutoOpen()) {
                 CoinListFragment.TAG -> navigate(R.id.nav_all_coins)
                 FavoritesListFragment.TAG -> navigate(R.id.nav_favorites)
-                PortfolioFragment.TAG -> navigate(R.id.nav_portfolio)
             }
         }
     }
@@ -70,9 +68,6 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
             }
             R.id.nav_favorites -> {
                 transaction.replace(R.id.contentFrame, FavoritesListFragment()).commit()
-            }
-            R.id.nav_portfolio -> {
-                transaction.replace(R.id.contentFrame, PortfolioFragment()).commit()
             }
             R.id.nav_settings -> {
                 val intent = Intent(this, SettingsActivity::class.java)
