@@ -5,6 +5,7 @@ import pl.karass32.xfolio.data.CoinAlarm
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.data.GlobalCoinData
+import pl.karass32.xfolio.repository.db.dao.*
 
 /**
  * Created by karas on 20.02.2018.
