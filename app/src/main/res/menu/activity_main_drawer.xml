@@ -14,10 +14,6 @@
             android:id="@+id/nav_favorites"
             android:icon="@drawable/ic_favorite_border_black_24dp"
             android:title="@string/nav_favorites" />
-        <item
-            android:id="@+id/nav_portfolio"
-            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
-            android:title="@string/nav_portfolio" />
     </group>
 
     <group
