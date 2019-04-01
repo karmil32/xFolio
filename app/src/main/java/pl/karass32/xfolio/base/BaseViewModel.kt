@@ -1,7 +1,7 @@
 package pl.karass32.xfolio.base
 
-import android.arch.lifecycle.MutableLiveData
-import android.arch.lifecycle.ViewModel
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.data.FiatCurrency
 import pl.karass32.xfolio.repository.api.CoinMarketCapService

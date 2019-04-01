@@ -4,8 +4,8 @@ import android.app.Application
 import android.content.Context
 import android.os.Bundle
 import android.preference.PreferenceManager
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.app.AppCompatDelegate
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
 import pl.karass32.xfolio.util.ContextWrapper

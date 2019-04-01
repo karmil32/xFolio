@@ -1,6 +1,6 @@
 package pl.karass32.xfolio.ui.favorites
 
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import pl.karass32.xfolio.R

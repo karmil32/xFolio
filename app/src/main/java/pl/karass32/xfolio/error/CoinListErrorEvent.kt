@@ -1,6 +1,6 @@
 package pl.karass32.xfolio.error
 
-import android.support.annotation.StringRes
+import androidx.annotation.StringRes
 import pl.karass32.xfolio.R
 
 /**

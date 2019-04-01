@@ -1,6 +1,6 @@
 package pl.karass32.xfolio.extension
 
-import android.support.v4.content.ContextCompat
+import androidx.core.content.ContextCompat
 import android.view.View
 import pl.karass32.xfolio.base.BaseFragment
 

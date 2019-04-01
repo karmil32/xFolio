@@ -1,8 +1,8 @@
 package pl.karass32.xfolio.ui.coinlist
 
 import android.annotation.SuppressLint
-import android.arch.lifecycle.Observer
-import android.arch.lifecycle.ViewModelProviders
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.view.*
 import kotlinx.android.synthetic.main.coin_global_data_layout.view.*

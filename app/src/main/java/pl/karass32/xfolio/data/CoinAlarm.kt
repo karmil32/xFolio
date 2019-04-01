@@ -1,7 +1,7 @@
 package pl.karass32.xfolio.data
 
-import android.arch.persistence.room.ColumnInfo
-import android.arch.persistence.room.Entity
+import androidx.room.ColumnInfo
+import androidx.room.Entity
 import java.math.BigDecimal
 import java.math.RoundingMode
 

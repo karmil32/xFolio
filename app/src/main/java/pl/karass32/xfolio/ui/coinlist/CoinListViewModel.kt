@@ -1,8 +1,8 @@
 package pl.karass32.xfolio.ui.coinlist
 
-import android.arch.lifecycle.LiveData
-import android.arch.lifecycle.MediatorLiveData
-import android.arch.lifecycle.Transformations
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MediatorLiveData
+import androidx.lifecycle.Transformations
 import pl.karass32.xfolio.base.BaseCoinListViewModel
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.repository.db.FavoriteEntity

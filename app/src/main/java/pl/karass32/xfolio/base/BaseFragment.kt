@@ -2,7 +2,7 @@ package pl.karass32.xfolio.base
 
 import android.app.Application
 import android.os.Bundle
-import android.support.v4.app.Fragment
+import androidx.fragment.app.Fragment
 import android.view.View
 import pl.karass32.xfolio.MyApplication
 import pl.karass32.xfolio.repository.pref.SharedPreferencesRepository
@@ -11,7 +11,7 @@ import javax.inject.Inject
 /**
  * Created by karas on 05.03.2018.
  */
-abstract class BaseFragment : Fragment() {
+abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     @Inject
     lateinit var appContext: Application

@@ -1,12 +1,12 @@
 package pl.karass32.xfolio.base
 
-import android.arch.lifecycle.Observer
+import androidx.lifecycle.Observer
 import android.graphics.Color
 import android.os.Bundle
-import android.support.v7.widget.DividerItemDecoration
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.SearchView
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.appcompat.widget.SearchView
 import android.view.*
 import android.widget.AdapterView
 import android.widget.Toast
@@ -167,11 +167,11 @@ abstract class BaseCoinListFragment : BaseFragment() {
     open fun initRv() {
         mView.coinListRv?.apply {
             setHasFixedSize(true)
-            layoutManager = LinearLayoutManager(mainActivity)
-            addItemDecoration(MyDividerItemDecoration(appContext, DividerItemDecoration.VERTICAL, 10))
-            addOnScrollListener(object : RecyclerView.OnScrollListener() {
-                override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
-                    val layoutManager = recyclerView?.layoutManager as LinearLayoutManager
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(mainActivity)
+            addItemDecoration(MyDividerItemDecoration(appContext, androidx.recyclerview.widget.DividerItemDecoration.VERTICAL, 10))
+            addOnScrollListener(object : androidx.recyclerview.widget.RecyclerView.OnScrollListener() {
+                override fun onScrolled(recyclerView: androidx.recyclerview.widget.RecyclerView, dx: Int, dy: Int) {
+                    val layoutManager = recyclerView?.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
                     if (layoutManager.findFirstCompletelyVisibleItemPosition() > 5)
                         mView.topScrollFab.show() else
                         mView.topScrollFab.hide()
@@ -216,7 +216,7 @@ abstract class BaseCoinListFragment : BaseFragment() {
     open fun initScrollUpButton() {
         mView.topScrollFab.setOnClickListener {
             mView.appbarLayout.setExpanded(true)
-            val layoutManager = coinListRv?.layoutManager as LinearLayoutManager
+            val layoutManager = coinListRv?.layoutManager as androidx.recyclerview.widget.LinearLayoutManager
             if (layoutManager.findFirstCompletelyVisibleItemPosition() > 35) coinListRv.scrollToPosition(30)
             coinListRv.smoothScrollToPosition(0)
         }

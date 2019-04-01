@@ -1,6 +1,6 @@
 package pl.karass32.xfolio.repository.db
 
-import android.arch.persistence.room.*
+import androidx.room.*
 import pl.karass32.xfolio.data.CoinAlarm
 import pl.karass32.xfolio.data.CoinData
 import pl.karass32.xfolio.data.FiatCurrency

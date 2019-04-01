@@ -1,9 +1,9 @@
 package pl.karass32.xfolio.adapter
 
 import android.annotation.SuppressLint
-import android.support.v7.recyclerview.extensions.ListAdapter
-import android.support.v7.util.DiffUtil
-import android.support.v7.widget.RecyclerView
+import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -47,7 +47,7 @@ class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, privat
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) = holder.bind(getItem(position), preferences)
 
-    class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, swipeMenuListener: OnSwipeMenuListener, private val viewBinderHelper: ViewBinderHelper) : RecyclerView.ViewHolder(itemView) {
+    class ViewHolder(itemView: View, onItemClickListener: OnItemClickListener, swipeMenuListener: OnSwipeMenuListener, private val viewBinderHelper: ViewBinderHelper) : androidx.recyclerview.widget.RecyclerView.ViewHolder(itemView) {
 
         private val itemClickListener: OnItemClickListener = onItemClickListener
         private val menuListener: OnSwipeMenuListener = swipeMenuListener
@@ -134,11 +134,11 @@ class CoinRvAdapter(private var onItemClickListener: OnItemClickListener, privat
     }
 
     class CoinDataDiffCallback : DiffUtil.ItemCallback<CoinData>() {
-        override fun areItemsTheSame(oldItem: CoinData?, newItem: CoinData?): Boolean {
-            return oldItem?.id == newItem?.id
+        override fun areItemsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
+            return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: CoinData?, newItem: CoinData?): Boolean {
+        override fun areContentsTheSame(oldItem: CoinData, newItem: CoinData): Boolean {
             return oldItem == newItem
         }
     }

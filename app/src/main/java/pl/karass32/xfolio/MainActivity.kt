@@ -3,11 +3,11 @@ package pl.karass32.xfolio
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.NavigationView
-import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
-import android.support.v7.app.ActionBarDrawerToggle
-import android.support.v7.widget.Toolbar
+import com.google.android.material.navigation.NavigationView
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
+import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.widget.Toolbar
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
 import org.jetbrains.anko.intentFor
@@ -50,7 +50,7 @@ class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedList
     }
 
     fun lockDrawerLayout(enabled: Boolean) {
-        drawer_layout.setDrawerLockMode(if (enabled) DrawerLayout.LOCK_MODE_LOCKED_CLOSED else DrawerLayout.LOCK_MODE_UNLOCKED)
+        drawer_layout.setDrawerLockMode(if (enabled) androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED else androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

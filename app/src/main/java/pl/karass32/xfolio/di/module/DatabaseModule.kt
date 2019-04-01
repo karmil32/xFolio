@@ -1,7 +1,7 @@
 package pl.karass32.xfolio.di.module
 
 import android.app.Application
-import android.arch.persistence.room.Room
+import androidx.room.Room
 import dagger.Module
 import dagger.Provides
 import pl.karass32.xfolio.repository.db.AppDatabase
