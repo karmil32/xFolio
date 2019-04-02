@@ -1,83 +1,49 @@
 package pl.karass32.xfolio
 
-import android.annotation.SuppressLint
-import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.navigation.NavigationView
 import androidx.core.view.GravityCompat
-import androidx.drawerlayout.widget.DrawerLayout
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.widget.Toolbar
-import android.view.MenuItem
+import androidx.navigation.findNavController
+import androidx.navigation.ui.setupWithNavController
 import kotlinx.android.synthetic.main.activity_main.*
-import org.jetbrains.anko.intentFor
+import kotlinx.android.synthetic.main.activity_main.view.*
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseActivity
-import pl.karass32.xfolio.ui.coindetails.CoinDetailsActivity
-import pl.karass32.xfolio.ui.coinlist.CoinListFragment
-import pl.karass32.xfolio.ui.favorites.FavoritesListFragment
-import pl.karass32.xfolio.ui.preferences.SettingsActivity
 
-class MainActivity : BaseActivity(), NavigationView.OnNavigationItemSelectedListener, CoinRvAdapter.OnItemClickListener {
+
+class MainActivity : BaseActivity(), CoinRvAdapter.OnItemClickListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        nav_view.setNavigationItemSelectedListener(this)
-
-        if (savedInstanceState == null) {
-            when(preferences.getAutoOpen()) {
-                CoinListFragment.TAG -> navigate(R.id.nav_all_coins)
-                FavoritesListFragment.TAG -> navigate(R.id.nav_favorites)
-            }
-        }
+        val navController = findNavController(R.id.navHostFragment)
+        drawerLayout.navView.setupWithNavController(navController)
     }
 
     fun setToggle(toolbar: Toolbar) {
         val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
     }
 
     override fun onBackPressed() {
-        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
-            drawer_layout.closeDrawer(GravityCompat.START)
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START)
         } else {
             super.onBackPressed()
         }
     }
 
     fun lockDrawerLayout(enabled: Boolean) {
-        drawer_layout.setDrawerLockMode(if (enabled) androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED else androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED)
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        navigate(item.itemId)
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
-    }
-
-    @SuppressLint("CommitTransaction")
-    private fun navigate(itemId: Int) {
-        val transaction = supportFragmentManager.beginTransaction()
-        when (itemId) {
-            R.id.nav_all_coins -> {
-                transaction.replace(R.id.contentFrame, CoinListFragment()).commit()
-            }
-            R.id.nav_favorites -> {
-                transaction.replace(R.id.contentFrame, FavoritesListFragment()).commit()
-            }
-            R.id.nav_settings -> {
-                val intent = Intent(this, SettingsActivity::class.java)
-                startActivity(intent)
-            }
-            R.id.nav_about -> {}
-        }
+        drawerLayout.setDrawerLockMode(if (enabled) androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_LOCKED_CLOSED else androidx.drawerlayout.widget.DrawerLayout.LOCK_MODE_UNLOCKED)
     }
 
     override fun onItemClick(coinSymbol: String) {
-        startActivity(intentFor<CoinDetailsActivity>("COIN_SYMBOL" to coinSymbol))
+        val args = Bundle()
+        args.putString("COIN_SYMBOL", coinSymbol)
+        findNavController(R.id.navHostFragment).navigate(R.id.coinListToDetails, args)
     }
 }

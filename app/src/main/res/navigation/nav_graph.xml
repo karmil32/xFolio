@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" android:id="@+id/nav_graph"
+    app:startDestination="@id/nav_all_coins">
+
+    <fragment
+        android:id="@+id/nav_all_coins"
+        android:name="pl.karass32.xfolio.ui.coinlist.CoinListFragment"
+        android:label="CoinListFragment" >
+        <action
+            android:id="@+id/coinListToDetails"
+            app:destination="@id/coinDetailsActivity"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
+    <activity
+        android:id="@+id/coinDetailsActivity"
+        android:name="pl.karass32.xfolio.ui.coindetails.CoinDetailsActivity"
+        android:label="CoinDetailsActivity" />
+    <fragment
+        android:id="@+id/nav_favorites"
+        android:name="pl.karass32.xfolio.ui.favorites.FavoritesListFragment"
+        android:label="FavoritesListFragment" />
+    <activity
+        android:id="@+id/nav_settings"
+        android:name="pl.karass32.xfolio.ui.preferences.SettingsActivity"
+        android:label="SettingsActivity" />
+</navigation>
