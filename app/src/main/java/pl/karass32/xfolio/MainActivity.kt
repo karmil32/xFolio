@@ -10,6 +10,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.activity_main.view.*
 import pl.karass32.xfolio.adapter.CoinRvAdapter
 import pl.karass32.xfolio.base.BaseActivity
+import pl.karass32.xfolio.ui.coinlist.CoinListFragment
+import pl.karass32.xfolio.ui.favorites.FavoritesListFragment
 
 
 class MainActivity : BaseActivity(), CoinRvAdapter.OnItemClickListener {
@@ -19,6 +21,12 @@ class MainActivity : BaseActivity(), CoinRvAdapter.OnItemClickListener {
         setContentView(R.layout.activity_main)
 
         val navController = findNavController(R.id.navHostFragment)
+        val graph = navController.navInflater.inflate(R.navigation.nav_graph)
+        when(preferences.getAutoOpen()) {
+            CoinListFragment.TAG -> graph.startDestination = R.id.nav_all_coins
+            FavoritesListFragment.TAG -> graph.startDestination =R.id.nav_favorites
+        }
+        navController.graph = graph
         drawerLayout.navView.setupWithNavController(navController)
     }
 
